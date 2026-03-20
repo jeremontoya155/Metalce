@@ -139,6 +139,23 @@
             background: linear-gradient(135deg, #6B0F2A, #8B1538);
             transform: translateY(-2px);
         }
+
+        .btn-wsp-cliente {
+            background: linear-gradient(135deg, #25D366, #128C7E);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .btn-wsp-cliente:hover {
+            background: linear-gradient(135deg, #128C7E, #075E54);
+            transform: translateY(-2px);
+        }
         
         .filtros {
             background: white;
@@ -192,19 +209,19 @@
         <!-- Estadísticas -->
         <div class="stats-grid">
             <div class="stat-card">
-                <div class="stat-number"><%= stats.total %></div>
+                <div class="stat-number"><%= parseInt(stats.total) || 0 %></div>
                 <div class="stat-label">Total Pedidos</div>
             </div>
-            <div class="stat-card">
-                <div class="stat-number"><%= stats.pendientes %></div>
+            <div class="stat-card" style="background: linear-gradient(135deg, #FFA726, #FB8C00);">
+                <div class="stat-number"><%= parseInt(stats.pendientes) || 0 %></div>
                 <div class="stat-label">Pendientes</div>
             </div>
-            <div class="stat-card">
-                <div class="stat-number"><%= stats.procesando %></div>
+            <div class="stat-card" style="background: linear-gradient(135deg, #42A5F5, #1E88E5);">
+                <div class="stat-number"><%= parseInt(stats.procesando) || 0 %></div>
                 <div class="stat-label">En Proceso</div>
             </div>
-            <div class="stat-card">
-                <div class="stat-number"><%= stats.completados %></div>
+            <div class="stat-card" style="background: linear-gradient(135deg, #66BB6A, #43A047);">
+                <div class="stat-number"><%= parseInt(stats.completados) || 0 %></div>
                 <div class="stat-label">Completados</div>
             </div>
         </div>
@@ -324,16 +341,21 @@
                         </div>
                     <% } %>
                     
-                    <div style="margin-top: 20px; text-align: right;">
-                        <form action="/pedidos/<%= pedido.id %>/estado" method="POST" style="display: inline-block;">
-                            <select name="estado" class="form-control" style="display: inline-block; width: auto; margin-right: 10px;">
-                                <option value="pendiente" <%= pedido.estado === 'pendiente' ? 'selected' : '' %>>Pendiente</option>
-                                <option value="procesando" <%= pedido.estado === 'procesando' ? 'selected' : '' %>>En Proceso</option>
-                                <option value="completado" <%= pedido.estado === 'completado' ? 'selected' : '' %>>Completado</option>
-                                <option value="cancelado" <%= pedido.estado === 'cancelado' ? 'selected' : '' %>>Cancelado</option>
+                    <div style="margin-top: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+                        <% if (pedido.cliente_telefono) { %>
+                        <button type="button" class="btn-wsp-cliente" onclick="contactarCliente('<%= pedido.cliente_telefono %>', '<%= pedido.cliente_nombre %>', '<%= pedido.numero_pedido %>', '<%= pedido.estado %>', <%= parseFloat(pedido.total) %>)">
+                            <i class="fab fa-whatsapp"></i> Contactar Cliente
+                        </button>
+                        <% } %>
+                        <form action="/pedidos/<%= pedido.id %>/estado" method="POST" style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                            <select name="estado" class="form-control" style="width: auto; min-width: 160px;">
+                                <option value="pendiente" <%= pedido.estado === 'pendiente' ? 'selected' : '' %>>⏳ Pendiente</option>
+                                <option value="procesando" <%= pedido.estado === 'procesando' ? 'selected' : '' %>>🔄 En Proceso</option>
+                                <option value="completado" <%= pedido.estado === 'completado' ? 'selected' : '' %>>✅ Completado</option>
+                                <option value="cancelado" <%= pedido.estado === 'cancelado' ? 'selected' : '' %>>❌ Cancelado</option>
                             </select>
                             <button type="submit" class="btn-cambiar-estado">
-                                <i class="fas fa-save"></i> Actualizar Estado
+                                <i class="fas fa-save"></i> Actualizar
                             </button>
                         </form>
                     </div>
@@ -344,5 +366,22 @@
     
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function contactarCliente(telefono, nombre, numeroPedido, estado, total) {
+            var tel = telefono.replace(/[\s\-\(\)]/g, '');
+            if (tel.startsWith('0')) tel = '54' + tel.substring(1);
+            if (!tel.startsWith('54') && !tel.startsWith('+')) tel = '54' + tel;
+            tel = tel.replace('+', '');
+
+            var estadoLabel = {'pendiente':'Pendiente','procesando':'En Proceso','completado':'Completado','cancelado':'Cancelado'}[estado] || estado;
+            var mensaje = '\u00a1Hola ' + nombre + '! \ud83d\udc4b\n\n';
+            mensaje += 'Te contactamos desde *Metal-Ce* sobre tu pedido *#' + numeroPedido + '*\n\n';
+            mensaje += '\ud83d\udccb Estado: *' + estadoLabel + '*\n';
+            mensaje += '\ud83d\udcb0 Total: *$' + total.toLocaleString('es-AR') + '*\n\n';
+            mensaje += '\u00bfHay algo en lo que podamos ayudarte?';
+
+            window.open('https://wa.me/' + tel + '?text=' + encodeURIComponent(mensaje), '_blank');
+        }
+    </script>
 </body>
 </html>
