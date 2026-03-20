@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pago Exitoso - Metal-Ce</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        .success-container {
+            max-width: 600px;
+            margin: 100px auto;
+            padding: 40px;
+            text-align: center;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        .success-icon {
+            font-size: 80px;
+            color: #28a745;
+            margin-bottom: 20px;
+            animation: checkmark 0.5s ease-in-out;
+        }
+        @keyframes checkmark {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        .success-title {
+            font-size: 2em;
+            font-weight: bold;
+            color: #28a745;
+            margin-bottom: 15px;
+        }
+        .pedido-numero {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            font-size: 1.2em;
+        }
+        .btn-home {
+            margin-top: 20px;
+            padding: 12px 40px;
+            font-size: 1.1em;
+        }
+    </style>
+</head>
+<body>
+    <div class="success-container">
+        <i class="fas fa-check-circle success-icon"></i>
+        <h1 class="success-title">¡Pago Exitoso!</h1>
+        <p class="lead">Tu compra ha sido procesada correctamente</p>
+        
+        <div class="pedido-numero">
+            <strong>Número de Pedido:</strong><br>
+            <span id="numero-pedido">Cargando...</span>
+        </div>
+
+        <p>Te hemos enviado un email con los detalles de tu compra.</p>
+        <p>Gracias por confiar en Metal-Ce.</p>
+
+        <a href="/" class="btn btn-primary btn-home">
+            <i class="fas fa-home"></i> Volver al Inicio
+        </a>
+    </div>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const pedidoId = urlParams.get('pedido_id');
+
+        if (pedidoId) {
+            fetch(`/api/pedido/${pedidoId}/estado`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.exito) {
+                        document.getElementById('numero-pedido').textContent = data.pedido.numero_pedido;
+                    }
+                })
+                .catch(err => console.error('Error:', err));
+        }
+    </script>
+</body>
+</html>

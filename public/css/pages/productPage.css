@@ -1,0 +1,155 @@
+/* Animaciones */
+@keyframes slideLeft {
+    0% {
+        transform: scale(0.95);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes slideRight {
+    0% {
+        transform: scale(0.95);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+
+.productPage-consultar {
+    padding: 8px;
+    transition: background-color 0.3s ease;
+
+}
+
+/* Ajustes generales para el contenedor */
+.productPage-container {
+    position: relative;
+    /* Necesario para que el botón se posicione en relación al contenedor */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 90vh;
+    background-color: #f8f9fa;
+    padding: 20px;
+    overflow: hidden;
+}
+
+
+/* Diseño principal */
+.productPage-main {
+    display: flex;
+    flex-direction: row;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    max-width: 1200px;
+    width: 100%;
+    opacity: 0; /* Inicia invisible */
+    animation: fadeIn 0.5s ease-out forwards;
+}
+
+/* Imagen del producto */
+.productPage-image {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: scale(0.95);
+    animation: slideLeft 0.6s ease-out forwards;
+}
+
+.productPage-image img {
+    max-width: 100%;
+    max-height: 400px;
+    object-fit: contain;
+    border-radius: 10px;
+}
+
+/* Detalles del producto */
+.productPage-details {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: #eeeeee8f;
+    transform: scale(0.95);
+    animation: slideRight 0.6s ease-out forwards; 
+}
+
+.productPage-actionCentered {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    /* Espaciado adicional si es necesario */
+}
+
+.productPage-title {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.productPage-details p {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+/* Botones y enlaces */
+.productPage-actions {
+    margin-top: 20px;
+}
+
+
+.productPage-buyButton {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background: linear-gradient(135deg, #0052A3 0%, #003d7a 100%);
+    color: #fff;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+}
+
+.productPage-buyButton:hover {
+    background: linear-gradient(135deg, #00B4D8 0%, #0052A3 100%);
+}
+
+/* Media Queries para mobile */
+@media (max-width: 768px) {
+    .productPage-main {
+        flex-direction: column;
+    }
+
+    .productPage-image,
+    .productPage-details {
+        flex: none;
+        width: 100%;
+        padding: 15px;
+    }
+
+    .productPage-image img {
+        max-height: 300px;
+    }
+}

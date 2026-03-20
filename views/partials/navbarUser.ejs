@@ -1,0 +1,44 @@
+<nav class="custom-navbar" id="custom-navbar">
+    <a class="brand-logo" href="/">
+        <!-- <img src="/imgs/logo-metalce.png" alt="Metal-Ce Logo"> -->
+        <span class="brand-text">Metal-Ce</span>
+    </a>
+                <button class="menu-toggle" id="menu-toggle" aria-label="Toggle navigation">
+                    <span class="menu-icon"></span>
+                </button>
+                <div class="navbar-menu">
+                    <ul>
+                        <li><a href="/">Inicio</a></li>
+                        <li><a href="/cart">Catálogo</a></li>
+                        <li><a href="/#nosotros">Nosotros</a></li>
+                        <% if (isAdmin) { %>
+                            <li><a href="/pedidos">📦 Pedidos</a></li>
+                            <li><a href="/cajas">CAJAS</a></li>
+                            <li><a href="/historico">Histórico</a></li>
+                            <li><a href="/categorias">Categorías</a></li>
+                            <li><a href="/admin/ofertas">🏷️ Ofertas</a></li>
+                            <li><a href="/admin/cotizacion">💲 Cotización</a></li>
+                            <li><a href="/edit-about">Editar About</a></li>
+                            <li><a href="/logout">Cerrar Sesión</a></li>
+                            <% } %>
+                    </ul>
+                </div>
+</nav>
+<script>
+    const menuToggle = document.querySelector('.menu-toggle');
+    const navbar = document.querySelector('.custom-navbar');
+
+    // Manejar el clic en el botón de menú
+    menuToggle.addEventListener('click', function () {
+        this.classList.toggle('active');
+        navbar.classList.toggle('active');
+    });
+
+    // Cerrar el menú cuando se hace clic fuera de él
+    document.addEventListener('click', function (event) {
+        if (!navbar.contains(event.target) && !menuToggle.contains(event.target)) {
+            menuToggle.classList.remove('active');
+            navbar.classList.remove('active');
+        }
+    });
+</script>

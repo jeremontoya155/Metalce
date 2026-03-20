@@ -1,0 +1,146 @@
+.body {
+    padding-top: 56px;
+    padding-bottom: 20px;
+    background: linear-gradient(to bottom right, #f0f0f0, #ffffff);
+    /* Definición del degradado */
+    /* Agregar efecto de difuminado */
+}
+
+.table-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    align-items: center;
+    text-align: center;
+}
+
+.table img {
+    width: 100%;
+    height: auto;
+    max-width: 100px;
+}
+
+.navbar-brand i {
+    color: #8B1538;
+}
+@media (max-width: 767px) {
+    .table-responsive {
+        border: 0;
+        overflow-x: auto;
+    }
+
+    .table {
+        width: 100%;
+        margin: 0 auto; /* Centrar horizontalmente en dispositivos móviles */
+        display: table;
+    }
+
+    .table thead {
+        display: none;
+    }
+
+    .table tbody,
+    .table tr {
+        display: table-row;
+        width: 100%;
+    }
+
+    .table td,
+    .table th {
+        text-align: center; /* Alinear el contenido al centro */
+        vertical-align: middle; /* Centrar verticalmente el contenido */
+        padding: 12px; /* Espaciado interior para las celdas */
+        border-bottom: 1px solid #dee2e6;
+    }
+
+    .table td::before,
+    .table th::before {
+        content: attr(data-label);
+        float: left;
+        text-transform: uppercase;
+        font-weight: bold;
+    }
+
+    .table td:last-child,
+    .table th:last-child {
+        border-bottom: 0;
+    }
+
+    .table img {
+        max-width: 80px; /* Ajuste el tamaño de la imagen para dispositivos móviles */
+    }
+}
+
+.carousel-item {
+    position: relative;
+    height: auto; /* Altura automática para adaptarse al contenido */
+    overflow: hidden;
+}
+
+/* Imagen desktop - visible por defecto */
+.carousel-item .img-desktop {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: contain; /* Muestra la imagen completa sin recortar */
+}
+
+/* Imagen mobile - oculta por defecto */
+.carousel-item .img-mobile {
+    display: none;
+}
+
+.carousel-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+}
+
+.carousel-inner {
+    border-radius: 10px;
+    box-shadow: 2px 5px 12px rgb(0 0 0 / 35%);
+    max-width: 100%;
+}
+.carousel-caption {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, rgba(139, 21, 56, 0.85) 0%, rgba(169, 29, 71, 0.85) 100%);
+    opacity: 0.9;
+    padding: 20px;
+    color: #fff;
+}
+
+
+.carousel-caption h5 {
+    font-size: 2rem; /* Tamaño del texto */
+    font-weight: bold; /* Peso de la fuente */
+    margin: 0;
+    text-align: left; /* Alinea el texto a la izquierda */
+}
+
+.editar-carousel {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+
+@media (max-width: 768px) {
+    /* Ocultar el carrusel completamente en mobile */
+    .carousel-section {
+        display: none !important;
+    }
+
+    .carousel-caption h5 {
+        font-size: 1.5rem;
+    }
+}

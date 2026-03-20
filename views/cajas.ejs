@@ -1,0 +1,1188 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Cajas - iPhone Stock</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/navBar.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .cajas-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            padding-top: 100px;
+        }
+
+        .header-section {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 25px rgba(0,123,255,0.3);
+        }
+
+        .header-section h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+
+        .header-section p {
+            margin: 10px 0 0 0;
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        .search-section {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .search-input {
+            border: 2px solid #e9ecef;
+            border-radius: 25px;
+            padding: 15px 25px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+            outline: none;
+        }
+
+        .products-section {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 30px;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 10px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.1);
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+            text-align: center;
+            border: 1px solid rgba(0,0,0,0.05);
+            height: 380px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-card:hover {
+            transform: translateY(-6px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(0,123,255,0.12);
+            border-color: rgba(0,123,255,0.2);
+        }
+
+        .product-image-container {
+            width: 100%;
+            height: 180px;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            object-position: center;
+            transition: transform 0.3s ease;
+            padding: 12px;
+        }
+
+        .product-card:hover .product-image {
+            transform: scale(1.05);
+        }
+
+        .product-image-placeholder {
+            color: #007bff;
+            font-size: 3.5rem;
+            opacity: 0.3;
+        }
+
+        .product-content {
+            padding: 18px 15px 15px 15px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .product-name {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 12px;
+            line-height: 1.3;
+            min-height: 40px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .product-price {
+            font-size: 1.6rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #28a745, #20c997);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .btn-add-cart {
+            width: 100%;
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            border: none;
+            color: white;
+            padding: 12px 15px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 4px 12px rgba(0,123,255,0.25);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-add-cart::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn-add-cart:hover::before {
+            left: 100%;
+        }
+
+        .btn-add-cart:hover:not(:disabled) {
+            background: linear-gradient(135deg, #0056b3, #004494);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,123,255,0.35);
+        }
+
+        .btn-add-cart:active:not(:disabled) {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0,123,255,0.25);
+        }
+
+        .btn-add-cart:disabled {
+            background: linear-gradient(135deg, #6c757d, #5a6268);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: 0 2px 6px rgba(108,117,125,0.2);
+            opacity: 0.7;
+        }
+
+        .btn-add-cart i {
+            font-size: 1rem;
+        }
+
+        .cart-sidebar {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.12);
+            position: sticky;
+            top: 120px;
+            max-height: calc(100vh - 140px);
+            overflow-y: auto;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .cart-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #e9ecef;
+        }
+
+        .cart-header h3 {
+            margin: 0;
+            color: #2c3e50;
+            font-weight: 800;
+            font-size: 1.5rem;
+        }
+
+        .cart-counter {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            font-weight: 700;
+            box-shadow: 0 4px 15px rgba(0,123,255,0.3);
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 20px 0;
+            border-bottom: 1px solid #f1f3f4;
+            transition: all 0.3s ease;
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .cart-item:hover {
+            background: rgba(0,123,255,0.02);
+            margin: 0 -15px;
+            padding: 20px 15px;
+            border-radius: 12px;
+        }
+
+        .cart-item-info {
+            flex: 1;
+        }
+
+        .cart-item-name {
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 5px;
+            font-size: 0.95rem;
+        }
+
+        .cart-item-price {
+            color: #28a745;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: #f8f9fa;
+            padding: 8px 12px;
+            border-radius: 12px;
+        }
+
+        .quantity-btn {
+            width: 36px;
+            height: 36px;
+            border: 2px solid #e9ecef;
+            background: white;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #495057;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .quantity-btn:hover {
+            border-color: #007bff;
+            color: #007bff;
+            background: rgba(0,123,255,0.05);
+            transform: scale(1.1);
+        }
+
+        .quantity-display {
+            min-width: 40px;
+            text-align: center;
+            font-weight: 800;
+            color: #2c3e50;
+            font-size: 1.1rem;
+        }
+
+        .remove-btn {
+            background: linear-gradient(135deg, #dc3545, #c82333);
+            color: white;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(220,53,69,0.3);
+        }
+
+        .remove-btn:hover {
+            background: linear-gradient(135deg, #c82333, #a71e2a);
+            transform: scale(1.15);
+            box-shadow: 0 6px 20px rgba(220,53,69,0.4);
+        }
+
+        .cart-totals {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+            border-left: 5px solid #007bff;
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            color: #495057;
+            font-weight: 600;
+        }
+
+        .total-row.grand-total {
+            border-top: 3px solid #007bff;
+            padding-top: 20px;
+            margin-top: 15px;
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: #2c3e50;
+        }
+
+        .checkout-section {
+            background: linear-gradient(135deg, #f8f9fa, #ffffff);
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 20px;
+            border: 1px solid rgba(0,123,255,0.1);
+        }
+
+        .checkout-section h5 {
+            color: #2c3e50;
+            font-weight: 800;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-control {
+            border-radius: 12px;
+            border: 2px solid #e9ecef;
+            padding: 15px 20px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            font-weight: 500;
+            background-color: white !important;
+            color: #2c3e50 !important;
+        }
+
+        .form-control:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.2rem rgba(0,123,255,.15);
+            transform: translateY(-2px);
+            background-color: white !important;
+        }
+        
+        .form-control option {
+            background-color: white !important;
+            color: #2c3e50 !important;
+            padding: 10px;
+        }
+        
+        /* CSS específico para el select de método de pago - FORZADO EXTREMO */
+        select#metodoPago,
+        #metodoPago {
+            background-color: #ffffff !important;
+            color: #000000 !important;
+            font-size: 16px !important;
+            font-weight: 700 !important;
+            appearance: menulist !important;
+            -webkit-appearance: menulist !important;
+            -moz-appearance: menulist !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+            height: auto !important;
+            min-height: 50px !important;
+            line-height: 1.5 !important;
+            text-indent: 0 !important;
+            text-align: left !important;
+            padding-left: 15px !important;
+            -webkit-text-fill-color: #000000 !important;
+            text-shadow: none !important;
+            filter: none !important;
+        }
+        
+        select#metodoPago option,
+        #metodoPago option {
+            background-color: #ffffff !important;
+            color: #000000 !important;
+            font-size: 16px !important;
+            padding: 12px !important;
+            font-weight: 600 !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+            -webkit-text-fill-color: #000000 !important;
+        }
+        
+        select#metodoPago:focus,
+        #metodoPago:focus {
+            color: #000000 !important;
+            background-color: #ffffff !important;
+            -webkit-text-fill-color: #000000 !important;
+        }
+        
+        select#metodoPago:invalid,
+        #metodoPago:invalid {
+            color: #000000 !important;
+            -webkit-text-fill-color: #000000 !important;
+        }
+        
+        /* Forzar texto visible en hover */
+        select#metodoPago:hover,
+        #metodoPago:hover {
+            color: #000000 !important;
+            -webkit-text-fill-color: #000000 !important;
+        }
+
+        .btn-checkout {
+            width: 100%;
+            background: linear-gradient(135deg, #28a745, #20c997);
+            border: none;
+            color: white;
+            padding: 18px;
+            border-radius: 15px;
+            font-weight: 800;
+            font-size: 1.1rem;
+            margin-top: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-shadow: 0 6px 20px rgba(40,167,69,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-checkout::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn-checkout:hover::before {
+            left: 100%;
+        }
+
+        .btn-checkout:hover:not(:disabled) {
+            background: linear-gradient(135deg, #20c997, #17a2b8);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(40,167,69,0.4);
+        }
+
+        .btn-checkout:disabled {
+            background: linear-gradient(135deg, #6c757d, #5a6268);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: 0 3px 10px rgba(108,117,125,0.2);
+        }
+
+        .btn-clear {
+            width: 100%;
+            background: linear-gradient(135deg, #ffc107, #fd7e14);
+            border: none;
+            color: #2c3e50;
+            padding: 15px;
+            border-radius: 12px;
+            font-weight: 700;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255,193,7,0.3);
+        }
+
+        .btn-clear:hover {
+            background: linear-gradient(135deg, #fd7e14, #dc3545);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255,193,7,0.4);
+        }
+
+        .empty-cart {
+            text-align: center;
+            color: #6c757d;
+            padding: 50px 20px;
+        }
+
+        .empty-cart i {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            opacity: 0.3;
+            color: #007bff;
+        }
+
+        @media (min-width: 1400px) {
+            .product-grid {
+                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+                gap: 18px;
+            }
+        }
+
+        @media (min-width: 1200px) and (max-width: 1399px) {
+            .product-grid {
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+                gap: 20px;
+            }
+        }
+
+        @media (min-width: 992px) and (max-width: 1199px) {
+            .product-grid {
+                grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+                gap: 22px;
+            }
+        }
+
+        @media (max-width: 991px) {
+            .product-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+                gap: 25px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .cajas-container {
+                padding: 15px;
+                padding-top: 80px;
+            }
+            
+            .header-section {
+                padding: 20px;
+                margin-bottom: 20px;
+            }
+            
+            .header-section h1 {
+                font-size: 2rem;
+            }
+            
+            .products-section {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .cart-sidebar {
+                position: relative;
+                top: auto;
+                max-height: none;
+                padding: 20px;
+            }
+            
+            .product-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 20px;
+            }
+            
+            .product-card {
+                height: 360px;
+            }
+            
+            .search-section {
+                padding: 15px;
+            }
+            
+            .search-input {
+                padding: 12px 20px;
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .product-card {
+                height: 340px;
+            }
+            
+            .header-section h1 {
+                font-size: 1.5rem;
+            }
+            
+            .header-section p {
+                font-size: 1rem;
+            }
+        }
+
+        .loading {
+            opacity: 0.6;
+            pointer-events: none;
+            position: relative;
+        }
+
+        .loading::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255,255,255,0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+
+        .fade-in {
+            animation: fadeInUp 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        @keyframes fadeInUp {
+            from { 
+                opacity: 0; 
+                transform: translateY(30px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(0, 123, 255, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(0, 123, 255, 0);
+            }
+        }
+
+        .message-toast {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            padding: 18px 25px;
+            border-radius: 15px;
+            color: white;
+            font-weight: 700;
+            z-index: 9999;
+            animation: slideInRight 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            min-width: 250px;
+        }
+
+        .message-toast.success { 
+            background: linear-gradient(135deg, #28a745, #20c997);
+        }
+        
+        .message-toast.error { 
+            background: linear-gradient(135deg, #dc3545, #c82333);
+        }
+        
+        .message-toast.warning { 
+            background: linear-gradient(135deg, #ffc107, #fd7e14);
+            color: #2c3e50;
+        }
+
+        @keyframes slideInRight {
+            from { 
+                transform: translateX(100%); 
+                opacity: 0;
+            }
+            to { 
+                transform: translateX(0); 
+                opacity: 1;
+            }
+        }
+
+        /* Efectos de hover mejorados */
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(0,123,255,0.1), rgba(0,86,179,0.05));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            border-radius: 20px;
+        }
+
+        .product-card:hover::before {
+            opacity: 1;
+        }
+
+        /* Scrollbar personalizado */
+        .cart-sidebar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .cart-sidebar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .cart-sidebar::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            border-radius: 10px;
+        }
+
+        .cart-sidebar::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #0056b3, #004494);
+        }
+    </style>
+</head>
+<body>
+    <%- include('partials/navbarUser') %>
+
+    <div class="cajas-container">
+        <!-- Header -->
+        <div class="header-section">
+            <h1><i class="fas fa-cash-register me-3"></i>Sistema de Cajas</h1>
+            <p>Punto de Venta - Gestión de Comprobantes</p>
+        </div>
+
+        <!-- Búsqueda -->
+        <div class="search-section">
+            <div class="position-relative">
+                <i class="fas fa-search position-absolute" style="left: 20px; top: 50%; transform: translateY(-50%); color: #6c757d;"></i>
+                <input type="text" class="form-control search-input" id="searchProduct" 
+                       placeholder="Buscar productos por nombre, modelo o características..." style="padding-left: 50px;">
+            </div>
+        </div>
+
+        <!-- Contenido Principal -->
+        <div class="products-section">
+            <!-- Grid de Productos -->
+            <div class="product-grid" id="productGrid">
+                <% products.forEach(product => { %>
+                    <div class="product-card fade-in" data-product-id="<%= product.id %>" data-name="<%= product.name.toLowerCase() %>">
+                        <div class="product-image-container">
+                            <% if (product.img) { %>
+                                <img src="<%= product.img %>" alt="<%= product.name %>" class="product-image">
+                            <% } else { %>
+                                <i class="fas fa-mobile-alt product-image-placeholder"></i>
+                            <% } %>
+                        </div>
+                        
+                        <div class="product-content">
+                            <div class="product-name"><%= product.name %></div>
+                            <div class="product-price">$<%= new Intl.NumberFormat('es-AR').format(product.price) %></div>
+                            
+                            <% if (product.stock > 0) { %>
+                                <button class="btn-add-cart" onclick="addToCart(<%= product.id %>)">
+                                    <i class="fas fa-cart-plus"></i>
+                                    <span>Agregar al Carrito</span>
+                                </button>
+                            <% } else { %>
+                                <button class="btn-add-cart" disabled>
+                                    <i class="fas fa-ban"></i>
+                                    <span>Sin Stock</span>
+                                </button>
+                            <% } %>
+                        </div>
+                    </div>
+                <% }) %>
+            </div>
+
+            <!-- Sidebar del Carrito -->
+            <div class="cart-sidebar">
+                <div class="cart-header">
+                    <h3><i class="fas fa-shopping-cart me-2"></i>Carrito</h3>
+                    <span class="cart-counter" id="cartCounter">0</span>
+                </div>
+
+                <div id="cartItems">
+                    <div class="empty-cart">
+                        <i class="fas fa-shopping-cart"></i>
+                        <p>El carrito está vacío</p>
+                        <small>Agrega productos para comenzar</small>
+                    </div>
+                </div>
+
+                <div class="cart-totals" id="cartTotals" style="display: none;">
+                    <div class="total-row">
+                        <span>Subtotal:</span>
+                        <span id="subtotal">$0.00</span>
+                    </div>
+                    <div class="total-row">
+                        <span>Impuestos:</span>
+                        <span id="impuestos">$0.00</span>
+                    </div>
+                    <div class="total-row grand-total">
+                        <span>TOTAL:</span>
+                        <span id="total">$0.00</span>
+                    </div>
+                </div>
+
+                <div class="checkout-section" id="checkoutSection" style="display: none;">
+                    <h5><i class="fas fa-user me-2"></i>Datos del Cliente</h5>
+                    <form id="checkoutForm">
+                        <input type="text" class="form-control" id="clienteNombre" placeholder="Nombre del cliente *" required>
+                        <input type="tel" class="form-control" id="clienteTelefono" placeholder="Teléfono (opcional)">
+                        <input type="email" class="form-control" id="clienteEmail" placeholder="Email (opcional)">
+                        
+                        <label for="metodoPago" style="font-weight: 700; color: #000; margin-bottom: 8px; display: block; font-size: 16px;">
+                            <i class="fas fa-money-bill-wave me-2"></i>Método de Pago
+                        </label>
+                        <select class="form-control" id="metodoPago" required style="background-color: #ffffff !important; color: #000000 !important; font-size: 16px !important; font-weight: 700 !important; height: 50px !important; line-height: 1.5 !important; padding: 12px 15px !important; -webkit-text-fill-color: #000000 !important; opacity: 1 !important;">
+                            <option value="efectivo" selected style="background-color: #ffffff !important; color: #000000 !important; font-size: 16px !important; font-weight: 600 !important;">💵 Efectivo</option>
+                            <option value="tarjeta" style="background-color: #ffffff !important; color: #000000 !important; font-size: 16px !important; font-weight: 600 !important;">💳 Tarjeta</option>
+                            <option value="transferencia" style="background-color: #ffffff !important; color: #000000 !important; font-size: 16px !important; font-weight: 600 !important;">🏦 Transferencia</option>
+                        </select>
+                        
+                        <textarea class="form-control" id="notas" rows="2" placeholder="Notas adicionales (opcional)"></textarea>
+                        
+                        <div class="form-check mt-3 mb-3" style="background: #e8f5e8; padding: 12px; border-radius: 8px; border-left: 4px solid #28a745;">
+                            <input class="form-check-input" type="checkbox" id="afectarStock">
+                            <label class="form-check-label" for="afectarStock" style="font-weight: 500; color: #495057;">
+                                <i class="fas fa-boxes me-2" style="color: #28a745;"></i>
+                                Reducir inventario (marcar solo si quieres que afecte el stock)
+                            </label>
+                            <div style="font-size: 0.85em; color: #6c757d; margin-top: 4px;">
+                                ✅ Por defecto los comprobantes NO afectan el stock. Marca esta opción solo si quieres reducir inventario.
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn-checkout" id="procesarVenta" disabled>
+                            <i class="fas fa-receipt me-2"></i>Procesar Venta
+                        </button>
+                    </form>
+                </div>
+
+                <button class="btn-clear" onclick="clearCart()" id="clearCartBtn" style="display: none;">
+                    <i class="fas fa-trash me-2"></i>Limpiar Carrito
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let cart = [];
+        let products = [
+            <% products.forEach((product, index) => { %>
+                {
+                    id: <%= product.id %>,
+                    name: '<%= product.name.replace(/'/g, "\\'") %>',
+                    price: <%= product.price %>,
+                    stock: <%= product.stock %>
+                }<% if (index < products.length - 1) { %>,<% } %>
+            <% }) %>
+        ];
+
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product || product.stock <= 0) {
+                showMessage('Producto sin stock disponible', 'warning');
+                return;
+            }
+
+            const existingItem = cart.find(item => item.product_id === productId);
+            
+            if (existingItem) {
+                if (existingItem.cantidad < product.stock) {
+                    existingItem.cantidad++;
+                    showMessage('Cantidad aumentada', 'success');
+                } else {
+                    showMessage('Stock insuficiente', 'warning');
+                    return;
+                }
+            } else {
+                cart.push({
+                    product_id: productId,
+                    name: product.name,
+                    price: product.price,
+                    cantidad: 1
+                });
+                showMessage('Producto agregado al carrito', 'success');
+            }
+            
+            updateCartDisplay();
+        }
+
+        function removeFromCart(productId, removeAll = false) {
+            const itemIndex = cart.findIndex(item => item.product_id === productId);
+            
+            if (itemIndex > -1) {
+                if (removeAll || cart[itemIndex].cantidad <= 1) {
+                    cart.splice(itemIndex, 1);
+                    showMessage('Producto removido', 'warning');
+                } else {
+                    cart[itemIndex].cantidad--;
+                    showMessage('Cantidad reducida', 'warning');
+                }
+            }
+            updateCartDisplay();
+        }
+
+        function updateCartDisplay() {
+            const cartItemsContainer = document.getElementById('cartItems');
+            const cartCounter = document.getElementById('cartCounter');
+            const cartTotals = document.getElementById('cartTotals');
+            const checkoutSection = document.getElementById('checkoutSection');
+            const clearCartBtn = document.getElementById('clearCartBtn');
+            const procesarBtn = document.getElementById('procesarVenta');
+
+            const totalItems = cart.reduce((sum, item) => sum + item.cantidad, 0);
+            cartCounter.textContent = totalItems;
+
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = `
+                    <div class="empty-cart">
+                        <i class="fas fa-shopping-cart"></i>
+                        <p>El carrito está vacío</p>
+                        <small>Agrega productos para comenzar</small>
+                    </div>
+                `;
+                cartTotals.style.display = 'none';
+                checkoutSection.style.display = 'none';
+                clearCartBtn.style.display = 'none';
+                procesarBtn.disabled = true;
+            } else {
+                cartItemsContainer.innerHTML = cart.map(item => `
+                    <div class="cart-item fade-in">
+                        <div class="cart-item-info">
+                            <div class="cart-item-name">${item.name}</div>
+                            <div class="cart-item-price">$${item.price} c/u</div>
+                        </div>
+                        <div class="quantity-controls">
+                            <button class="quantity-btn" onclick="removeFromCart(${item.product_id})">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <span class="quantity-display">${item.cantidad}</span>
+                            <button class="quantity-btn" onclick="addToCart(${item.product_id})">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                            <button class="remove-btn" onclick="removeFromCart(${item.product_id}, true)">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+                
+                cartTotals.style.display = 'block';
+                checkoutSection.style.display = 'block';
+                clearCartBtn.style.display = 'block';
+                procesarBtn.disabled = false;
+            }
+
+            updateTotals();
+        }
+
+        function updateTotals() {
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.cantidad), 0);
+            const impuestos = 0; // 0% de impuestos
+            const total = subtotal + impuestos;
+
+            document.getElementById('subtotal').textContent = '$' + subtotal.toFixed(2);
+            document.getElementById('impuestos').textContent = '$' + impuestos.toFixed(2);
+            document.getElementById('total').textContent = '$' + total.toFixed(2);
+        }
+
+        function clearCart() {
+            if (cart.length === 0) return;
+            
+            if (confirm('¿Estás seguro de que quieres vaciar el carrito?')) {
+                cart = [];
+                updateCartDisplay();
+                showMessage('Carrito vaciado', 'warning');
+            }
+        }
+
+        function showMessage(message, type = 'success') {
+            const toast = document.createElement('div');
+            toast.className = `message-toast ${type}`;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                setTimeout(() => document.body.removeChild(toast), 300);
+            }, 3000);
+        }
+
+        // Procesar venta
+        document.getElementById('checkoutForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            if (cart.length === 0) {
+                showMessage('El carrito está vacío', 'error');
+                return;
+            }
+
+            const clienteNombre = document.getElementById('clienteNombre').value;
+            console.log('Cliente nombre capturado:', clienteNombre); // Debug
+            
+            if (!clienteNombre || clienteNombre.trim() === '') {
+                showMessage('El nombre del cliente es requerido', 'error');
+                document.getElementById('clienteNombre').focus();
+                return;
+            }
+
+            const submitBtn = document.getElementById('procesarVenta');
+            const originalText = submitBtn.innerHTML;
+            
+            try {
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Procesando...';
+
+                const formData = {
+                    cliente_nombre: clienteNombre.trim(),
+                    cliente_telefono: document.getElementById('clienteTelefono').value.trim() || '',
+                    cliente_email: document.getElementById('clienteEmail').value.trim() || '',
+                    metodo_pago: document.getElementById('metodoPago').value,
+                    notas: document.getElementById('notas').value.trim() || '',
+                    items: cart,
+                    subtotal: cart.reduce((sum, item) => sum + (item.price * item.cantidad), 0),
+                    impuestos: 0,
+                    total: cart.reduce((sum, item) => sum + (item.price * item.cantidad), 0)
+                };
+
+                console.log('Datos enviados:', formData); // Debug
+
+                const response = await fetch('/cajas/procesar-venta', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    showMessage(`Venta procesada: ${result.numeroFactura}`, 'success');
+                    
+                    if (confirm('¿Deseas descargar el comprobante en PDF?')) {
+                        window.open(`/factura/${result.facturaId}/pdf`, '_blank');
+                    }
+
+                    // Limpiar todo
+                    cart = [];
+                    updateCartDisplay();
+                    document.getElementById('checkoutForm').reset();
+                    // Restablecer el método de pago a efectivo
+                    document.getElementById('metodoPago').value = 'efectivo';
+
+                    // Recargar página para actualizar stock
+                    setTimeout(() => location.reload(), 2000);
+                } else {
+                    showMessage(`Error: ${result.message}`, 'error');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showMessage('Error al procesar la venta', 'error');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
+            }
+        });
+
+        // Búsqueda de productos
+        document.getElementById('searchProduct').addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const productCards = document.querySelectorAll('.product-card');
+
+            productCards.forEach(card => {
+                const productName = card.getAttribute('data-name');
+                if (productName && (productName.includes(searchTerm) || searchTerm === '')) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+
+        // Función para forzar estilos del select
+        function forceSelectStyles() {
+            const metodoPagoSelect = document.getElementById('metodoPago');
+            if (metodoPagoSelect) {
+                metodoPagoSelect.value = 'efectivo';
+                metodoPagoSelect.selectedIndex = 0;
+                // Forzar estilos con máxima prioridad
+                metodoPagoSelect.style.cssText = `
+                    background-color: #ffffff !important;
+                    color: #000000 !important;
+                    font-size: 16px !important;
+                    font-weight: 700 !important;
+                    height: 50px !important;
+                    line-height: 1.5 !important;
+                    padding: 12px 15px !important;
+                    -webkit-text-fill-color: #000000 !important;
+                    opacity: 1 !important;
+                    visibility: visible !important;
+                `;
+                console.log('Select forzado:', metodoPagoSelect.value);
+            }
+        }
+        
+        // Inicializar
+        updateCartDisplay();
+        
+        // Establecer valor por defecto del método de pago - MÚLTIPLES INTENTOS
+        document.addEventListener('DOMContentLoaded', function() {
+            forceSelectStyles();
+            // Intentar de nuevo después de un momento
+            setTimeout(forceSelectStyles, 100);
+            setTimeout(forceSelectStyles, 500);
+        });
+        
+        // También establecer cuando se muestra el checkout
+        const originalUpdateCartDisplay = updateCartDisplay;
+        updateCartDisplay = function() {
+            originalUpdateCartDisplay();
+            if (cart.length > 0) {
+                setTimeout(forceSelectStyles, 50);
+                setTimeout(forceSelectStyles, 200);
+            }
+        };
+    </script>
+</body>
+</html>

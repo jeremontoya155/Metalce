@@ -1,0 +1,784 @@
+/* CSS ChipStore - Diseño moderno y único */
+.cart-container {
+    margin-top: 65px;
+    padding-bottom: 40px;
+    background: linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%);
+    min-height: 100vh;
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+.row {
+    justify-content: center;
+    margin: 0;
+    max-width: 100%;
+}
+
+/* ============= FILTRO FIJO Y SUTIL ============= */
+.filter-bar-fixed {
+    position: sticky;
+    top: 65px;
+    z-index: 900;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 15px 20px;
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(139, 21, 56, 0.08);
+    margin-bottom: 30px;
+    border: 1px solid rgba(139, 21, 56, 0.1);
+    animation: slideDown 0.4s ease;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.filter-bar-content {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.filter-search-box {
+    flex: 1;
+    min-width: 200px;
+}
+
+.filter-input {
+    width: 100%;
+    padding: 12px 18px;
+    border: 2px solid rgba(139, 21, 56, 0.15);
+    border-radius: 15px;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    background: white;
+}
+
+.filter-input:focus {
+    outline: none;
+    border-color: #8B1538;
+    box-shadow: 0 0 0 3px rgba(139, 21, 56, 0.1);
+}
+
+.filter-category-box {
+    flex: 0 0 auto;
+    min-width: 200px;
+}
+
+.filter-sort-box {
+    flex: 0 0 auto;
+    min-width: 200px;
+}
+
+.filter-select {
+    width: 100%;
+    padding: 12px 18px;
+    border: 2px solid rgba(139, 21, 56, 0.15);
+    border-radius: 15px;
+    font-size: 0.95rem;
+    background: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.filter-select:focus {
+    outline: none;
+    border-color: #8B1538;
+    box-shadow: 0 0 0 3px rgba(139, 21, 56, 0.1);
+}
+
+.filter-reset-btn {
+    padding: 12px 25px;
+    background: linear-gradient(135deg, #e63946, #f07167);
+    color: white;
+    border: none;
+    border-radius: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.filter-reset-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(230, 57, 70, 0.3);
+}
+
+@media (max-width: 768px) {
+    .cart-container {
+        padding: 0 10px 30px;
+        margin-top: 60px;
+        overflow-x: hidden;
+    }
+
+    .container {
+        padding-left: 10px;
+        padding-right: 10px;
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+
+    .row {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .filter-bar-fixed {
+        top: 60px;
+        padding: 12px 15px;
+        border-radius: 15px;
+        margin-bottom: 20px;
+    }
+
+    .filter-bar-content {
+        flex-direction: column;
+    }
+
+    .filter-search-box,
+    .filter-category-box,
+    .filter-sort-box {
+        width: 100%;
+        min-width: 100%;
+    }
+
+    .filter-reset-btn {
+        width: 100%;
+    }
+
+    .featured-products {
+        padding: 20px 10px !important;
+    }
+
+    .products-container {
+        padding: 0 5px;
+    }
+}
+
+/* ============= FIN FILTRO FIJO ============= */
+
+/* Título del catálogo - Diseño destacado */
+.catalog-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 3rem 0 2rem 0;
+    padding: 30px;
+    background: linear-gradient(135deg, rgba(139, 21, 56, 0.03) 0%, rgba(169, 29, 71, 0.03) 100%);
+    border-radius: 30px;
+    border: 2px solid rgba(139, 21, 56, 0.08);
+}
+
+.catalog-header-content {
+    flex: 1;
+}
+
+.catalogo-title {
+    text-align: left;
+    margin: 0 0 10px 0;
+    font-size: 3.5rem;
+    background: linear-gradient(135deg, #8B1538, #A91D47);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 800;
+    position: relative;
+    letter-spacing: -0.03em;
+}
+
+.catalog-subtitle {
+    font-size: 1.2rem;
+    color: #666;
+    font-weight: 500;
+    margin: 0;
+    font-style: italic;
+}
+
+@media (max-width: 768px) {
+    .catalog-header {
+        flex-direction: column;
+        text-align: center;
+        padding: 20px 15px;
+        margin: 2rem 0 1.5rem 0;
+        border-radius: 20px;
+    }
+
+    .catalogo-title {
+        text-align: center;
+        font-size: 1.8rem;
+        line-height: 1.2;
+        letter-spacing: -0.02em;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+    }
+
+    .catalog-subtitle {
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 1rem;
+    }
+
+    .catalogo-logo img {
+        width: 6em !important;
+        max-width: 100%;
+    }
+}
+
+.catalogo-logo {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 20px;
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.9), rgba(248, 249, 250, 0.9));
+    border-radius: 25px;
+    box-shadow: 0 5px 20px rgba(139, 21, 56, 0.08);
+}
+
+.catalogo-logo img {
+    transition: transform 0.4s ease;
+    filter: drop-shadow(0 4px 10px rgba(139, 21, 56, 0.2));
+}
+
+.catalogo-logo:hover img {
+    transform: scale(1.05) rotate(-2deg);
+}
+
+.sidebar {
+    text-align: center;
+    background: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
+    padding: 30px;
+    border-radius: 25px;
+    box-shadow: 0 8px 30px rgba(139, 21, 56, 0.12);
+    border: 2px solid rgba(139, 21, 56, 0.05);
+    position: relative;
+    overflow: hidden;
+}
+
+.sidebar::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(169, 29, 71, 0.05) 0%, transparent 70%);
+    animation: rotateSidebar 15s linear infinite;
+}
+
+@keyframes rotateSidebar {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.filters-modal-btn-sidebar {
+    background: linear-gradient(135deg, #8B1538 0%, #A91D47 100%);
+    color: #fff;
+    padding: 16px 35px;
+    margin: 0;
+    border-radius: 50px;
+    font-size: 1.15rem;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    text-align: center;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 8px 25px rgba(139, 21, 56, 0.35);
+    letter-spacing: 0.5px;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.filters-modal-btn-sidebar::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.25);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+    z-index: -1;
+}
+
+.filters-modal-btn-sidebar:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+.filters-modal-btn-sidebar:hover {
+    background: linear-gradient(135deg, #A91D47 0%, #8B1538 100%);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(139, 21, 56, 0.45);
+}
+
+/* En mobile, ocultar la barra lateral y mostrar el botón flotante REDISEÑADO */
+@media (max-width: 768px) {
+    .sidebar {
+        display: none;
+    }
+
+    /* Nuevo diseño de búsqueda flotante - ChipStore Style */
+    .search-fab-mobile {
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        bottom: 25px;
+        left: 20px;
+        width: 65px;
+        height: 65px;
+        background: linear-gradient(145deg, #8B1538, #A91D47);
+        border-radius: 20px;
+        box-shadow: 0 8px 25px rgba(139, 21, 56, 0.4);
+        cursor: pointer;
+        z-index: 1000;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        border: 3px solid rgba(255, 255, 255, 0.3);
+        animation: searchPulse 2s ease-in-out infinite;
+    }
+
+    .search-fab-mobile:hover {
+        transform: scale(1.1) rotate(5deg);
+        box-shadow: 0 12px 35px rgba(139, 21, 56, 0.6);
+    }
+
+    .search-fab-mobile:active {
+        transform: scale(0.95);
+    }
+
+    .search-icon {
+        font-size: 2rem;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+    }
+
+    @keyframes searchPulse {
+        0%, 100% {
+            box-shadow: 0 8px 25px rgba(139, 21, 56, 0.4);
+        }
+        50% {
+            box-shadow: 0 8px 35px rgba(169, 29, 71, 0.6);
+        }
+    }
+
+    /* Ocultar el antiguo botón */
+    .filters-modal-btn-phone {
+        display: none !important;
+    }
+}
+
+/* Botón flotante - por defecto oculto en desktop */
+.filters-modal-btn-phone,
+.search-fab-mobile {
+    display: none;
+}
+
+/* Modal de filtros - Diseño moderno y elegante */
+.filters-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(5px);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.filters-modal-content {
+    background: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
+    padding: 35px;
+    border-radius: 25px;
+    max-width: 450px;
+    width: 90%;
+    max-height: 90%;
+    display: flex;
+    flex-wrap: wrap;
+    overflow-y: auto;
+    text-align: center;
+    box-shadow: 0 15px 50px rgba(139, 21, 56, 0.25);
+    animation: slideDown 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.filters-modal h3 {
+    margin-top: 0;
+    background: linear-gradient(135deg, #8B1538, #A91D47);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-size: 1.8em;
+    font-weight: 800;
+    margin-bottom: 25px;
+}
+
+.filters-modal label {
+    display: block;
+    font-weight: 600;
+    margin-top: 15px;
+    color: #333;
+    text-align: left;
+}
+
+.filters-modal select,
+.filters-modal input {
+    width: 100%;
+    padding: 12px 15px;
+    margin-top: 8px;
+    border-radius: 12px;
+    border: 2px solid #e0e0e0;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.filters-modal select:focus,
+.filters-modal input:focus {
+    outline: none;
+    border-color: #8B1538;
+    box-shadow: 0 0 0 3px rgba(139, 21, 56, 0.1);
+}
+
+.buttons {
+    margin-top: 25px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+#filter-button,
+#reset-button {
+    flex: 1;
+    padding: 14px 20px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+#filter-button {
+    background: linear-gradient(135deg, #8B1538 0%, #A91D47 100%);
+    color: #fff;
+    box-shadow: 0 6px 20px rgba(139, 21, 56, 0.3);
+}
+
+.filters-modal.active {
+    display: flex;
+}
+
+#filter-button:hover {
+    background: linear-gradient(135deg, #A91D47 0%, #8B1538 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(139, 21, 56, 0.4);
+}
+
+#reset-button {
+    background: #666;
+    color: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+#reset-button:hover {
+    background: #888;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Estilos para el filtro de chips/mosaico de estados */
+.estado-chips-container {
+    width: 100%;
+    padding: 20px 0;
+    margin: 20px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.estado-chips-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+    align-items: center;
+    max-width: 1200px;
+    padding: 0 20px;
+}
+
+.estado-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 28px;
+    background: white;
+    border: 2px solid #e0e0e0;
+    border-radius: 50px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #666;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    position: relative;
+    overflow: hidden;
+    letter-spacing: 0.3px;
+}
+
+.estado-chip:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(139, 21, 56, 0.2);
+    border-color: #8B1538;
+    color: #8B1538;
+    background: linear-gradient(135deg, rgba(139, 21, 56, 0.1), rgba(169, 29, 71, 0.1));
+}
+
+.estado-chip.active {
+    background: linear-gradient(135deg, #8B1538 0%, #A91D47 100%);
+    border-color: transparent;
+    color: #ffffff;
+    box-shadow: 0 4px 15px rgba(139, 21, 56, 0.35);
+}
+
+.estado-chip.active:hover {
+    background: linear-gradient(135deg, #A91D47 0%, #8B1538 100%);
+}
+
+.chip-icon {
+    font-size: 1.2rem;
+    transition: transform 0.3s ease;
+}
+
+.estado-chip:hover .chip-icon {
+    transform: scale(1.15);
+}
+
+.chip-text {
+    font-weight: 600;
+    letter-spacing: 0.3px;
+}
+
+.chip-check {
+    font-size: 1rem;
+    opacity: 0;
+    transform: scale(0);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.estado-chip.active .chip-check {
+    opacity: 1;
+    transform: scale(1);
+}
+
+
+/* Responsive - Mobile */
+@media (max-width: 768px) {
+    .estado-chips-container {
+        padding: 15px 0;
+        margin: 15px 0;
+        justify-content: center;
+        padding-left: 0;
+    }
+
+    .estado-chips-wrapper {
+        gap: 10px;
+        padding: 0 15px;
+        justify-content: center;
+    }
+
+    .estado-chip {
+        padding: 10px 16px;
+        font-size: 0.85rem;
+        gap: 6px;
+    }
+
+    .chip-icon {
+        font-size: 1rem;
+    }
+
+    .chip-check {
+        font-size: 0.9rem;
+    }
+}
+
+/* Animación de entrada */
+@keyframes chipFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.estado-chip {
+    animation: chipFadeIn 0.4s ease-out forwards;
+}
+
+.estado-chip:nth-child(1) { animation-delay: 0.05s; }
+.estado-chip:nth-child(2) { animation-delay: 0.1s; }
+.estado-chip:nth-child(3) { animation-delay: 0.15s; }
+.estado-chip:nth-child(4) { animation-delay: 0.2s; }
+.estado-chip:nth-child(5) { animation-delay: 0.25s; }
+
+/* Separador entre filtros y ordenamiento */
+.chips-separator {
+    width: 2px;
+    height: 40px;
+    background: linear-gradient(to bottom, transparent, #e0e0e0, transparent);
+    margin: 0 10px;
+    opacity: 0.5;
+}
+
+/* Chips de ordenamiento */
+.orden-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    background: #ffffff;
+    border: 2px solid #e0e0e0;
+    border-radius: 50px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #1d1d1f;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    position: relative;
+    overflow: hidden;
+    letter-spacing: -0.01em;
+}
+
+.orden-chip:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border-color: #0066cc;
+}
+
+.orden-chip.active {
+    background: linear-gradient(135deg, #0066cc 0%, #0077ed 100%);
+    border-color: #0066cc;
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 102, 204, 0.3);
+}
+
+.chip-arrow {
+    font-size: 1.2rem;
+    opacity: 0;
+    transform: scale(0);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.orden-chip.active .chip-arrow {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.orden-chip:hover .chip-icon {
+    transform: scale(1.15);
+}
+
+/* Responsive - Mobile para separador y orden */
+@media (max-width: 768px) {
+    .chips-separator {
+        width: 100%;
+        height: 2px;
+        margin: 5px 0;
+    }
+
+    .orden-chip {
+        padding: 10px 16px;
+        font-size: 0.85rem;
+        gap: 6px;
+    }
+
+    .chip-arrow {
+        font-size: 1rem;
+    }
+}
+
+/* Animación para chips de orden */
+.orden-chip {
+    animation: chipFadeIn 0.4s ease-out forwards;
+}
+
+.orden-chip:nth-of-type(1) { animation-delay: 0.3s; }
+.orden-chip:nth-of-type(2) { animation-delay: 0.35s; }
+
+/* ============= MENSAJE SIN RESULTADOS ============= */
+.no-results-message {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 400px;
+    padding: 60px 20px;
+}
+
+.no-results-content {
+    text-align: center;
+    max-width: 400px;
+}
+
+.no-results-icon {
+    font-size: 80px;
+    display: block;
+    margin-bottom: 20px;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.7; transform: scale(0.95); }
+}
+
+.no-results-content h3 {
+    font-size: 1.8rem;
+    color: #8B1538;
+    margin-bottom: 10px;
+}
+
+.no-results-content p {
+    font-size: 1.1rem;
+    color: #666;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+/* ============= FIN MENSAJE SIN RESULTADOS ============= */

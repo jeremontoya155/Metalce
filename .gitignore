@@ -1,0 +1,6 @@
+/node_modules
+package-lock.json
+.env
+setup-database.js
+test-cloudinary.js
+/sql

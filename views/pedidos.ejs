@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedidos - Metal-Ce</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/navBar.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        .pedidos-container {
+            padding: 30px 20px;
+            max-width: 1400px;
+            margin: 80px auto 40px;
+        }
+        
+        .pedido-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(139, 21, 56, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .pedido-card:hover {
+            box-shadow: 0 8px 25px rgba(139, 21, 56, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        .pedido-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        .pedido-numero {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #8B1538;
+        }
+        
+        .estado-badge {
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .estado-pendiente {
+            background: linear-gradient(135deg, #FFA726, #FB8C00);
+            color: white;
+        }
+        
+        .estado-procesando {
+            background: linear-gradient(135deg, #42A5F5, #1E88E5);
+            color: white;
+        }
+        
+        .estado-completado {
+            background: linear-gradient(135deg, #66BB6A, #43A047);
+            color: white;
+        }
+        
+        .estado-cancelado {
+            background: linear-gradient(135deg, #EF5350, #E53935);
+            color: white;
+        }
+        
+        .pedido-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .info-item i {
+            color: #8B1538;
+            font-size: 1.2rem;
+        }
+        
+        .info-label {
+            font-weight: 600;
+            color: #666;
+        }
+        
+        .info-value {
+            color: #333;
+        }
+        
+        .pedido-items {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+        
+        .item-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .item-row:last-child {
+            border-bottom: none;
+        }
+        
+        .pedido-total {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #8B1538;
+            text-align: right;
+            margin-top: 15px;
+        }
+        
+        .btn-cambiar-estado {
+            background: linear-gradient(135deg, #8B1538, #A91D47);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-cambiar-estado:hover {
+            background: linear-gradient(135deg, #6B0F2A, #8B1538);
+            transform: translateY(-2px);
+        }
+        
+        .filtros {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(139, 21, 56, 0.1);
+        }
+        
+        .filtros select {
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 10px 15px;
+            font-weight: 600;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #8B1538, #A91D47);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+        }
+        
+        .stat-label {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <%- include('partials/navbarUser') %>
+    
+    <div class="pedidos-container">
+        <h1 style="margin-bottom: 30px; color: #8B1538; font-weight: 800;">
+            <i class="fas fa-shopping-bag"></i> Gestión de Pedidos
+        </h1>
+        
+        <!-- Estadísticas -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number"><%= stats.total %></div>
+                <div class="stat-label">Total Pedidos</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number"><%= stats.pendientes %></div>
+                <div class="stat-label">Pendientes</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number"><%= stats.procesando %></div>
+                <div class="stat-label">En Proceso</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number"><%= stats.completados %></div>
+                <div class="stat-label">Completados</div>
+            </div>
+        </div>
+        
+        <!-- Filtros -->
+        <div class="filtros">
+            <form method="GET" action="/pedidos">
+                <div class="row">
+                    <div class="col-md-4">
+                        <select name="estado" class="form-control" onchange="this.form.submit()">
+                            <option value="">Todos los estados</option>
+                            <option value="pendiente" <%= filtroEstado === 'pendiente' ? 'selected' : '' %>>Pendientes</option>
+                            <option value="procesando" <%= filtroEstado === 'procesando' ? 'selected' : '' %>>En Proceso</option>
+                            <option value="completado" <%= filtroEstado === 'completado' ? 'selected' : '' %>>Completados</option>
+                            <option value="cancelado" <%= filtroEstado === 'cancelado' ? 'selected' : '' %>>Cancelados</option>
+                        </select>
+                    </div>
+                </div>
+            </form>
+        </div>
+        
+        <!-- Lista de pedidos -->
+        <% if (pedidos.length === 0) { %>
+            <div class="text-center" style="padding: 60px 20px;">
+                <i class="fas fa-inbox" style="font-size: 4rem; color: #ccc; margin-bottom: 20px;"></i>
+                <h3 style="color: #999;">No hay pedidos aún</h3>
+            </div>
+        <% } else { %>
+            <% pedidos.forEach(pedido => { %>
+                <div class="pedido-card">
+                    <div class="pedido-header">
+                        <div>
+                            <div class="pedido-numero">#<%= pedido.numero_pedido %></div>
+                            <small style="color: #999;">
+                                <i class="far fa-calendar"></i> 
+                                <%= new Date(pedido.created_at).toLocaleDateString('es-AR', { 
+                                    day: '2-digit', 
+                                    month: '2-digit', 
+                                    year: 'numeric',
+                                    hour: '2-digit',
+                                    minute: '2-digit'
+                                }) %>
+                            </small>
+                        </div>
+                        <span class="estado-badge estado-<%= pedido.estado %>">
+                            <%= pedido.estado.charAt(0).toUpperCase() + pedido.estado.slice(1) %>
+                        </span>
+                    </div>
+                    
+                    <div class="pedido-info">
+                        <div class="info-item">
+                            <i class="fas fa-user"></i>
+                            <div>
+                                <div class="info-label">Cliente</div>
+                                <div class="info-value"><%= pedido.cliente_nombre %></div>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-phone"></i>
+                            <div>
+                                <div class="info-label">Teléfono</div>
+                                <div class="info-value"><%= pedido.cliente_telefono || 'N/A' %></div>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-envelope"></i>
+                            <div>
+                                <div class="info-label">Email</div>
+                                <div class="info-value"><%= pedido.cliente_email || 'N/A' %></div>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-credit-card"></i>
+                            <div>
+                                <div class="info-label">Pago</div>
+                                <div class="info-value"><%= pedido.metodo_pago || 'N/A' %></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <% if (pedido.cliente_direccion) { %>
+                        <div class="info-item" style="margin-bottom: 15px;">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div>
+                                <div class="info-label">Dirección</div>
+                                <div class="info-value"><%= pedido.cliente_direccion %></div>
+                            </div>
+                        </div>
+                    <% } %>
+                    
+                    <div class="pedido-items">
+                        <h5 style="margin-bottom: 15px; color: #8B1538;">
+                            <i class="fas fa-box"></i> Items del Pedido
+                        </h5>
+                        <% JSON.parse(pedido.items).forEach(item => { %>
+                            <div class="item-row">
+                                <div>
+                                    <strong><%= item.name %></strong>
+                                    <br>
+                                    <small>Cantidad: <%= item.cantidad %></small>
+                                </div>
+                                <div style="text-align: right;">
+                                    <div>$<%= (item.price * item.cantidad).toLocaleString('es-AR') %></div>
+                                    <small style="color: #999;">$<%= item.price.toLocaleString('es-AR') %> c/u</small>
+                                </div>
+                            </div>
+                        <% }); %>
+                    </div>
+                    
+                    <div class="pedido-total">
+                        Total: $<%= parseFloat(pedido.total).toLocaleString('es-AR') %>
+                    </div>
+                    
+                    <% if (pedido.notas) { %>
+                        <div style="margin-top: 15px; padding: 15px; background: #fff3cd; border-radius: 10px;">
+                            <strong><i class="fas fa-sticky-note"></i> Notas:</strong> <%= pedido.notas %>
+                        </div>
+                    <% } %>
+                    
+                    <div style="margin-top: 20px; text-align: right;">
+                        <form action="/pedidos/<%= pedido.id %>/estado" method="POST" style="display: inline-block;">
+                            <select name="estado" class="form-control" style="display: inline-block; width: auto; margin-right: 10px;">
+                                <option value="pendiente" <%= pedido.estado === 'pendiente' ? 'selected' : '' %>>Pendiente</option>
+                                <option value="procesando" <%= pedido.estado === 'procesando' ? 'selected' : '' %>>En Proceso</option>
+                                <option value="completado" <%= pedido.estado === 'completado' ? 'selected' : '' %>>Completado</option>
+                                <option value="cancelado" <%= pedido.estado === 'cancelado' ? 'selected' : '' %>>Cancelado</option>
+                            </select>
+                            <button type="submit" class="btn-cambiar-estado">
+                                <i class="fas fa-save"></i> Actualizar Estado
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            <% }); %>
+        <% } %>
+    </div>
+    
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+# robots.txt para Metal-Ce - Distribuidor de metales en Córdoba, Argentina
+
+User-agent: *
+Allow: /
+Allow: /cart
+Allow: /product/*
+
+# Bloquear rutas administrativas
+Disallow: /login
+Disallow: /logout
+Disallow: /cajas
+Disallow: /historico
+Disallow: /factura/*
+Disallow: /edit/*
+Disallow: /edit-carousel
+Disallow: /edit-images
+Disallow: /edit-about
+Disallow: /new
+Disallow: /delete/*
+Disallow: /buy/*
+Disallow: /api/*
+
+# Bloquear archivos y carpetas innecesarias
+Disallow: /wp-admin/
+Disallow: /wp-includes/
+Disallow: /wp-login.php
+Disallow: /cgi-bin/
+
+# Archivos de configuración
+Disallow: /*.json$
+Disallow: /*.sql$
+Disallow: /*.env$
+
+# Sitemap
+Sitemap: https://metalce.com.ar/sitemap.xml

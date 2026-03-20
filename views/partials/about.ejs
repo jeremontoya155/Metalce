@@ -1,0 +1,21 @@
+<div class="about-container">
+    <div class="about-content">
+        <h2 class="about-title">
+            <%= about.titulo %>
+        </h2>
+        <p class="about-text">
+            <%= about.texto %>
+        </p>
+        <div class="about-button-container">
+            <a href="wa.link/h8ubme" class="about-button">Contactate con nosotros</a>
+        </div>
+    </div>
+    <div class="about-image-container">
+        <img src="<%= about.imagen %>" class="about-image" alt="Imagen sobre nosotros">
+    </div>
+    <% if (isAdmin) { %>
+        <a href="/edit-images" class="btn-generico">Cambiar Logo</a>
+        <a href="/edit-about" class="btn-generico">Editar About</a>
+        <% }; %>
+</div>
+</div>

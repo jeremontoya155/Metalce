@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <style>
+        .ofertas-container {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .ofertas-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        .ofertas-table th {
+            background: #007bff;
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        .ofertas-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .ofertas-table tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .badge-oferta {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        
+        .badge-activa {
+            background: #28a745;
+            color: white;
+        }
+        
+        .badge-inactiva {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .badge-expirada {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .checkbox-producto {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+        
+        .btn-oferta {
+            padding: 8px 20px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .btn-crear {
+            background: #28a745;
+            color: white;
+        }
+        
+        .btn-crear:hover {
+            background: #218838;
+        }
+        
+        .btn-eliminar {
+            background: #dc3545;
+            color: white;
+            padding: 5px 15px;
+            font-size: 0.85rem;
+        }
+        
+        .btn-eliminar:hover {
+            background: #c82333;
+        }
+        
+        .form-oferta {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        
+        .precio-info {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        
+        .precio-original {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+        
+        .precio-oferta {
+            font-size: 1.1rem;
+            color: #28a745;
+            font-weight: 700;
+        }
+        
+        .descuento-tag {
+            display: inline-block;
+            background: #ffc107;
+            color: #000;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .seleccionar-todos {
+            margin-bottom: 15px;
+            padding: 10px 15px;
+            background: #17a2b8;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .seleccionar-todos:hover {
+            background: #138496;
+        }
+
+        .contador-seleccionados {
+            background: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .nav-tabs .nav-link.active {
+            background: #007bff !important;
+            color: white !important;
+        }
+
+        .cat-excluir-label:hover {
+            border-color: #dc3545 !important;
+            background: #fff5f5 !important;
+        }
+        .cat-excluir-label:has(input:checked) {
+            border-color: #dc3545 !important;
+            background: #ffe0e0 !important;
+        }
+    </style>
+    <title>Gestión de Ofertas</title>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">🏷️ Gestión de Ofertas</h1>
+
+        <!-- Tabs -->
+        <ul class="nav nav-tabs mb-4" id="ofertasTabs" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="general-tab" data-toggle="tab" href="#general" role="tab">
+                    🌐 Oferta General
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="crear-tab" data-toggle="tab" href="#crear" role="tab">
+                    Crear Ofertas Específicas
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="activas-tab" data-toggle="tab" href="#activas" role="tab">
+                    Ofertas Activas
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="historial-tab" data-toggle="tab" href="#historial" role="tab">
+                    Historial
+                </a>
+            </li>
+        </ul>
+
+        <div class="tab-content" id="ofertasTabContent">
+            <!-- TAB: Oferta General -->
+            <div class="tab-pane fade show active" id="general" role="tabpanel">
+                <div class="ofertas-container">
+                    <h2>🌐 Oferta General para Todos los Productos</h2>
+                    <p class="text-muted">La oferta general se aplica a todos los productos. Si un producto tiene oferta específica, esa tiene prioridad.</p>
+                    
+                    <form action="/admin/ofertas/general/crear" method="POST" class="form-oferta">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="nombre_general"><strong>Nombre de la Campaña</strong></label>
+                                    <input type="text" class="form-control" id="nombre_general" name="nombre" placeholder="Ej: 15% en Efectivo" required>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="descripcion_general"><strong>Descripción</strong></label>
+                                    <input type="text" class="form-control" id="descripcion_general" name="descripcion" placeholder="Descripción opcional">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="tipo_descuento_general"><strong>Tipo de Descuento</strong></label>
+                                    <select class="form-control" id="tipo_descuento_general" name="tipo_descuento" required>
+                                        <option value="porcentaje">Porcentaje (%)</option>
+                                        <option value="monto_fijo">Monto Fijo ($)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="valor_descuento_general"><strong>Valor del Descuento</strong></label>
+                                    <input type="number" step="0.01" min="0.01" class="form-control" id="valor_descuento_general" name="valor_descuento" placeholder="Ej: 15" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="fecha_inicio_general"><strong>Fecha y Hora de Inicio</strong></label>
+                                    <input type="datetime-local" class="form-control" id="fecha_inicio_general" name="fecha_inicio" required>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="fecha_fin_general"><strong>Fecha y Hora de Fin</strong></label>
+                                    <input type="datetime-local" class="form-control" id="fecha_fin_general" name="fecha_fin" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Categorías excluidas -->
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label><strong>🚫 Excluir categorías de esta oferta</strong></label>
+                                    <p class="text-muted" style="font-size: 0.85rem; margin-bottom: 8px;">Marcá las categorías que <strong>NO</strong> deben tener esta oferta.</p>
+                                    <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+                                        <% if (categorias && categorias.length > 0) { %>
+                                            <% categorias.forEach(cat => { %>
+                                                <label style="display: flex; align-items: center; gap: 6px; padding: 6px 14px; background: #f8f9fa; border: 2px solid #dee2e6; border-radius: 8px; cursor: pointer; transition: all 0.2s; font-size: 0.9rem;" class="cat-excluir-label">
+                                                    <input type="checkbox" name="categorias_excluidas" value="<%= cat.id %>" style="width: 16px; height: 16px;">
+                                                    <span><%= cat.icono || '📦' %> <%= cat.nombre %></span>
+                                                </label>
+                                            <% }); %>
+                                        <% } else { %>
+                                            <span class="text-muted">No hay categorías creadas</span>
+                                        <% } %>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn-oferta btn-crear mt-3">
+                            ✅ Crear Oferta General
+                        </button>
+                    </form>
+
+                    <hr class="my-4">
+
+                    <h3>Ofertas Generales Existentes</h3>
+                    <table class="ofertas-table mt-3">
+                        <thead>
+                            <tr>
+                                <th>Campaña</th>
+                                <th>Descuento</th>
+                                <th>Excluidas</th>
+                                <th>Vigencia</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% if (ofertasGenerales && ofertasGenerales.length > 0) { %>
+                                <% ofertasGenerales.forEach(oferta => { 
+                                    const excluidas = oferta.categorias_excluidas ? oferta.categorias_excluidas.split(',').filter(x => x) : [];
+                                    const categoriasExcluidasNames = excluidas.map(cid => {
+                                        const cat = categorias.find(c => c.id == cid);
+                                        return cat ? (cat.icono || '📦') + ' ' + cat.nombre : '';
+                                    }).filter(n => n);
+                                %>
+                                    <tr>
+                                        <td>
+                                            <strong><%= oferta.nombre %></strong>
+                                            <% if (oferta.descripcion) { %>
+                                                <br><small class="text-muted"><%= oferta.descripcion %></small>
+                                            <% } %>
+                                        </td>
+                                        <td>
+                                            <% if (oferta.tipo_descuento === 'porcentaje') { %>
+                                                <span class="descuento-tag"><%= oferta.valor_descuento %>%</span>
+                                            <% } else { %>
+                                                <span class="descuento-tag">$<%= oferta.valor_descuento %></span>
+                                            <% } %>
+                                        </td>
+                                        <td>
+                                            <% if (categoriasExcluidasNames.length > 0) { %>
+                                                <% categoriasExcluidasNames.forEach(name => { %>
+                                                    <span style="display: inline-block; background: #fff3cd; color: #856404; padding: 2px 8px; border-radius: 10px; font-size: 0.75rem; margin: 2px;"><%= name %></span>
+                                                <% }); %>
+                                            <% } else { %>
+                                                <small class="text-muted">Ninguna</small>
+                                            <% } %>
+                                        </td>
+                                        <td>
+                                            <small>
+                                                <%= new Date(oferta.fecha_inicio).toLocaleDateString('es-ES') %><br>
+                                                hasta<br>
+                                                <%= new Date(oferta.fecha_fin).toLocaleDateString('es-ES') %>
+                                            </small>
+                                        </td>
+                                        <td>
+                                            <% if (oferta.activo) { %>
+                                                <span class="badge-oferta badge-activa">ACTIVA ✓</span>
+                                            <% } else { %>
+                                                <span class="badge-oferta badge-inactiva">INACTIVA ✗</span>
+                                            <% } %>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn-oferta" style="background: #007bff; color: white; padding: 5px 15px; font-size: 0.85rem; margin-bottom: 4px;" onclick="editarOfertaGeneral(<%= oferta.id %>, '<%= oferta.nombre %>', '<%= oferta.descripcion || '' %>', '<%= oferta.tipo_descuento %>', <%= oferta.valor_descuento %>, '<%= new Date(oferta.fecha_inicio).toISOString().slice(0,16) %>', '<%= new Date(oferta.fecha_fin).toISOString().slice(0,16) %>', '<%= oferta.categorias_excluidas || '' %>')">
+                                                ✏️ Editar
+                                            </button>
+                                            <form action="/admin/ofertas/general/toggle/<%= oferta.id %>" method="POST" style="display: inline; margin-right: 5px;">
+                                                <% if (oferta.activo) { %>
+                                                    <button type="submit" class="btn-oferta" style="background: #ffc107; color: #000; padding: 5px 15px; font-size: 0.85rem;">⏸️ Pausar</button>
+                                                <% } else { %>
+                                                    <button type="submit" class="btn-oferta" style="background: #28a745; color: white; padding: 5px 15px; font-size: 0.85rem;">▶️ Activar</button>
+                                                <% } %>
+                                            </form>
+                                            <form action="/admin/ofertas/general/eliminar/<%= oferta.id %>" method="POST" style="display: inline;" onsubmit="return confirm('¿Eliminar esta oferta general?')">
+                                                <button type="submit" class="btn-oferta btn-eliminar">🗑️</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                <% }); %>
+                            <% } else { %>
+                                <tr>
+                                    <td colspan="6" class="text-center">No hay ofertas generales creadas</td>
+                                </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- TAB: Crear Ofertas -->
+            <div class="tab-pane fade" id="crear" role="tabpanel">
+                <div class="ofertas-container">
+                    <h2>Crear Ofertas Específicas por Producto</h2>
+                    <p class="text-muted">Selecciona productos específicos para aplicarles una oferta. Estas tienen prioridad sobre la oferta general.</p>
+                    
+                    <form action="/admin/ofertas/crear" method="POST" id="formOfertas" class="form-oferta">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="tipo_descuento"><strong>Tipo de Descuento</strong></label>
+                                    <select class="form-control" id="tipo_descuento" name="tipo_descuento" required>
+                                        <option value="porcentaje">Porcentaje (%)</option>
+                                        <option value="monto_fijo">Monto Fijo ($)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="valor_descuento"><strong>Valor del Descuento</strong></label>
+                                    <input type="number" step="0.01" min="0.01" class="form-control" id="valor_descuento" name="valor_descuento" placeholder="Ej: 20 o 50.00" required>
+                                    <small class="form-text text-muted">Para porcentaje: 0-100. Para monto: cantidad en $</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="fecha_inicio"><strong>Fecha y Hora de Inicio</strong></label>
+                                    <input type="datetime-local" class="form-control" id="fecha_inicio" name="fecha_inicio" required>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="fecha_fin"><strong>Fecha y Hora de Fin</strong></label>
+                                    <input type="datetime-local" class="form-control" id="fecha_fin" name="fecha_fin" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="contador-seleccionados" id="contador">
+                            Productos seleccionados: <span id="count">0</span>
+                        </div>
+
+                        <button type="button" class="seleccionar-todos" onclick="toggleTodos()">
+                            Seleccionar/Deseleccionar Todos
+                        </button>
+
+                        <h4 class="mt-4 mb-3">Selecciona los productos para la oferta:</h4>
+                        
+                        <table class="ofertas-table">
+                            <thead>
+                                <tr>
+                                    <th width="50">
+                                        <input type="checkbox" id="selectAll" class="checkbox-producto">
+                                    </th>
+                                    <th>Producto</th>
+                                    <th>Precio Actual</th>
+                                    <th>Stock</th>
+                                    <th>Vista Previa</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% if (products && products.length > 0) { %>
+                                    <% products.forEach(product => { %>
+                                        <tr>
+                                            <td>
+                                                <input type="checkbox" name="productos[]" value="<%= product.id %>" class="checkbox-producto check-producto" data-precio="<%= product.price %>">
+                                            </td>
+                                            <td><strong><%= product.name %></strong></td>
+                                            <td>$<%= product.price %></td>
+                                            <td><%= product.stock %></td>
+                                            <td>
+                                                <span class="precio-preview" data-id="<%= product.id %>" data-precio="<%= product.price %>">
+                                                    -
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    <% }); %>
+                                <% } else { %>
+                                    <tr>
+                                        <td colspan="5" class="text-center">No hay productos disponibles</td>
+                                    </tr>
+                                <% } %>
+                            </tbody>
+                        </table>
+
+                        <button type="submit" class="btn-oferta btn-crear mt-4">
+                            ✅ Crear Oferta para Productos Seleccionados
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- TAB: Ofertas Activas -->
+            <div class="tab-pane fade" id="activas" role="tabpanel">
+                <div class="ofertas-container">
+                    <h2>Ofertas Activas</h2>
+                    
+                    <table class="ofertas-table">
+                        <thead>
+                            <tr>
+                                <th>Producto</th>
+                                <th>Descuento</th>
+                                <th>Precio Original</th>
+                                <th>Precio Oferta</th>
+                                <th>Vigencia</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% if (ofertasActivas && ofertasActivas.length > 0) { %>
+                                <% ofertasActivas.forEach(oferta => { %>
+                                    <tr>
+                                        <td><strong><%= oferta.product_name %></strong></td>
+                                        <td>
+                                            <% if (oferta.tipo_descuento === 'porcentaje') { %>
+                                                <span class="descuento-tag"><%= oferta.valor_descuento %>% OFF</span>
+                                            <% } else { %>
+                                                <span class="descuento-tag">-$<%= oferta.valor_descuento %></span>
+                                            <% } %>
+                                        </td>
+                                        <td class="precio-original">$<%= oferta.precio_original %></td>
+                                        <td class="precio-oferta">$<%= oferta.precio_final %></td>
+                                        <td>
+                                            <small>
+                                                <%= new Date(oferta.fecha_inicio).toLocaleDateString('es-ES') %><br>
+                                                hasta<br>
+                                                <%= new Date(oferta.fecha_fin).toLocaleDateString('es-ES') %>
+                                            </small>
+                                        </td>
+                                        <td>
+                                            <% if (oferta.activo) { %>
+                                                <span class="badge-oferta badge-activa">ACTIVA ✓</span>
+                                            <% } else { %>
+                                                <span class="badge-oferta badge-inactiva">INACTIVA ✗</span>
+                                            <% } %>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn-oferta" style="background: #007bff; color: white; padding: 5px 15px; font-size: 0.85rem; margin-bottom: 4px;" onclick="editarOfertaEspecifica(<%= oferta.id %>, '<%= oferta.tipo_descuento %>', <%= oferta.valor_descuento %>, '<%= new Date(oferta.fecha_inicio).toISOString().slice(0,16) %>', '<%= new Date(oferta.fecha_fin).toISOString().slice(0,16) %>')">
+                                                ✏️ Editar
+                                            </button>
+                                            <form action="/admin/ofertas/toggle/<%= oferta.id %>" method="POST" style="display: inline; margin-right: 5px;">
+                                                <% if (oferta.activo) { %>
+                                                    <button type="submit" class="btn-oferta" style="background: #ffc107; color: #000; padding: 5px 15px; font-size: 0.85rem;">⏸️ Pausar</button>
+                                                <% } else { %>
+                                                    <button type="submit" class="btn-oferta" style="background: #28a745; color: white; padding: 5px 15px; font-size: 0.85rem;">▶️ Activar</button>
+                                                <% } %>
+                                            </form>
+                                            <form action="/admin/ofertas/eliminar/<%= oferta.id %>" method="POST" style="display: inline;" onsubmit="return confirm('¿Eliminar esta oferta?')">
+                                                <button type="submit" class="btn-oferta btn-eliminar">🗑️ Eliminar</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                <% }); %>
+                            <% } else { %>
+                                <tr>
+                                    <td colspan="7" class="text-center">No hay ofertas activas</td>
+                                </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- TAB: Historial -->
+            <div class="tab-pane fade" id="historial" role="tabpanel">
+                <div class="ofertas-container">
+                    <h2>Historial de Ofertas</h2>
+                    
+                    <table class="ofertas-table">
+                        <thead>
+                            <tr>
+                                <th>Producto</th>
+                                <th>Descuento</th>
+                                <th>Vigencia</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% if (todasOfertas && todasOfertas.length > 0) { %>
+                                <% todasOfertas.forEach(oferta => { %>
+                                    <tr>
+                                        <td><strong><%= oferta.product_name %></strong></td>
+                                        <td>
+                                            <% if (oferta.tipo_descuento === 'porcentaje') { %>
+                                                <%= oferta.valor_descuento %>%
+                                            <% } else { %>
+                                                $<%= oferta.valor_descuento %>
+                                            <% } %>
+                                        </td>
+                                        <td>
+                                            <small>
+                                                <%= new Date(oferta.fecha_inicio).toLocaleDateString('es-ES') %> - 
+                                                <%= new Date(oferta.fecha_fin).toLocaleDateString('es-ES') %>
+                                            </small>
+                                        </td>
+                                        <td>
+                                            <% if (oferta.activo) { %>
+                                                <span class="badge-oferta badge-activa">ACTIVA ✓</span>
+                                            <% } else { %>
+                                                <span class="badge-oferta badge-inactiva">INACTIVA ✗</span>
+                                            <% } %>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn-oferta" style="background: #007bff; color: white; padding: 5px 15px; font-size: 0.85rem; margin-bottom: 4px;" onclick="editarOfertaEspecifica(<%= oferta.id %>, '<%= oferta.tipo_descuento %>', <%= oferta.valor_descuento %>, '<%= new Date(oferta.fecha_inicio).toISOString().slice(0,16) %>', '<%= new Date(oferta.fecha_fin).toISOString().slice(0,16) %>')">
+                                                ✏️ Editar
+                                            </button>
+                                            <form action="/admin/ofertas/toggle/<%= oferta.id %>" method="POST" style="display: inline; margin-right: 5px;">
+                                                <% if (oferta.activo) { %>
+                                                    <button type="submit" class="btn-oferta" style="background: #ffc107; color: #000; padding: 5px 15px; font-size: 0.85rem;">⏸️ Pausar</button>
+                                                <% } else { %>
+                                                    <button type="submit" class="btn-oferta" style="background: #28a745; color: white; padding: 5px 15px; font-size: 0.85rem;">▶️ Activar</button>
+                                                <% } %>
+                                            </form>
+                                            <form action="/admin/ofertas/eliminar/<%= oferta.id %>" method="POST" style="display: inline;" onsubmit="return confirm('¿Eliminar esta oferta?')">
+                                                <button type="submit" class="btn-oferta btn-eliminar">🗑️</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                <% }); %>
+                            <% } else { %>
+                                <tr>
+                                    <td colspan="5" class="text-center">No hay historial de ofertas</td>
+                                </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <a href="/" class="btn btn-secondary">← Volver al Admin</a>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+    <!-- Modal Editar Oferta Específica -->
+    <div class="modal fade" id="editOfertaEspecificaModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="background: #007bff; color: white;">
+                    <h5 class="modal-title">✏️ Editar Oferta Específica</h5>
+                    <button type="button" class="close" data-dismiss="modal" style="color: white;">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <form id="formEditarEspecifica" method="POST">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label><strong>Tipo de Descuento</strong></label>
+                            <select class="form-control" id="edit_esp_tipo" name="tipo_descuento" required>
+                                <option value="porcentaje">Porcentaje (%)</option>
+                                <option value="monto_fijo">Monto Fijo ($)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label><strong>Valor del Descuento</strong></label>
+                            <input type="number" step="0.01" min="0.01" class="form-control" id="edit_esp_valor" name="valor_descuento" required>
+                        </div>
+                        <div class="form-group">
+                            <label><strong>Fecha y Hora de Inicio</strong></label>
+                            <input type="datetime-local" class="form-control" id="edit_esp_inicio" name="fecha_inicio" required>
+                        </div>
+                        <div class="form-group">
+                            <label><strong>Fecha y Hora de Fin</strong></label>
+                            <input type="datetime-local" class="form-control" id="edit_esp_fin" name="fecha_fin" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">💾 Guardar Cambios</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Editar Oferta General -->
+    <div class="modal fade" id="editOfertaGeneralModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="background: #007bff; color: white;">
+                    <h5 class="modal-title">✏️ Editar Oferta General</h5>
+                    <button type="button" class="close" data-dismiss="modal" style="color: white;">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <form id="formEditarGeneral" method="POST">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label><strong>Nombre de la Campaña</strong></label>
+                                    <input type="text" class="form-control" id="edit_gen_nombre" name="nombre" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label><strong>Descripción</strong></label>
+                                    <input type="text" class="form-control" id="edit_gen_descripcion" name="descripcion">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label><strong>Tipo de Descuento</strong></label>
+                                    <select class="form-control" id="edit_gen_tipo" name="tipo_descuento" required>
+                                        <option value="porcentaje">Porcentaje (%)</option>
+                                        <option value="monto_fijo">Monto Fijo ($)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label><strong>Valor del Descuento</strong></label>
+                                    <input type="number" step="0.01" min="0.01" class="form-control" id="edit_gen_valor" name="valor_descuento" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label><strong>Fecha y Hora de Inicio</strong></label>
+                                    <input type="datetime-local" class="form-control" id="edit_gen_inicio" name="fecha_inicio" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label><strong>Fecha y Hora de Fin</strong></label>
+                                    <input type="datetime-local" class="form-control" id="edit_gen_fin" name="fecha_fin" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label><strong>🚫 Excluir categorías</strong></label>
+                            <div style="display: flex; flex-wrap: wrap; gap: 10px;" id="edit_gen_categorias_container">
+                                <% if (categorias && categorias.length > 0) { %>
+                                    <% categorias.forEach(cat => { %>
+                                        <label style="display: flex; align-items: center; gap: 6px; padding: 6px 14px; background: #f8f9fa; border: 2px solid #dee2e6; border-radius: 8px; cursor: pointer; transition: all 0.2s; font-size: 0.9rem;" class="cat-excluir-label">
+                                            <input type="checkbox" name="categorias_excluidas" value="<%= cat.id %>" class="edit-gen-cat-check" style="width: 16px; height: 16px;">
+                                            <span><%= cat.icono || '📦' %> <%= cat.nombre %></span>
+                                        </label>
+                                    <% }); %>
+                                <% } %>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">💾 Guardar Cambios</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Actualizar contador de productos seleccionados
+        function actualizarContador() {
+            const checkboxes = document.querySelectorAll('.check-producto:checked');
+            document.getElementById('count').textContent = checkboxes.length;
+        }
+
+        // Calcular precio de oferta en tiempo real
+        function calcularPrecioOferta(precioOriginal, tipoDescuento, valorDescuento) {
+            if (tipoDescuento === 'porcentaje') {
+                return (precioOriginal * (1 - valorDescuento / 100)).toFixed(2);
+            } else {
+                return Math.max(precioOriginal - valorDescuento, 0).toFixed(2);
+            }
+        }
+
+        // Actualizar vista previa de precios
+        function actualizarVistasPrevia() {
+            const tipoDescuento = document.getElementById('tipo_descuento').value;
+            const valorDescuento = parseFloat(document.getElementById('valor_descuento').value) || 0;
+            
+            document.querySelectorAll('.check-producto:checked').forEach(checkbox => {
+                const precioOriginal = parseFloat(checkbox.dataset.precio);
+                const productId = checkbox.value;
+                const spanPreview = document.querySelector(`.precio-preview[data-id="${productId}"]`);
+                
+                if (valorDescuento > 0) {
+                    const precioOferta = calcularPrecioOferta(precioOriginal, tipoDescuento, valorDescuento);
+                    const descuento = tipoDescuento === 'porcentaje' ? `${valorDescuento}%` : `$${valorDescuento}`;
+                    spanPreview.innerHTML = `
+                        <span style="text-decoration: line-through; color: #999;">$${precioOriginal}</span>
+                        <span style="color: #28a745; font-weight: bold; margin-left: 10px;">$${precioOferta}</span>
+                        <span class="descuento-tag" style="margin-left: 5px;">${descuento} OFF</span>
+                    `;
+                } else {
+                    spanPreview.textContent = '-';
+                }
+            });
+
+            // Limpiar vista previa de productos no seleccionados
+            document.querySelectorAll('.check-producto:not(:checked)').forEach(checkbox => {
+                const productId = checkbox.value;
+                const spanPreview = document.querySelector(`.precio-preview[data-id="${productId}"]`);
+                spanPreview.textContent = '-';
+            });
+        }
+
+        // Event listeners
+        document.querySelectorAll('.check-producto').forEach(checkbox => {
+            checkbox.addEventListener('change', () => {
+                actualizarContador();
+                actualizarVistasPrevia();
+            });
+        });
+
+        document.getElementById('tipo_descuento').addEventListener('change', actualizarVistasPrevia);
+        document.getElementById('valor_descuento').addEventListener('input', actualizarVistasPrevia);
+
+        // Seleccionar todos
+        document.getElementById('selectAll').addEventListener('change', function() {
+            const checkboxes = document.querySelectorAll('.check-producto');
+            checkboxes.forEach(cb => cb.checked = this.checked);
+            actualizarContador();
+            actualizarVistasPrevia();
+        });
+
+        function toggleTodos() {
+            const selectAll = document.getElementById('selectAll');
+            selectAll.checked = !selectAll.checked;
+            const checkboxes = document.querySelectorAll('.check-producto');
+            checkboxes.forEach(cb => cb.checked = selectAll.checked);
+            actualizarContador();
+            actualizarVistasPrevia();
+        }
+
+        // Validación de fechas
+        document.getElementById('formOfertas').addEventListener('submit', function(e) {
+            const fechaInicio = new Date(document.getElementById('fecha_inicio').value);
+            const fechaFin = new Date(document.getElementById('fecha_fin').value);
+            const productosSeleccionados = document.querySelectorAll('.check-producto:checked').length;
+
+            if (productosSeleccionados === 0) {
+                e.preventDefault();
+                alert('Debes seleccionar al menos un producto para crear la oferta');
+                return false;
+            }
+
+            if (fechaFin <= fechaInicio) {
+                e.preventDefault();
+                alert('La fecha de fin debe ser posterior a la fecha de inicio');
+                return false;
+            }
+
+            const tipoDescuento = document.getElementById('tipo_descuento').value;
+            const valorDescuento = parseFloat(document.getElementById('valor_descuento').value);
+
+            if (tipoDescuento === 'porcentaje' && (valorDescuento <= 0 || valorDescuento > 100)) {
+                e.preventDefault();
+                alert('El porcentaje debe estar entre 0 y 100');
+                return false;
+            }
+        });
+
+        // ========= FUNCIONES DE EDICIÓN =========
+
+        // Editar oferta específica
+        function editarOfertaEspecifica(id, tipo, valor, inicio, fin) {
+            document.getElementById('formEditarEspecifica').action = '/admin/ofertas/editar/' + id;
+            document.getElementById('edit_esp_tipo').value = tipo;
+            document.getElementById('edit_esp_valor').value = valor;
+            document.getElementById('edit_esp_inicio').value = inicio;
+            document.getElementById('edit_esp_fin').value = fin;
+            $('#editOfertaEspecificaModal').modal('show');
+        }
+
+        // Editar oferta general
+        function editarOfertaGeneral(id, nombre, descripcion, tipo, valor, inicio, fin, categoriasExcluidas) {
+            document.getElementById('formEditarGeneral').action = '/admin/ofertas/general/editar/' + id;
+            document.getElementById('edit_gen_nombre').value = nombre;
+            document.getElementById('edit_gen_descripcion').value = descripcion;
+            document.getElementById('edit_gen_tipo').value = tipo;
+            document.getElementById('edit_gen_valor').value = valor;
+            document.getElementById('edit_gen_inicio').value = inicio;
+            document.getElementById('edit_gen_fin').value = fin;
+            
+            // Marcar categorías excluidas
+            const excluidas = categoriasExcluidas ? categoriasExcluidas.split(',') : [];
+            document.querySelectorAll('.edit-gen-cat-check').forEach(cb => {
+                cb.checked = excluidas.includes(cb.value);
+            });
+            
+            $('#editOfertaGeneralModal').modal('show');
+        }
+    </script>
+</body>
+</html>

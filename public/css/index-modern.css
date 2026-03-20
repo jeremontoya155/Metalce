@@ -1,0 +1,375 @@
+/* ==================== ESTILOS MODERNOS METAL-CE ==================== */
+
+/* Features Section Moderna */
+.features-modern {
+    margin: 60px 0;
+    padding: 0;
+}
+
+.features-grid-modern {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+}
+
+.feature-card-modern {
+    background: white;
+    padding: 40px 30px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(139, 21, 56, 0.08);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 2px solid transparent;
+    position: relative;
+    overflow: hidden;
+}
+
+.feature-card-modern::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, #8B1538, #A91D47);
+    transition: left 0.4s ease;
+}
+
+.feature-card-modern:hover::before {
+    left: 0;
+}
+
+.feature-card-modern:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 40px rgba(139, 21, 56, 0.15);
+    border-color: rgba(139, 21, 56, 0.1);
+}
+
+.feature-icon-modern {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 25px;
+    background: linear-gradient(135deg, #8B1538, #A91D47);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.feature-card-modern:hover .feature-icon-modern {
+    transform: scale(1.1) rotate(5deg);
+    box-shadow: 0 10px 25px rgba(139, 21, 56, 0.3);
+}
+
+.feature-title-modern {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #1d1d1f;
+    margin-bottom: 12px;
+    letter-spacing: -0.02em;
+}
+
+.feature-text-modern {
+    font-size: 1rem;
+    color: #666;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Section Header Moderna */
+.section-header-modern {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.section-badge-modern {
+    display: inline-block;
+    background: linear-gradient(135deg, rgba(139, 21, 56, 0.1), rgba(169, 29, 71, 0.1));
+    color: #8B1538;
+    padding: 8px 20px;
+    border-radius: 25px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+    border: 2px solid rgba(139, 21, 56, 0.2);
+}
+
+.section-title-modern {
+    font-size: 2.8rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #8B1538, #A91D47);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 10px;
+    letter-spacing: -0.03em;
+}
+
+.section-subtitle-modern {
+    font-size: 1.2rem;
+    color: #666;
+    font-weight: 400;
+    margin: 0;
+}
+
+/* Botón Moderno */
+.btn-generico-modern {
+    display: inline-flex;
+    align-items: center;
+    gap: 15px;
+    background: linear-gradient(135deg, #8B1538, #A91D47);
+    color: white;
+    padding: 18px 45px;
+    border-radius: 50px;
+    font-size: 1.15rem;
+    font-weight: 700;
+    text-decoration: none;
+    box-shadow: 0 8px 25px rgba(139, 21, 56, 0.3);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-generico-modern::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.btn-generico-modern:hover::before {
+    width: 400px;
+    height: 400px;
+}
+
+.btn-generico-modern:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(139, 21, 56, 0.4);
+    color: white;
+    text-decoration: none;
+}
+
+.btn-generico-modern i {
+    transition: transform 0.3s ease;
+}
+
+.btn-generico-modern:hover i {
+    transform: translateX(5px);
+}
+
+/* ==================== SECCIÓN NOSOTROS ==================== */
+.nosotros-section {
+    margin: 80px 0;
+    padding: 0;
+}
+
+.nosotros-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+    background: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
+    border-radius: 30px;
+    padding: 60px;
+    box-shadow: 0 15px 50px rgba(139, 21, 56, 0.08);
+    position: relative;
+    overflow: hidden;
+}
+
+.nosotros-container::before {
+    content: '';
+    position: absolute;
+    top: -100px;
+    right: -100px;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(139, 21, 56, 0.05) 0%, transparent 70%);
+    border-radius: 50%;
+}
+
+.nosotros-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #8B1538, #A91D47);
+    color: white;
+    padding: 8px 20px;
+    border-radius: 25px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.nosotros-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #1d1d1f;
+    margin-bottom: 25px;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+}
+
+.nosotros-text {
+    font-size: 1.1rem;
+    color: #555;
+    line-height: 1.8;
+    margin-bottom: 20px;
+}
+
+.nosotros-values {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin: 30px 0;
+}
+
+.value-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 600;
+    color: #333;
+}
+
+.value-item i {
+    color: #8B1538;
+    font-size: 1.2rem;
+}
+
+.nosotros-cta {
+    margin-top: 30px;
+}
+
+.btn-nosotros {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: linear-gradient(135deg, #25D366, #128C7E);
+    color: white;
+    padding: 16px 35px;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-decoration: none;
+    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.3);
+    transition: all 0.3s ease;
+}
+
+.btn-nosotros:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(37, 211, 102, 0.4);
+    color: white;
+    text-decoration: none;
+}
+
+.nosotros-image-container {
+    position: relative;
+}
+
+.nosotros-image {
+    width: 100%;
+    height: auto;
+    border-radius: 25px;
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.15);
+    transition: transform 0.5s ease;
+}
+
+.nosotros-container:hover .nosotros-image {
+    transform: scale(1.03);
+}
+
+.nosotros-badge-floating {
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+    background: linear-gradient(135deg, #8B1538, #A91D47);
+    color: white;
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(139, 21, 56, 0.4);
+    text-align: center;
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.badge-number {
+    font-size: 2.5rem;
+    font-weight: 800;
+    line-height: 1;
+    margin-bottom: 5px;
+}
+
+.badge-text {
+    font-size: 0.85rem;
+    font-weight: 600;
+    opacity: 0.95;
+}
+
+/* Responsive Nosotros */
+@media (max-width: 768px) {
+    .nosotros-container {
+        grid-template-columns: 1fr;
+        padding: 40px 25px;
+        gap: 40px;
+    }
+    
+    .nosotros-title {
+        font-size: 2rem;
+    }
+    
+    .nosotros-values {
+        grid-template-columns: 1fr;
+    }
+    
+    .nosotros-badge-floating {
+        bottom: 20px;
+        right: 20px;
+        padding: 20px;
+    }
+    
+    .badge-number {
+        font-size: 2rem;
+    }
+    
+    .section-title-modern {
+        font-size: 2rem;
+    }
+    
+    .features-grid-modern {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Mejoras generales del index */
+.container {
+    position: relative;
+}
+
+.featured-products {
+    background: white;
+    border-radius: 30px;
+    padding: 50px 40px;
+    margin-bottom: 50px;
+    box-shadow: 0 10px 40px rgba(139, 21, 56, 0.06);
+}
+
+.ver-mas {
+    text-align: center;
+    margin: 50px 0 0;
+    padding: 0;
+    background: none;
+    border: none;
+}

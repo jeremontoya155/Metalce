@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <!-- Meta tags para SEO -->
+    <meta name="description" content="Metal-Ce S.R.L - Tu distribuidor de metales de calidad en Córdoba. Especializados en materiales metálicos, hierros, aceros y servicio de corte a medida. Calidad, como siempre.">
+    <meta name="keywords" content="Metal-Ce, metales Córdoba, hierros Córdoba, aceros Córdoba, distribuidor metales, corte a medida, materiales de construcción, hierros y aceros, metal-ce">
+    <meta name="author" content="Metal-Ce S.R.L">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="es">
+    <meta name="geo.region" content="AR-X">
+    <meta name="geo.placename" content="Córdoba, Argentina">
+    <meta name="geo.position" content="-31.4201;-64.1888">
+    <meta name="ICBM" content="-31.4201, -64.1888">
+    
+    <!-- Open Graph Meta Tags para redes sociales -->
+    <meta property="og:title" content="Metal-Ce S.R.L - Calidad, como siempre">
+    <meta property="og:description" content="Distribuidor líder de metales en Córdoba. Hierros, aceros y materiales metálicos de calidad con atención personalizada.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://metalce.com.ar">
+    <meta property="og:site_name" content="Metal-Ce S.R.L">
+    <meta property="og:locale" content="es_AR">
+    <meta property="og:image" content="https://metalce.com.ar/imgs/logo-metalce.png">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Metal-Ce S.R.L - Calidad en metales">
+    <meta name="twitter:description" content="Tu distribuidor de metales de confianza en Córdoba. Hierros, aceros y corte a medida.">
+    <meta name="twitter:image" content="https://metalce.com.ar/imgs/logo-metalce.png">
+    
+    <!-- Meta tags adicionales para SEO local -->
+    <meta name="distribution" content="global">
+    <meta name="revisit-after" content="1 days">
+    <meta name="rating" content="general">
+    <meta name="expires" content="never">
+    <meta name="copyright" content="Metal-Ce S.R.L 2026">
+    <meta name="coverage" content="worldwide">
+    <meta name="target" content="all">
+    <meta name="HandheldFriendly" content="true">
+    <meta name="MobileOptimized" content="320">
+    
+    <% if (typeof pixelId !== 'undefined' && pixelId && pixelId.trim() !== '') { %>
+    <!-- Meta Pixel Code -->
+    <script>
+        !function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n;
+        n.push=n;n.loaded=!0;n.version='2.0';
+        n.queue=[];
+        t=b.createElement(e);t.async=!0;
+        t.src=v;
+        s=b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t,s)
+        }(window, document,'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '<%= pixelId %>');
+        fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+        src="https://www.facebook.com/tr?id=<%= pixelId %>&ev=PageView&noscript=1"
+    /></noscript>
+    <!-- End Meta Pixel Code -->
+    <% } %>
+    
+    <title>Metal-Ce S.R.L - Calidad en Metales | Distribuidor en Córdoba</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/carts.css">
+    <link rel="stylesheet" href="/css/modal.css">
+    <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="/css/index-modern.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/navBar.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="icon" type="image/png" href="/imgs/logo-metalce.png">
+    <!-- Incluir Font Awesome -->
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <!-- Incluir la librería SheetJS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+    <script src="/js/cart.js"></script>
+
+
+    <!-- Meta Pixel Code -->
+
+    <script>
+        !function (f, b, e, v, n, t, s) {
+            if (f.fbq) return; n = f.fbq = function () {
+                n.callMethod ?
+                n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+            };
+            if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
+            n.queue = []; t = b.createElement(e); t.async = !0;
+            t.src = v; s = b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t, s)
+        }(window, document, 'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '1046128350193379');
+        fbq('track', 'PageView');
+
+        // Función para verificar si el elemento está visible en la pantalla
+        function isElementInViewport(el) {
+            const rect = el.getBoundingClientRect();
+            return (
+                rect.top <= (window.innerHeight || document.documentElement.clientHeight) &&
+                rect.bottom >= 0
+            );
+        }
+
+        // Función para agregar la clase 'visible' a las secciones que están en el viewport
+        function handleScroll() {
+            const sections = document.querySelectorAll('.fade-in-section');
+            sections.forEach(section => {
+                if (isElementInViewport(section)) {
+                    section.classList.add('visible');
+                }
+            });
+        }
+
+        // Escuchar el evento de scroll para activar la animación
+        window.addEventListener('scroll', handleScroll);
+
+        // Ejecutar al cargar la página para detectar secciones visibles al inicio
+        window.addEventListener('load', handleScroll);
+
+
+        
+
+    </script>
+    <script>
+        window.fbAsyncInit = function() {
+          FB.init({
+            appId      : '{your-app-id}',
+            cookie     : true,
+            xfbml      : true,
+            version    : '{api-version}'
+          });
+            
+          FB.AppEvents.logPageView();   
+            
+        };
+      
+        (function(d, s, id){
+           var js, fjs = d.getElementsByTagName(s)[0];
+           if (d.getElementById(id)) {return;}
+           js = d.createElement(s); js.id = id;
+           js.src = "https://connect.facebook.net/en_US/sdk.js";
+           fjs.parentNode.insertBefore(js, fjs);
+         }(document, 'script', 'facebook-jssdk'));
+      </script>
+    <noscript><img height="1" width="1" style="display:none"
+            src="https://www.facebook.com/tr?id=1046128350193379&ev=PageView&noscript=1" /></noscript>
+</head>
+
+<body>
+    <!-- Incluir Navbar -->
+    <%- include('partials/navbarUser') %> <!-- Asegúrate de que la ruta 'partials/navbarUser' sea correcta -->
+
+        <div class="container mt-4">
+            
+            <!-- Hero Banner - Estilo iLoop: Imagen grande + texto abajo -->
+            <section class="hero-banner-new fade-in-section">
+                <div class="hero-image-container">
+                    <img src="<%= imagen2Url %>" alt="Metal-Ce" class="hero-main-image" />
+                </div>
+            </section>
+            
+            <% if (isAdmin) { %>
+                <div class="editar-carousel">
+                    <a href="/edit-hero" class="btn-generico">Editar sección hero</a>
+                </div>
+            <% }; %>
+
+            <!-- Sección de bienvenida debajo del hero -->
+            <section class="welcome-hero fade-in-section">
+                <h1 class="welcome-title">Materiales Metálicos de Calidad</h1>
+                <p class="welcome-subtitle">Distribuidores especializados en conectores, terminales y accesorios eléctricos</p>
+                <div class="welcome-arrow">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M7 13l5 5 5-5M7 6l5 5 5-5"/>
+                    </svg>
+                </div>
+            </section>
+
+            <!-- Stats Section MEJORADA - Características destacadas -->
+            <section class="features-modern fade-in-section">
+                <div class="features-grid-modern">
+                    <div class="feature-card-modern">
+                        <div class="feature-icon-modern">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3 class="feature-title-modern">Calidad Certificada</h3>
+                        <p class="feature-text-modern">Productos con certificación IRAM y garantía de calidad</p>
+                    </div>
+                    <div class="feature-card-modern">
+                        <div class="feature-icon-modern">
+                            <i class="fas fa-truck"></i>
+                        </div>
+                        <h3 class="feature-title-modern">Entrega Rápida</h3>
+                        <p class="feature-text-modern">Stock permanente y despacho inmediato</p>
+                    </div>
+                    <div class="feature-card-modern">
+                        <div class="feature-icon-modern">
+                            <i class="fas fa-tools"></i>
+                        </div>
+                        <h3 class="feature-title-modern">Asesoramiento</h3>
+                        <p class="feature-text-modern">Equipo técnico especializado a tu disposición</p>
+                    </div>
+                    <div class="feature-card-modern">
+                        <div class="feature-icon-modern">
+                            <i class="fas fa-award"></i>
+                        </div>
+                        <h3 class="feature-title-modern">30 Años</h3>
+                        <p class="feature-text-modern">Experiencia y confianza en el mercado</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- NUEVA SECCIÓN NOSOTROS -->
+            <section class="nosotros-section fade-in-section" id="nosotros">
+                <div class="nosotros-container">
+                    <div class="nosotros-content">
+                        <span class="nosotros-badge">Sobre Metal-Ce</span>
+                        <h2 class="nosotros-title">Más de 30 años distribuyendo calidad</h2>
+                        <p class="nosotros-text">
+                            En <strong>Metal-Ce S.R.L</strong> somos distribuidores líderes de materiales metálicos y eléctricos en Córdoba. 
+                            Nuestra trayectoria de más de tres décadas nos posiciona como referentes en la región.
+                        </p>
+                        <p class="nosotros-text">
+                            Especializados en conectores, terminales, morsas, flejes y todo tipo de accesorios eléctricos, 
+                            ofrecemos productos certificados con garantía de calidad respaldada por las principales normas del sector.
+                        </p>
+                        <div class="nosotros-values">
+                            <div class="value-item">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Productos certificados IRAM</span>
+                            </div>
+                            <div class="value-item">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Atención personalizada</span>
+                            </div>
+                            <div class="value-item">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Stock permanente</span>
+                            </div>
+                            <div class="value-item">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Precios competitivos</span>
+                            </div>
+                        </div>
+                        <div class="nosotros-cta">
+                            <a href="https://wa.me/5493512345678" class="btn-nosotros">
+                                <i class="fab fa-whatsapp"></i> Contactanos
+                            </a>
+                        </div>
+                    </div>
+                    <div class="nosotros-image-container">
+                        <img src="https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=800&h=600&fit=crop" 
+                             alt="Metal-Ce Calidad" 
+                             class="nosotros-image">
+                        <div class="nosotros-badge-floating">
+                            <div class="badge-number">30+</div>
+                            <div class="badge-text">Años de Experiencia</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Cards de productos con nuevo header MEJORADO -->
+            <section class="featured-products fade-in-section">
+                <div class="section-header-modern">
+                    <div>
+                        <span class="section-badge-modern">🔥 Destacados</span>
+                        <h2 class="section-title-modern">Productos más vendidos</h2>
+                        <p class="section-subtitle-modern">Materiales eléctricos de primera calidad con stock inmediato</p>
+                    </div>
+                </div>
+                <div class="products-container" id="cart-items">
+                    <% 
+                        // Mostrar los 6 productos MÁS CAROS cuyo nombre contenga '16' o '17'
+                        function normalizeText(s) {
+                          return String(s || '').toLowerCase().normalize('NFD').replace(/[^\w\s]/g, '').replace(/\s+/g, ' ').trim();
+                        }
+
+                        const filteredByModel = (products || [])
+                          .filter(p => p.price > 0  )
+                          .sort((a, b) => b.price - a.price) // mayor precio primero
+                          .slice(0, 6);
+
+                        filteredByModel.forEach(product => {
+                    %>
+                        <% if (product.stock > 0) { %>
+                            <%- include('partials/productCard', { product: product }) %>
+                        <% } %>
+                    <% }); %>
+                </div>
+                <div class="ver-mas fade-in-section">
+                    <a href="/cart" class="btn-generico-modern">
+                        <span>Ver catálogo completo</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </section>
+
+        <!-- Sección About -->
+        <section class="about-section fade-in-section">
+            <%- include('partials/about', { about: about }) %>
+        </section>
+
+        <!-- Botones según el rol -->
+        <div class="text-center mb-4 fade-in-section">
+            <% if (isAdmin) { %>
+                <h3>Lista completa de productos</h3>
+                <div class="mb-3">
+                    <a href="/new" class="btn-generico">Agregar Nuevo</a>
+                    <button id="download-btn" class="btn-generico">Descargar lista</button>
+                </div>
+                <!-- Campo de búsqueda -->
+                <div class="input-group mb-3">
+                    <input id="search-input" type="text" class="form-control" placeholder="Buscar productos...">
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Imagen</th>
+                                <th>Nombre</th>
+                                <th>Descripción</th>
+                                <th>Estado</th>
+                                <th>Precio</th>
+                                <th>Stock</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="products-table">
+                            <% products.forEach(product=> { %>
+                                <tr>
+                                    <td data-label="Imagen"><img src="<%= product.img %>" alt="<%= product.name %>">
+                                    </td>
+                                    <td data-label="Nombre">
+                                        <%= product.name %>
+                                    </td>
+                                    <td data-label="Descripción">
+                                        <%
+                                        // Función para limpiar solo caracteres problemáticos y normalizar acentos
+                                        function cleanTextAdmin(text) {
+                                          return text
+                                            // Convertir caracteres de codificación problemáticos a 'a'
+                                            .replace(/�/g, 'a')
+                                            .replace(/Â/g, 'a')
+                                            .replace(/â€™/g, "'")
+                                            .replace(/â€œ/g, '"')
+                                            .replace(/â€\u009d/g, '"')
+                                            .replace(/€™/g, "'")
+                                            
+                                            // Correcciones específicas de palabras mal formadas
+                                            .replace(/Resolucian/gi, 'Resolucion')
+                                            .replace(/Resolucin/gi, 'Resolucion')
+                                            
+                                            // Diccionario de acentos: convertir á→a, é→e, etc.
+                                            .replace(/á/g, 'a')
+                                            .replace(/à/g, 'a')
+                                            .replace(/â/g, 'a')
+                                            .replace(/ä/g, 'a')
+                                            .replace(/ã/g, 'a')
+                                            .replace(/Á/g, 'A')
+                                            .replace(/À/g, 'A')
+                                            .replace(/Â/g, 'A')
+                                            .replace(/Ä/g, 'A')
+                                            .replace(/Ã/g, 'A')
+                                            
+                                            .replace(/é/g, 'e')
+                                            .replace(/è/g, 'e')
+                                            .replace(/ê/g, 'e')
+                                            .replace(/ë/g, 'e')
+                                            .replace(/É/g, 'E')
+                                            .replace(/È/g, 'E')
+                                            .replace(/Ê/g, 'E')
+                                            .replace(/Ë/g, 'E')
+                                            
+                                            .replace(/í/g, 'i')
+                                            .replace(/ì/g, 'i')
+                                            .replace(/î/g, 'i')
+                                            .replace(/ï/g, 'i')
+                                            .replace(/Í/g, 'I')
+                                            .replace(/Ì/g, 'I')
+                                            .replace(/Î/g, 'I')
+                                            .replace(/Ï/g, 'I')
+                                            
+                                            .replace(/ó/g, 'o')
+                                            .replace(/ò/g, 'o')
+                                            .replace(/ô/g, 'o')
+                                            .replace(/ö/g, 'o')
+                                            .replace(/õ/g, 'o')
+                                            .replace(/Ó/g, 'O')
+                                            .replace(/Ò/g, 'O')
+                                            .replace(/Ô/g, 'O')
+                                            .replace(/Ö/g, 'O')
+                                            .replace(/Õ/g, 'O')
+                                            
+                                            .replace(/ú/g, 'u')
+                                            .replace(/ù/g, 'u')
+                                            .replace(/û/g, 'u')
+                                            .replace(/ü/g, 'u')
+                                            .replace(/Ú/g, 'U')
+                                            .replace(/Ù/g, 'U')
+                                            .replace(/Û/g, 'U')
+                                            .replace(/Ü/g, 'U')
+                                            
+                                            // Casos especiales
+                                            .replace(/ñ/g, 'n')
+                                            .replace(/Ñ/g, 'N')
+                                            .replace(/ç/g, 'c')
+                                            .replace(/Ç/g, 'C')
+                                            
+                                            // Limpiar símbolos de pulgadas problemáticos
+                                            .replace(/[��″"]/g, ' pulgadas')
+                                            .replace(/pulgadas pulgadas/g, ' pulgadas')
+                                            
+                                            // Limpiar espacios múltiples
+                                            .replace(/\s+/g, ' ')
+                                            .trim();
+                                        }
+                                        %>
+                                        <%= cleanTextAdmin(product.description) %>
+                                    </td>
+                                    <td data-label="Estado">
+                                        <%= product.estado %>
+                                    </td>
+                                    <td data-label="Precio">$<%= product.price %>
+                                    </td>
+                                    <td data-label="Stock">
+                                        <%= product.stock %>
+                                    </td>
+                                    <td data-label="Acciones">
+                                        <a href="/edit/<%= product.id %>" class="btn-generico">Editar</a>
+                                    </td>
+                                </tr>
+                                <% }); %>
+                        </tbody>
+                    </table>
+                </div>
+
+                <% } else { %>
+
+                    <div class="container my-2 py-2 fade-in-section">
+                        <h3 class="about-title">Encontranos en:</h3>
+                        <div class="iframe-container">
+                        
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1702.2824031199978!2d-64.1859082176172!3d-31.426114355851176!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9432a28e4b7884b9%3A0x5825343320fa10a0!2sItuzaing%C3%B3%20779%2C%20X5000IJO%20C%C3%B3rdoba!5e0!3m2!1sen!2sar!4v1768182761652!5m2!1sen!2sar" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                            </div>
+                    </div>
+                    <% } %>
+        </div>
+        </div>
+
+
+
+
+        <!-- Incluir el footer -->
+        <%- include('partials/footer') %> <!-- Asegúrate de que la ruta 'partials/footer' sea correcta -->
+
+            <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+            <script src="/js/main.js"></script>
+            <script src="/js/carrito-manager.js"></script>
+
+     <!-- Scripts -->
+            <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+            <script src="/js/cart.js"></script>
+            <script>
+    $(document).ready(function () {
+        $(document).on('hidden.bs.modal', function () {
+            $('.modal-backdrop').remove(); // Elimina backdrop persistente
+            $('body').removeClass('modal-open'); // Previene bloqueo del fondo
+        });
+    });
+</script>
+
+    </body>
+    
+
+</html>

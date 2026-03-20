@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Carrusel</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/navBar.css">
+    <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+
+    <%- include('partials/navbarUser') %>
+
+    <div class="container my-4">
+        <h1 class="text-center">Editar Carrusel</h1>
+        
+        <!-- Formulario para agregar nuevo elemento al carrusel -->
+        <form action="/add-carousel" method="POST" enctype="multipart/form-data" class="mb-5">
+            <div class="form-group">
+                <label for="newText">Texto</label>
+                <input type="text" class="form-control" id="newText" name="text" required>
+            </div>
+            <div class="form-group">
+                <label for="newImage">Imagen (archivo)</label>
+                <input type="file" class="form-control" id="newImage" name="image" accept="image/*">
+            </div>
+            <div class="form-group">
+                <label for="newMobileImage">Imagen Mobile (archivo)</label>
+                <input type="file" class="form-control" id="newMobileImage" name="mobileImage" accept="image/*">
+            </div>
+            <div class="form-group">
+                <label for="newColor1">Color 1</label>
+                <input type="color" class="form-control" id="newColor1" name="color1" required>
+            </div>
+            <div class="form-group">
+                <label for="newColor2">Color 2</label>
+                <input type="color" class="form-control" id="newColor2" name="color2" required>
+            </div>
+            <button type="submit" class="btn btn-success">Agregar Nuevo Elemento</button>
+        </form>
+
+        <% if (carouselItems && carouselItems.length > 0) { %>
+            <% carouselItems.forEach(item => { %>
+                <form action="/edit-carousel" method="POST" enctype="multipart/form-data" class="mb-4">
+                    <input type="hidden" name="id" value="<%= item.id %>">
+                    <div class="form-group">
+                        <label for="text<%= item.id %>">Texto</label>
+                        <input type="text" class="form-control" id="text<%= item.id %>" name="text" value="<%= item.text %>" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="image<%= item.id %>">Imagen (archivo)</label>
+                        <input type="file" class="form-control" id="image<%= item.id %>" name="image" accept="image/*">
+                        <img src="<%= item.img %>" alt="Imagen actual" class="img-fluid mt-2">
+                    </div>
+                    <div class="form-group">
+                        <label for="imagenMobile<%= item.id %>">Imagen Móvil (archivo)</label>
+                        <input type="file" class="form-control" id="imagenMobile<%= item.id %>" name="mobileImage" accept="image/*">
+                        <img src="<%= item.imagenmobile %>" alt="Imagen móvil actual" class="img-fluid mt-2">
+                    </div>
+                    <div class="form-group">
+                        <label for="color1<%= item.id %>">Color 1</label>
+                        <input type="color" class="form-control" id="color1<%= item.id %>" name="color1" value="<%= item.color1 %>" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="color2<%= item.id %>">Color 2</label>
+                        <input type="color" class="form-control" id="color2<%= item.id %>" name="color2" value="<%= item.color2 %>" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                </form>
+                <form action="/delete-carousel" method="POST" class="mb-5">
+                    <input type="hidden" name="id" value="<%= item.id %>">
+                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                </form>
+                <hr>
+            <% }); %>
+        <% } else { %>
+            <p>No hay elementos en el carrusel.</p>
+        <% } %>
+        
+        <a href="/" class="btn btn-secondary">Volver</a>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

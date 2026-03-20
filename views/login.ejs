@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio de Sesión</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="/css/styles.css">
+    <style>
+        
+    </style>
+</head>
+<div class="login-page">
+
+    <div class="login-container">
+        <div class="logo">
+            <!-- Logo estático de Metal-Ce -->
+            <img src="/imgs/logo-metalce.png" height="50" class="py-0" alt="Metal-Ce Logo">
+        </div>
+        <form action="/login" method="POST" class="login-form">
+            <div class="form-group">
+                <input type="username" class="form-control" id="username" name="username" placeholder="Usuario" required>
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control" id="password" name="password" placeholder="Contraseña" required>
+            </div>
+            
+            <button type="submit" class="btn-login">Ingresar</button>
+
+            <div class="signup-link">
+                <p>No tenés cuenta? <a href="#">Contactate acá</a></p>
+            </div>
+        </form>
+    </div>
+
+    <!-- Verificar si hay un mensaje de error en la sesión -->
+    <% if (session.error) { %>
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: '<%= session.error %>',
+            });
+            <%
+                session.error = null;
+            %>
+        </script>
+    <% } %>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</div class="login-page">
+</html>

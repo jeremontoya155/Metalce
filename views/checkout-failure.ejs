@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pago Fallido - Metal-Ce</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        .failure-container {
+            max-width: 600px;
+            margin: 100px auto;
+            padding: 40px;
+            text-align: center;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        .failure-icon {
+            font-size: 80px;
+            color: #dc3545;
+            margin-bottom: 20px;
+        }
+        .failure-title {
+            font-size: 2em;
+            font-weight: bold;
+            color: #dc3545;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="failure-container">
+        <i class="fas fa-times-circle failure-icon"></i>
+        <h1 class="failure-title">Pago No Completado</h1>
+        <p class="lead">Hubo un problema al procesar tu pago</p>
+        
+        <p>No se realizó ningún cargo. Puedes intentar nuevamente.</p>
+
+        <div class="mt-4">
+            <a href="/checkout" class="btn btn-primary">
+                <i class="fas fa-redo"></i> Reintentar
+            </a>
+            <a href="/" class="btn btn-secondary">
+                <i class="fas fa-home"></i> Volver al Inicio
+            </a>
+        </div>
+    </div>
+</body>
+</html>

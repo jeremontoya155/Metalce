@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cotización del Dólar - Metal-Ce</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/navBar.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/index.css">
+    <style>
+        .cotizacion-container {
+            max-width: 600px;
+            margin: 100px auto 40px;
+            padding: 30px;
+        }
+        .cotizacion-card {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            padding: 30px;
+            text-align: center;
+        }
+        .cotizacion-icon {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+        .cotizacion-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1d1d1f;
+            margin-bottom: 5px;
+        }
+        .cotizacion-subtitle {
+            font-size: 0.9rem;
+            color: #86868b;
+            margin-bottom: 25px;
+        }
+        .cotizacion-actual {
+            background: linear-gradient(135deg, #0052A3 0%, #00B4D8 100%);
+            color: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+        .cotizacion-actual-label {
+            font-size: 0.85rem;
+            opacity: 0.9;
+            margin-bottom: 5px;
+        }
+        .cotizacion-actual-valor {
+            font-size: 2.5rem;
+            font-weight: 800;
+        }
+        .cotizacion-input-group {
+            display: flex;
+            gap: 10px;
+            align-items: stretch;
+        }
+        .cotizacion-input {
+            flex: 1;
+            padding: 12px 16px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            border: 2px solid #e5e5ea;
+            border-radius: 10px;
+            text-align: center;
+            transition: border-color 0.2s;
+        }
+        .cotizacion-input:focus {
+            border-color: #0052A3;
+            outline: none;
+        }
+        .cotizacion-btn {
+            padding: 12px 24px;
+            font-size: 1rem;
+            font-weight: 600;
+            color: white;
+            background: linear-gradient(135deg, #0052A3, #00B4D8);
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .cotizacion-btn:hover {
+            background: #003d7a;
+        }
+        .cotizacion-ejemplo {
+            margin-top: 25px;
+            padding: 15px;
+            background: #f5f5f7;
+            border-radius: 10px;
+            text-align: left;
+        }
+        .cotizacion-ejemplo h4 {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #1d1d1f;
+            margin-bottom: 8px;
+        }
+        .cotizacion-ejemplo p {
+            font-size: 0.85rem;
+            color: #555;
+            margin: 4px 0;
+        }
+        .cotizacion-ejemplo .resultado {
+            color: #0052A3;
+            font-weight: 700;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #0052A3;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        /* Toggle switch */
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #f5f5f7;
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin-top: 25px;
+            margin-bottom: 10px;
+        }
+        .toggle-label {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        .toggle-label-title {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #1d1d1f;
+        }
+        .toggle-label-desc {
+            font-size: 0.8rem;
+            color: #86868b;
+        }
+        .toggle-switch {
+            position: relative;
+            width: 52px;
+            height: 28px;
+            flex-shrink: 0;
+        }
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #ccc;
+            border-radius: 28px;
+            transition: 0.3s;
+        }
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            border-radius: 50%;
+            transition: 0.3s;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+        .toggle-switch input:checked + .toggle-slider {
+            background: linear-gradient(135deg, #0052A3 0%, #00B4D8 100%);
+        }
+        .toggle-switch input:checked + .toggle-slider:before {
+            transform: translateX(24px);
+        }
+        .toggle-status {
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-top: 8px;
+            text-align: center;
+            padding: 6px 12px;
+            border-radius: 8px;
+        }
+        .toggle-status.active {
+            color: #2e7d32;
+            background: rgba(46,125,50,0.08);
+        }
+        .toggle-status.inactive {
+            color: #c62828;
+            background: rgba(198,40,40,0.08);
+        }
+    </style>
+</head>
+<body>
+    <%- include('partials/navbarUser') %>
+
+    <div class="cotizacion-container">
+        <div class="cotizacion-card">
+            <div class="cotizacion-icon">💲</div>
+            <h1 class="cotizacion-title">Cotización del Dólar</h1>
+            <p class="cotizacion-subtitle">Configurá el valor del dólar para manejar precios en USD y ARS</p>
+
+            <div class="cotizacion-actual">
+                <div class="cotizacion-actual-label">Cotización actual</div>
+                <div class="cotizacion-actual-valor">$<%= cotizacionDolar.toLocaleString('es-AR') %></div>
+                <div class="cotizacion-actual-label">1 USD = $<%= cotizacionDolar.toLocaleString('es-AR') %> ARS</div>
+            </div>
+
+            <form action="/admin/cotizacion" method="POST">
+                <div class="cotizacion-input-group">
+                    <input type="number" step="0.01" min="1" name="cotizacion" class="cotizacion-input" 
+                           placeholder="Ej: 1200" value="<%= cotizacionDolar %>" required id="cotizInput">
+                    <button type="submit" class="cotizacion-btn">💾 Guardar</button>
+                </div>
+
+                <!-- Toggle mostrar conversión -->
+                <div class="toggle-container">
+                    <div class="toggle-label">
+                        <span class="toggle-label-title">💱 Mostrar conversión de moneda</span>
+                        <span class="toggle-label-desc">Muestra el precio convertido (USD↔ARS) en la página del producto</span>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" name="mostrar_pesos" id="togglePesos" <%= mostrarPrecioPesos ? 'checked' : '' %>>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                <div class="toggle-status <%= mostrarPrecioPesos ? 'active' : 'inactive' %>" id="toggleStatus">
+                    <%= mostrarPrecioPesos ? '✅ Conversión de moneda VISIBLE para los clientes' : '🚫 Conversión de moneda OCULTA — solo se muestra la moneda original' %>
+                </div>
+
+                <!-- Campo Pixel ID -->
+                <div style="margin-top: 25px;">
+                    <label style="font-weight: 600; color: #333; font-size: 0.9rem; display: block; margin-bottom: 8px;">
+                        📊 Meta Pixel ID (Facebook Pixel)
+                    </label>
+                    <input type="text" name="pixel_id" class="cotizacion-input" 
+                           value="<%= pixelId || '' %>" 
+                           placeholder="Ej: 123456789012345" 
+                           style="width: 100%; text-align: left; font-size: 0.95rem; font-weight: 400;">
+                    <small style="display: block; margin-top: 6px; color: #86868b; font-size: 0.82rem;">
+                        💡 Ingresá tu Pixel ID de Facebook para trackear eventos en el sitio. Dejalo vacío para desactivar.
+                    </small>
+                    <% if (pixelId && pixelId.trim() !== '') { %>
+                    <div style="margin-top: 10px; padding: 10px 14px; background: #e8f5e9; border-radius: 8px; color: #2e7d32; font-size: 0.85rem;">
+                        ✅ Meta Pixel activo con ID: <strong><%= pixelId %></strong>
+                    </div>
+                    <% } else { %>
+                    <div style="margin-top: 10px; padding: 10px 14px; background: #fff3e0; border-radius: 8px; color: #ef6c00; font-size: 0.85rem;">
+                        ⚠️ Meta Pixel no configurado
+                    </div>
+                    <% } %>
+                </div>
+            </form>
+
+            <div class="cotizacion-ejemplo" id="ejemplo">
+                <h4>📱 Ejemplo de conversión:</h4>
+                <p>Producto de <strong>USD 1000</strong></p>
+                <p class="resultado">= ARS $<span id="ejemploUsdArs"><%= (1000 * cotizacionDolar).toLocaleString('es-AR') %></span></p>
+                <hr style="margin: 10px 0; border-color: #ddd;">
+                <p>Producto de <strong>ARS $500.000</strong></p>
+                <p class="resultado">= USD $<span id="ejemploArsUsd"><%= Math.round(500000 / cotizacionDolar).toLocaleString('es-AR') %></span></p>
+                <p style="font-size: 0.8rem; color: #86868b; margin-top: 8px;">
+                    Los precios se muestran en su moneda original. La conversión se ve en "Ver más" del producto.
+                </p>
+            </div>
+
+            <a href="/" class="back-link">← Volver al inicio</a>
+        </div>
+    </div>
+
+    <script>
+        const input = document.getElementById('cotizInput');
+        const ejemploUsdArs = document.getElementById('ejemploUsdArs');
+        const ejemploArsUsd = document.getElementById('ejemploArsUsd');
+        input.addEventListener('input', function() {
+            const val = parseFloat(this.value) || 0;
+            ejemploUsdArs.textContent = (1000 * val).toLocaleString('es-AR');
+            ejemploArsUsd.textContent = val > 0 ? Math.round(500000 / val).toLocaleString('es-AR') : '0';
+        });
+
+        // Toggle status text
+        const togglePesos = document.getElementById('togglePesos');
+        const toggleStatus = document.getElementById('toggleStatus');
+        togglePesos.addEventListener('change', function() {
+            if (this.checked) {
+                toggleStatus.textContent = '✅ Conversión de moneda VISIBLE para los clientes';
+                toggleStatus.className = 'toggle-status active';
+            } else {
+                toggleStatus.textContent = '🚫 Conversión de moneda OCULTA — solo se muestra la moneda original';
+                toggleStatus.className = 'toggle-status inactive';
+            }
+        });
+    </script>
+</body>
+</html>

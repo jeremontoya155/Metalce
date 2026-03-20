@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Lista de Productos</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/navBar.css">
+    <link rel="stylesheet" href="/css/carts.css">
+    <link rel="stylesheet" href="/css/modal.css">
+    <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-P7BHKK1V4G"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-P7BHKK1V4G');
+</script>
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-WP5VPX8M');</script>
+<!-- End Google Tag Manager -->
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WP5VPX8M"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<script>
+    
+    // Simulación de actualización de consentimiento después de que el usuario acepta
+    setTimeout(() => {
+      gtag('consent', 'update', {
+        'ad_storage': 'granted',
+        'analytics_storage': 'granted'
+      });
+    }, 1000); // Simula una actualización después de 1 segundo
+  </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+    <script>
+        // Función para verificar si el elemento está visible en la pantalla
+        function isElementInViewport(el) {
+            const rect = el.getBoundingClientRect();
+            return (
+                rect.top <= (window.innerHeight || document.documentElement.clientHeight) &&
+                rect.bottom >= 0
+            );
+        }
+
+        // Función para agregar la clase 'visible' a las secciones que están en el viewport
+        function handleScroll() {
+            const sections = document.querySelectorAll('.fade-in-section');
+            sections.forEach(section => {
+                if (isElementInViewport(section)) {
+                    section.classList.add('visible');
+                }
+            });
+        }
+
+        // Escuchar el evento de scroll para activar la animación
+        window.addEventListener('scroll', handleScroll);
+
+        // Ejecutar al cargar la página para detectar secciones visibles al inicio
+        window.addEventListener('load', handleScroll);
+    </script>
+    <style>
+        .card-img-top {
+            width: 100%;
+            height: auto;
+        }
+    </style>
+    <!-- Meta Pixel Code -->
+    <script>
+        !function (f, b, e, v, n, t, s) {
+            if (f.fbq) return; n = f.fbq = function () {
+                n.callMethod ?
+                n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+            };
+            if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
+            n.queue = []; t = b.createElement(e); t.async = !0;
+            t.src = v; s = b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t, s)
+        }(window, document, 'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '1046128350193379');
+        fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+            src="https://www.facebook.com/tr?id=1046128350193379&ev=PageView&noscript=1" /></noscript>
+</head>
+
+<body>
+    <!-- Incluir Navbar -->
+    <%- include('partials/navbarUser') %>
+
+        <div class="container cart-container ">
+            <!-- Header del catálogo con diseño único -->
+            <div class="catalog-header">
+                <div class="catalog-header-content">
+                    <h2 class="catalogo-title">CATÁLOGO</h2>
+                    <p class="catalog-subtitle">Encuentra la tecnología perfecta para ti</p>
+                </div>
+                <div class="catalogo-logo">
+                    <img style="width: 8em;" src="<%= imagenUrl2 %>" alt="Metal-Ce Logo">
+                </div>
+            </div>
+
+            <!-- Filtro fijo y sutil -->
+            <div class="filter-bar-fixed">
+                <div class="filter-bar-content">
+                    <div class="filter-search-box">
+                        <input type="text" id="quick-search" class="filter-input" placeholder="🔍 Buscar productos...">
+                    </div>
+                    <div class="filter-category-box">
+                        <select id="category-filter" class="filter-select">
+                            <option value="">📂 Todas las categorías</option>
+                            <% 
+                            const categorias = new Map();
+                            products.forEach(product => {
+                                if (product.categoria_id && product.categoria_nombre && !categorias.has(product.categoria_id)) {
+                                    categorias.set(product.categoria_id, {
+                                        nombre: product.categoria_nombre,
+                                        icono: product.categoria_icono || '📦'
+                                    });
+                                }
+                            });
+                            categorias.forEach((cat, id) => { %>
+                                <option value="<%= id %>"><%= cat.icono %> <%= cat.nombre %></option>
+                            <% }); %>
+                        </select>
+                    </div>
+                    <div class="filter-sort-box">
+                        <select id="price-sort" class="filter-select">
+                            <option value="">💰 Ordenar por precio</option>
+                            <option value="asc">Menor a mayor</option>
+                            <option value="desc">Mayor a menor</option>
+                        </select>
+                    </div>
+                    <button class="filter-reset-btn" id="reset-filters">✖ Limpiar</button>
+                </div>
+            </div>
+
+            <!-- Modal de filtros -->
+            <div class="filters-modal">
+                <div class="filters-modal-content">
+                    <h3>Filtrar productos</h3>
+                    <div class="input-group mb-3">
+                        <input id="search-input" type="text" class="form-control" placeholder="Buscar productos">
+                    </div>
+                    <label for="model-filter">Modelo</label>
+                    <select id="model-filter" class="form-control mb-2">
+                        <option value="">Todos los modelos</option>
+                        <% let uniqueModels=new Set(); products.forEach(product=> {
+                            if (product.stock > 0 && !uniqueModels.has(product.name)) {
+                            uniqueModels.add(product.name); %>
+                            <option value="<%= product.name %>">
+                                <%= product.name %>
+                            </option>
+                            <% } }); %>
+                    </select>
+                    <label for="estado-filter">Estado</label>
+                    <select id="estado-filter" class="form-control mb-2">
+                        <option value="">Todos los estados</option>
+                        <% let uniqueEstados=new Set(); products.forEach(product=> {
+                            if (product.stock > 0 && product.estado) {
+                            let estadoUpperCase = product.estado.toUpperCase();
+                            if (!uniqueEstados.has(estadoUpperCase)) {
+                            uniqueEstados.add(estadoUpperCase); %>
+                            <option value="<%= estadoUpperCase %>">
+                                <%= estadoUpperCase %>
+                            </option>
+                            <% } } }); %>
+                    </select>
+                    <label for="storage-filter">Almacenamiento (GB)</label>
+                    <input id="storage-filter" type="number" class="form-control mb-2"
+                        placeholder="Almacenamiento mínimo (GB)">
+                    <label for="battery-filter">Batería mínima (%)</label>
+                    <input id="battery-filter" type="number" class="form-control mb-2" placeholder="Batería mínima (%)">
+                    <div class="buttons">
+                        <button id="reset-button" class="btn btn-secondary">Resetear</button>
+                        <button id="filter-button" class="btn btn-primary">Buscar</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filtro de chips/mosaico para estados -->
+            <div class="estado-chips-container">
+                <div class="estado-chips-wrapper">
+                    <% 
+                    let estadosUnicos = new Set(); 
+                    products.forEach(product => {
+                        if (product.stock > 0 && product.estado) {
+                            estadosUnicos.add(product.estado.toUpperCase());
+                        }
+                    });
+                    Array.from(estadosUnicos).forEach(estado => { 
+                    %>
+                        <button class="estado-chip" data-estado="<%= estado %>">
+                            <span class="chip-icon">📱</span>
+                            <span class="chip-text"><%= estado %></span>
+                            <span class="chip-check">✓</span>
+                        </button>
+                    <% }); %>
+                </div>
+            </div>
+
+            <section class="featured-products" style="min-height: 90vh;">
+                <div class="products-container row" id="cart-items">
+                    <% products.forEach(product=> { %>
+                        <% if (product.stock> 0) { %>
+                            <%- include('partials/productCard', { product: product }) %>
+                                <% } %>
+                                    <% }); %>
+                </div>
+                <!-- Mensaje de "No se encontraron coincidencias" -->
+                <div id="no-results-message" class="alert alert-warning" style="display: none;">
+                    No se encontraron productos que coincidan con los filtros aplicados.
+                </div>
+
+            </section>
+        </div>
+
+        <%- include('partials/footer') %>
+
+            <!-- Scripts -->
+            <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+            <script src="/js/cart.js"></script>
+            <script src="/js/carrito-manager.js"></script>
+            <!-- Google tag (gtag.js) -->
+</body>
+
+</html>

@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Producto - <%= product.name %>
+    </title>
+    <link rel="stylesheet" href="/css/navBar.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/pages/productPage.css">
+</head>
+
+<body>
+
+    <!-- Incluir Navbar -->
+    <%- include('partials/navbarUser') %> <!-- Asegúrate de que la ruta 'partials/navbarUser' sea correcta -->
+        <header>
+            <h1>Detalles del Producto</h1>
+        </header>
+
+        <main class="productPage-container">
+            <div class="productPage-main">
+                <!-- Imagen del producto -->
+                <div class="productPage-image">
+                    <% if (product.img) { %>
+                        <img src="<%= product.img %>" alt="Imagen de <%= product.name %>">
+                        <% } else { %>
+                            <p>Imagen no disponible</p>
+                            <% } %>
+                </div>
+
+                <!-- Detalles del producto -->
+                <div class="productPage-details">
+                    <h1 class="productPage-title">
+                        <%= product.name %>
+                    </h1>
+
+                    <% if (product.categoria_nombre) { %>
+                    <p><strong>Categoría:</strong>
+                        <span style="background: <%= product.categoria_color || '#0052A3' %>; color: white; padding: 0.25rem 0.75rem; border-radius: 15px; display: inline-block;">
+                            <%= product.categoria_icono %> <%= product.categoria_nombre %>
+                        </span>
+                    </p>
+                    <% } %>
+                    
+                    <% if (product.almacenamiento) { %>
+                    <p><strong>Almacenamiento:</strong>
+                        <%= product.almacenamiento %> GB
+                    </p>
+                    <% } %>
+                    
+                    <% if (product.bateria) { %>
+                    <p><strong>Batería:</strong>
+                        <%= product.bateria %>% 
+                    </p>
+                    <% } %>
+                    
+                    <p><strong>Descripción:</strong>
+                        <%
+                        // Función para limpiar solo caracteres problemáticos y normalizar acentos
+                        function cleanText(text) {
+                          return text
+                            // Convertir caracteres de codificación problemáticos a 'a'
+                            .replace(/�/g, 'a')
+                            .replace(/Â/g, 'a')
+                            .replace(/â€™/g, "'")
+                            .replace(/â€œ/g, '"')
+                            .replace(/â€\u009d/g, '"')
+                            .replace(/€™/g, "'")
+                            
+                            // Correcciones específicas de palabras mal formadas
+                            .replace(/Resolucian/gi, 'Resolucion')
+                            .replace(/Resolucin/gi, 'Resolucion')
+                            
+                            // Diccionario de acentos: convertir á→a, é→e, etc.
+                            .replace(/á/g, 'a')
+                            .replace(/à/g, 'a')
+                            .replace(/â/g, 'a')
+                            .replace(/ä/g, 'a')
+                            .replace(/ã/g, 'a')
+                            .replace(/Á/g, 'A')
+                            .replace(/À/g, 'A')
+                            .replace(/Â/g, 'A')
+                            .replace(/Ä/g, 'A')
+                            .replace(/Ã/g, 'A')
+                            
+                            .replace(/é/g, 'e')
+                            .replace(/è/g, 'e')
+                            .replace(/ê/g, 'e')
+                            .replace(/ë/g, 'e')
+                            .replace(/É/g, 'E')
+                            .replace(/È/g, 'E')
+                            .replace(/Ê/g, 'E')
+                            .replace(/Ë/g, 'E')
+                            
+                            .replace(/í/g, 'i')
+                            .replace(/ì/g, 'i')
+                            .replace(/î/g, 'i')
+                            .replace(/ï/g, 'i')
+                            .replace(/Í/g, 'I')
+                            .replace(/Ì/g, 'I')
+                            .replace(/Î/g, 'I')
+                            .replace(/Ï/g, 'I')
+                            
+                            .replace(/ó/g, 'o')
+                            .replace(/ò/g, 'o')
+                            .replace(/ô/g, 'o')
+                            .replace(/ö/g, 'o')
+                            .replace(/õ/g, 'o')
+                            .replace(/Ó/g, 'O')
+                            .replace(/Ò/g, 'O')
+                            .replace(/Ô/g, 'O')
+                            .replace(/Ö/g, 'O')
+                            .replace(/Õ/g, 'O')
+                            
+                            .replace(/ú/g, 'u')
+                            .replace(/ù/g, 'u')
+                            .replace(/û/g, 'u')
+                            .replace(/ü/g, 'u')
+                            .replace(/Ú/g, 'U')
+                            .replace(/Ù/g, 'U')
+                            .replace(/Û/g, 'U')
+                            .replace(/Ü/g, 'U')
+                            
+                            // Casos especiales
+                            .replace(/ñ/g, 'n')
+                            .replace(/Ñ/g, 'N')
+                            .replace(/ç/g, 'c')
+                            .replace(/Ç/g, 'C')
+                            
+                            // Limpiar símbolos de pulgadas problemáticos
+                            .replace(/[��″"]/g, ' pulgadas')
+                            .replace(/pulgadas pulgadas/g, ' pulgadas')
+                            
+                            // Limpiar espacios múltiples
+                            .replace(/\s+/g, ' ')
+                            .trim();
+                        }
+                        %>
+                        <%= cleanText(product.description) %>
+                    </p>
+                    <p><strong>Stock:</strong>
+                        <%= product.stock %>
+                    </p>
+                    <% if (product.tiene_oferta_vigente) { %>
+                    <div style="margin-bottom: 10px;">
+                      <p style="margin-bottom: 2px;"><strong>Precio (<%= product.moneda || 'ARS' %>):</strong></p>
+                      <span style="font-size: 0.95rem; color: #86868b; text-decoration: line-through;"><%= (product.moneda || 'ARS') === 'USD' ? 'USD' : '$' %> <%= product.price %></span>
+                      <span style="font-size: 1.4rem; color: #ff3b30; font-weight: 700; margin-left: 8px;"><%= (product.moneda || 'ARS') === 'USD' ? 'USD' : '$' %> <%= product.precio_final %></span>
+                      <div style="margin-top: 4px;">
+                        <span style="background: rgba(52,199,89,0.12); color: #34c759; padding: 3px 10px; border-radius: 12px; font-size: 0.85rem; font-weight: 600;">
+                          Ahorrás $<%= (product.price - product.precio_final).toFixed(2) %>
+                        </span>
+                        <% if (product.es_oferta_general && product.nombre_oferta_general) { %>
+                        <span style="background: rgba(255,59,48,0.08); color: #ff3b30; padding: 3px 10px; border-radius: 12px; font-size: 0.8rem; font-weight: 600; margin-left: 6px;">
+                          <%= product.nombre_oferta_general %>
+                        </span>
+                        <% } else if (product.tipo_descuento === 'porcentaje') { %>
+                        <span style="background: rgba(255,59,48,0.08); color: #ff3b30; padding: 3px 10px; border-radius: 12px; font-size: 0.8rem; font-weight: 600; margin-left: 6px;">
+                          -<%= product.valor_descuento %>%
+                        </span>
+                        <% } %>
+                      </div>
+                      <% if (typeof mostrarPrecioPesos !== 'undefined' && mostrarPrecioPesos && typeof cotizacionDolar !== 'undefined') { %>
+                      <div style="margin-top: 10px; padding: 10px 14px; background: rgba(0,82,163,0.06); border-radius: 10px; border: 1px solid rgba(0,82,163,0.15);">
+                        <% if ((product.moneda || 'ARS') === 'USD') { %>
+                          <span style="font-size: 0.85rem; color: #555;">💱 Equivale a <strong style="color: #0052A3;">ARS $<%= Math.round(product.precio_final * cotizacionDolar).toLocaleString('es-AR') %></strong></span>
+                          <span style="font-size: 0.75rem; color: #86868b; display: block;">Cotización: 1 USD = $<%= cotizacionDolar.toLocaleString('es-AR') %> ARS</span>
+                        <% } else { %>
+                          <span style="font-size: 0.85rem; color: #555;">💱 Equivale a <strong style="color: #0052A3;">USD $<%= Math.round(product.precio_final / cotizacionDolar).toLocaleString('es-AR') %></strong></span>
+                          <span style="font-size: 0.75rem; color: #86868b; display: block;">Cotización: 1 USD = $<%= cotizacionDolar.toLocaleString('es-AR') %> ARS</span>
+                        <% } %>
+                      </div>
+                      <% } %>
+                    </div>
+                    <% } else { %>
+                    <p><strong>Precio (<%= product.moneda || 'ARS' %>):</strong> <%= (product.moneda || 'ARS') === 'USD' ? 'USD' : '$' %> <%= product.price %>
+                    </p>
+                    <% if (typeof mostrarPrecioPesos !== 'undefined' && mostrarPrecioPesos && typeof cotizacionDolar !== 'undefined') { %>
+                    <div style="margin-top: 4px; margin-bottom: 10px; padding: 10px 14px; background: rgba(0,82,163,0.06); border-radius: 10px; border: 1px solid rgba(0,82,163,0.15);">
+                      <% if ((product.moneda || 'ARS') === 'USD') { %>
+                        <span style="font-size: 0.85rem; color: #555;">💱 Equivale a <strong style="color: #0052A3;">ARS $<%= Math.round(product.price * cotizacionDolar).toLocaleString('es-AR') %></strong></span>
+                        <span style="font-size: 0.75rem; color: #86868b; display: block;">Cotización: 1 USD = $<%= cotizacionDolar.toLocaleString('es-AR') %> ARS</span>
+                      <% } else { %>
+                        <span style="font-size: 0.85rem; color: #555;">💱 Equivale a <strong style="color: #0052A3;">USD $<%= Math.round(product.price / cotizacionDolar).toLocaleString('es-AR') %></strong></span>
+                        <span style="font-size: 0.75rem; color: #86868b; display: block;">Cotización: 1 USD = $<%= cotizacionDolar.toLocaleString('es-AR') %> ARS</span>
+                      <% } %>
+                    </div>
+                    <% } %>
+                    <% } %>
+
+                    <% 
+                      let planesProducto = [];
+                      try { planesProducto = JSON.parse(product.cuotas_planes || '[]'); } catch(e) { planesProducto = []; }
+                      if (planesProducto.length === 0 && product.cuotas_max && product.cuotas_max > 0) {
+                        planesProducto = [{cuotas: product.cuotas_max, interes: product.interes_cuotas || 0}];
+                      }
+                    %>
+                    <% if (planesProducto.length > 0) { %>
+                    <div style="margin-top: 8px; margin-bottom: 12px; padding: 10px 14px; background: rgba(46,125,50,0.06); border-radius: 10px; border: 1px solid rgba(46,125,50,0.15);">
+                        <div style="font-size: 0.9rem; color: #2e7d32; font-weight: 700; margin-bottom: 6px;">💳 Opciones de cuotas <span style="font-size: 0.75rem; color: #86868b; font-weight: 400;">(en ARS)</span></div>
+                        <% 
+                          let precioBase = product.tiene_oferta_vigente ? product.precio_final : product.price;
+                          // Si el producto es en USD, convertir a ARS para cuotas
+                          if ((product.moneda || 'ARS') === 'USD' && typeof cotizacionDolar !== 'undefined') {
+                            precioBase = precioBase * cotizacionDolar;
+                          }
+                        %>
+                        <% planesProducto.forEach(plan => { %>
+                        <% 
+                            const totalPlan = plan.interes > 0 
+                                ? (precioBase * (1 + plan.interes / 100)) 
+                                : precioBase;
+                            const valorCuotaPlan = (totalPlan / plan.cuotas).toFixed(2);
+                        %>
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 4px 0; border-bottom: 1px solid rgba(46,125,50,0.08);">
+                            <span style="font-size: 0.9rem; color: #333; font-weight: 600;"><%= plan.cuotas %> cuotas</span>
+                            <span style="font-size: 0.9rem; color: #2e7d32; font-weight: 700;">$<%= valorCuotaPlan %>/mes</span>
+                        </div>
+                        <% }); %>
+                    </div>
+                    <% } %>
+
+                    <!-- Botones de acción -->
+                    <div class="productPage-actions">
+                        <% if (isAdmin) { %>
+                            <a href="/edit/<%= product.id %>" class="productPage-editButton">Editar Producto</a>
+                            <% } %>
+                            <div class="productPage-actionCentered">
+                                <form action="/buy/<%= product.id %>" method="POST" class="d-inline"
+                                    onclick="event.stopPropagation()">
+                                    <button type="submit" class="btn-ver-mas-small productPage-consultar">Consultar</button>
+                                </form>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+</body>
+
+</html>

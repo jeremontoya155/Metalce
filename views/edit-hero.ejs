@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Hero Banner - Metal-Ce</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/navBar.css">
+    <link rel="icon" type="image/png" href="/imgs/logo-metalce.png">
+    <style>
+        .preview-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .preview-container img {
+            max-width: 100%;
+            max-height: 400px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .hero-form {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-top: 100px;
+        }
+        .current-image {
+            margin-bottom: 20px;
+        }
+        .current-image img {
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+        .info-text {
+            color: #666;
+            font-size: 0.9em;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <%- include('partials/navbarUser') %>
+
+    <div class="container">
+        <div class="hero-form">
+            <h2 class="text-center mb-4">🖼️ Editar Imagen del Hero Banner</h2>
+            
+            <% if (currentImage) { %>
+            <div class="current-image">
+                <h5>Imagen actual:</h5>
+                <img src="<%= currentImage %>" alt="Hero actual">
+            </div>
+            <% } %>
+
+            <form action="/edit-hero" method="POST" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="image">📸 Seleccionar nueva imagen</label>
+                    <input type="file" class="form-control-file" id="image" name="image" 
+                           accept="image/*" required onchange="previewImage(event)">
+                    <small class="form-text text-muted">
+                        Formatos aceptados: JPG, PNG, WebP. Tamaño recomendado: 1200x600px
+                    </small>
+                </div>
+
+                <div class="preview-container" id="preview-container" style="display: none;">
+                    <h5>Vista previa:</h5>
+                    <img id="preview" src="" alt="Vista previa">
+                </div>
+
+                <div class="form-group mt-4">
+                    <button type="submit" class="btn btn-primary btn-block">💾 Guardar cambios</button>
+                    <a href="/" class="btn btn-secondary btn-block">← Volver al inicio</a>
+                </div>
+
+                <p class="info-text text-center mt-3">
+                    ℹ️ El título y descripción del hero se editan directamente en el código
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function previewImage(event) {
+            const preview = document.getElementById('preview');
+            const previewContainer = document.getElementById('preview-container');
+            const file = event.target.files[0];
+            
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    previewContainer.style.display = 'block';
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

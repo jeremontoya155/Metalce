@@ -1,0 +1,25 @@
+<div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel">
+    <ol class="carousel-indicators">
+        <% carouselItems.forEach((item, index) => { %>
+            <% console.log(item) %>
+            <li data-target="#carouselExampleIndicators" data-slide-to="<%= index %>" class="<%= index === 0 ? 'active' : '' %>"></li>
+        <% }); %>
+    </ol>
+    <div class="carousel-inner">
+        <% carouselItems.forEach((item, index) => { %>
+            <div class="carousel-item <%= index === 0 ? 'active' : '' %>">
+                <!-- Imagen para pantallas grandes -->
+                <img src="<%= item.img %>" class="img-desktop" alt="<%= item.alt %>">
+                
+                <!-- Imagen para dispositivos móviles -->
+                <img src="<%= item.imagenmobile %>" class="img-mobile" alt="<%= item.alt %>">
+<!-- 
+                <div class="carousel-caption" style="background: linear-gradient(to right, <%= item.color1 %>, <%= item.color2 %>);"> -->
+                <div class="carousel-caption" >
+                    
+                    
+                </div>
+            </div>
+        <% }); %>
+    </div>
+</div>

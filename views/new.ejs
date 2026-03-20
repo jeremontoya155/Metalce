@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agregar Nuevo Producto</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/navBar.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/index.css">
+</head>
+<body>
+    <%- include('partials/navbarUser') %>
+
+    <div class="container mt-4">
+        <h1 class="text-center">Agregar Nuevo Producto</h1>
+        <form action="/new" method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="name">Nombre</label>
+                <input type="text" class="form-control" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="description">Descripción</label>
+                <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="image">Imagen (archivo)</label>
+                <input type="file" class="form-control" id="image" name="image" accept="image/*" required>
+                <small id="imageHelp" class="form-text text-muted">Puedes subir un archivo de imagen (JPG, PNG, GIF).</small>
+            </div>
+            <div class="form-group">
+                <label for="categoria_id">Categoría *</label>
+                <select class="form-control" id="categoria_id" name="categoria_id" required>
+                    <option value="">Selecciona una categoría</option>
+                    <% categorias.forEach(categoria => { %>
+                        <option value="<%= categoria.id %>"><%= categoria.icono %> <%= categoria.nombre %></option>
+                    <% }); %>
+                </select>
+                <small class="form-text text-muted">
+                    ¿No encuentras la categoría? <a href="/categorias" target="_blank">Crear nueva categoría</a>
+                </small>
+            </div>
+            <div class="form-group">
+                <label for="price">Precio</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <select class="form-control" id="moneda" name="moneda" style="border-radius: 4px 0 0 4px; min-width: 80px;">
+                            <option value="ARS" selected>ARS $</option>
+                            <option value="USD">USD $</option>
+                        </select>
+                    </div>
+                    <input type="number" class="form-control" id="price" name="price" required placeholder="Ingresá el precio en la moneda seleccionada">
+                </div>
+                <small class="form-text text-muted">Seleccioná la moneda y cargá el precio correspondiente</small>
+            </div>
+            <div class="form-group">
+                <label for="stock">Stock</label>
+                <input type="number" class="form-control" id="stock" name="stock" required>
+            </div>
+            <div class="form-group">
+                <label for="bateria">Batería (%)</label>
+                <input type="number" class="form-control" id="bateria" name="bateria" min="0" max="100" placeholder="Ej: 85">
+                <small class="form-text text-muted">Opcional - Solo para dispositivos con batería</small>
+            </div>
+            <div class="form-group">
+                <label for="almacenamiento">Almacenamiento (GB)</label>
+                <input type="number" class="form-control" id="almacenamiento" name="almacenamiento" placeholder="Ej: 64, 128, 256">
+                <small class="form-text text-muted">Opcional - Solo para dispositivos con almacenamiento</small>
+            </div>
+            <button type="submit" class="btn btn-primary">Agregar Producto</button>
+            <a href="/" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,209 @@
+/* Navbar ChipStore - Diseño moderno con colores corporativos */
+
+.custom-navbar {
+    background: linear-gradient(135deg, #8B1538 0%, #6B0F2A 100%);
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 12px rgba(139, 21, 56, 0.15);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.brand-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+    transition: transform 0.3s ease;
+}
+
+.brand-logo:hover {
+    transform: scale(1.05);
+}
+
+.brand-logo img {
+    height: 45px;
+    width: auto;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.brand-text {
+    font-family: 'Montserrat', 'Arial', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: 0.5px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.menu-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    padding: 0.5rem;
+    z-index: 1001;
+}
+
+.menu-icon {
+    display: block;
+    width: 28px;
+    height: 3px;
+    background-color: #ffffff;
+    position: relative;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+.menu-icon::before,
+.menu-icon::after {
+    content: '';
+    display: block;
+    width: 28px;
+    height: 3px;
+    background-color: #ffffff;
+    position: absolute;
+    left: 0;
+    border-radius: 2px;
+    transition: all 0.3s ease-in-out;
+}
+
+.menu-icon::before {
+    top: -9px;
+}
+
+.menu-icon::after {
+    top: 9px;
+}
+
+.menu-toggle.active .menu-icon {
+    background-color: transparent;
+}
+
+.menu-toggle.active .menu-icon::before {
+    top: 0;
+    transform: rotate(45deg);
+}
+
+.menu-toggle.active .menu-icon::after {
+    top: 0;
+    transform: rotate(-45deg);
+}
+
+.navbar-menu {
+    display: none;
+}
+
+.custom-navbar.active .navbar-menu {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: linear-gradient(180deg, #8B1538 0%, #6B0F2A 100%);
+    width: 100%;
+    box-shadow: 0 8px 24px rgba(139, 21, 56, 0.3);
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.navbar-menu ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar-menu ul li {
+    padding: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.navbar-menu ul li:last-child {
+    border-bottom: none;
+}
+
+.navbar-menu ul li a {
+    text-decoration: none;
+    color: #ffffff;
+    font-weight: 600;
+    font-family: 'Montserrat', 'Arial', sans-serif;
+    display: block;
+    padding: 1rem 1.5rem;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.navbar-menu ul li a::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 4px;
+    background: #A91D47;
+    transform: scaleY(0);
+    transition: transform 0.3s ease;
+}
+
+.navbar-menu ul li a:hover {
+    background: rgba(169, 29, 71, 0.2);
+    padding-left: 2rem;
+}
+
+.navbar-menu ul li a:hover::before {
+    transform: scaleY(1);
+}
+
+/* Desktop */
+@media (min-width: 768px) {
+    .menu-toggle {
+        display: none;
+    }
+
+    .navbar-menu {
+        display: flex !important;
+        position: static;
+        flex-direction: row;
+        background: transparent;
+        box-shadow: none;
+        width: auto;
+    }
+
+    .navbar-menu ul {
+        display: flex;
+        gap: 0.5rem;
+    }
+
+    .navbar-menu ul li {
+        border: none;
+    }
+
+    .navbar-menu ul li a {
+        padding: 0.5rem 1.25rem;
+        border-radius: 25px;
+        font-size: 0.95rem;
+    }
+
+    .navbar-menu ul li a::before {
+        display: none;
+    }
+
+    .navbar-menu ul li a:hover {
+        background: rgba(255, 255, 255, 0.2);
+        padding-left: 1.25rem;
+        transform: translateY(-2px);
+    }
+}

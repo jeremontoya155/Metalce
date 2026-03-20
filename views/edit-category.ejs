@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Categoría - <%= categoria.nombre %> - Metal-Ce</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/navBar.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <style>
+        .edit-cat-container {
+            max-width: 800px;
+            margin: 100px auto 40px;
+            padding: 0 20px;
+        }
+        .edit-cat-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 30px;
+        }
+        .edit-cat-header .cat-icon-big {
+            font-size: 3rem;
+            width: 70px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .edit-cat-header h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #1d1d1f;
+            margin: 0;
+        }
+        .edit-cat-header p {
+            color: #86868b;
+            margin: 4px 0 0;
+            font-size: 0.95rem;
+        }
+        .edit-cat-card {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 82, 163, 0.08);
+            border: 1px solid rgba(0, 82, 163, 0.1);
+            overflow: hidden;
+        }
+        .edit-cat-section {
+            padding: 28px 32px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .edit-cat-section:last-child {
+            border-bottom: none;
+        }
+        .edit-cat-section h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #0052A3;
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .form-group label {
+            font-weight: 600;
+            color: #333;
+            font-size: 0.9rem;
+            margin-bottom: 6px;
+        }
+        .form-control {
+            border-radius: 10px;
+            border: 1.5px solid #e0e0e0;
+            padding: 10px 14px;
+            font-size: 0.95rem;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .form-control:focus {
+            border-color: #0052A3;
+            box-shadow: 0 0 0 3px rgba(0, 82, 163, 0.1);
+        }
+        .color-input-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .color-input-group input[type="color"] {
+            width: 50px;
+            height: 40px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            padding: 2px;
+        }
+        .color-input-group .color-hex {
+            font-size: 0.9rem;
+            color: #666;
+            font-weight: 600;
+            font-family: monospace;
+        }
+        .emoji-suggestions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 8px;
+        }
+        .emoji-btn {
+            font-size: 1.3rem;
+            background: #f8f9fa;
+            border: 1.5px solid #e0e0e0;
+            border-radius: 8px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .emoji-btn:hover {
+            border-color: #0052A3;
+            background: rgba(0, 82, 163, 0.05);
+            transform: scale(1.1);
+        }
+        .emoji-btn.selected {
+            border-color: #0052A3;
+            background: rgba(0, 82, 163, 0.1);
+            box-shadow: 0 0 0 2px rgba(0, 82, 163, 0.2);
+        }
+        /* Planes de cuotas */
+        .plan-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 10px;
+            padding: 10px 14px;
+            background: #f8fdf8;
+            border-radius: 10px;
+            border: 1px solid rgba(46, 125, 50, 0.12);
+        }
+        .plan-row .plan-field {
+            flex: 1;
+        }
+        .plan-row .plan-field label {
+            font-size: 0.75rem;
+            color: #86868b;
+            margin-bottom: 2px;
+        }
+        .plan-row .plan-field input {
+            border-radius: 8px;
+            font-size: 0.9rem;
+            padding: 6px 10px;
+        }
+        .btn-remove-plan {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: #dc3545;
+            padding: 4px 8px;
+            border-radius: 8px;
+            transition: background 0.2s ease;
+        }
+        .btn-remove-plan:hover {
+            background: rgba(220, 53, 69, 0.1);
+        }
+        .btn-add-plan {
+            background: linear-gradient(135deg, #2e7d32, #4caf50);
+            color: #fff;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .btn-add-plan:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(46, 125, 50, 0.3);
+        }
+        .quick-plans {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 10px;
+        }
+        .quick-plan-btn {
+            background: #e8f5e9;
+            color: #2e7d32;
+            border: 1px solid #a5d6a7;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .quick-plan-btn:hover {
+            background: #2e7d32;
+            color: #fff;
+        }
+        /* Preview */
+        .preview-section {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e8f4fd 100%);
+            padding: 24px 32px;
+            border-top: 2px solid rgba(0, 82, 163, 0.1);
+        }
+        .preview-section h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #0052A3;
+            margin-bottom: 14px;
+        }
+        .preview-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 16px;
+            border-radius: 20px;
+            color: #fff;
+            font-weight: 600;
+            font-size: 0.95rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+        /* Footer actions */
+        .edit-cat-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px 32px;
+            background: #fafafa;
+            border-top: 1px solid #f0f0f0;
+        }
+        .btn-save-cat {
+            background: linear-gradient(135deg, #0052A3, #00B4D8);
+            color: #fff;
+            border: none;
+            padding: 12px 36px;
+            border-radius: 25px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 82, 163, 0.3);
+        }
+        .btn-save-cat:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 82, 163, 0.4);
+        }
+        .btn-cancel-cat {
+            color: #86868b;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+        }
+        .btn-cancel-cat:hover {
+            color: #333;
+            text-decoration: none;
+        }
+        /* Productos count */
+        .productos-count {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(0, 82, 163, 0.08);
+            color: #0052A3;
+            padding: 6px 14px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        /* === Productos management === */
+        .productos-section { padding: 28px 32px; border-bottom: 1px solid #f0f0f0; }
+        .productos-tabs { display: flex; gap: 0; margin-bottom: 16px; border-radius: 12px; overflow: hidden; border: 1.5px solid #e0e0e0; }
+        .tab-btn { flex: 1; padding: 10px 16px; background: #f8f9fa; border: none; font-weight: 600; font-size: 0.88rem; color: #666; cursor: pointer; transition: all 0.3s ease; position: relative; }
+        .tab-btn.active { background: #0052A3; color: #fff; }
+        .tab-btn .tab-count { background: rgba(0,0,0,0.1); padding: 2px 8px; border-radius: 10px; font-size: 0.75rem; margin-left: 6px; }
+        .tab-btn.active .tab-count { background: rgba(255,255,255,0.25); }
+        .tab-panel { display: none; }
+        .tab-panel.active { display: block; }
+        .prod-search { width: 100%; padding: 10px 14px 10px 38px; border: 1.5px solid #e0e0e0; border-radius: 10px; font-size: 0.9rem; margin-bottom: 12px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%2386868b' viewBox='0 0 16 16'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z'/%3E%3C/svg%3E") no-repeat 12px center; transition: border-color 0.3s ease; }
+        .prod-search:focus { border-color: #0052A3; outline: none; box-shadow: 0 0 0 3px rgba(0,82,163,0.1); }
+        .prod-list { max-height: 400px; overflow-y: auto; border: 1px solid #f0f0f0; border-radius: 12px; }
+        .prod-item { display: flex; align-items: center; gap: 12px; padding: 10px 14px; border-bottom: 1px solid #f5f5f5; transition: background 0.2s ease; }
+        .prod-item:last-child { border-bottom: none; }
+        .prod-item:hover { background: #f8f9fa; }
+        .prod-item-img { width: 44px; height: 44px; border-radius: 8px; object-fit: cover; border: 1px solid #eee; flex-shrink: 0; }
+        .prod-item-info { flex: 1; min-width: 0; }
+        .prod-item-name { font-weight: 600; font-size: 0.88rem; color: #1d1d1f; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .prod-item-meta { font-size: 0.78rem; color: #86868b; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+        .prod-item-actions { display: flex; gap: 6px; align-items: center; flex-shrink: 0; }
+        .btn-assign { background: #2e7d32; color: #fff; border: none; padding: 6px 14px; border-radius: 8px; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; }
+        .btn-assign:hover { background: #1b5e20; transform: translateY(-1px); }
+        .btn-unassign { background: #dc3545; color: #fff; border: none; padding: 6px 14px; border-radius: 8px; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; }
+        .btn-unassign:hover { background: #c62828; transform: translateY(-1px); }
+        .btn-convertir { background: #ff6f00; color: #fff; border: none; padding: 6px 12px; border-radius: 8px; font-size: 0.75rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; white-space: nowrap; }
+        .btn-convertir:hover { background: #e65100; transform: translateY(-1px); }
+        .moneda-toggle { display: inline-flex; border-radius: 8px; overflow: hidden; border: 1.5px solid #e0e0e0; }
+        .moneda-btn { padding: 4px 10px; font-size: 0.75rem; font-weight: 700; border: none; cursor: pointer; transition: all 0.2s ease; background: #f8f9fa; color: #666; }
+        .moneda-btn.active-ars { background: #0052A3; color: #fff; }
+        .moneda-btn.active-usd { background: #2e7d32; color: #fff; }
+        .moneda-bulk-bar { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; padding: 10px 14px; background: #f0f7ff; border-radius: 10px; border: 1px solid rgba(0,82,163,0.12); flex-wrap: wrap; }
+        .moneda-bulk-bar span { font-size: 0.85rem; font-weight: 600; color: #0052A3; }
+        .btn-bulk-moneda { padding: 6px 16px; border-radius: 8px; font-size: 0.8rem; font-weight: 700; border: none; cursor: pointer; transition: all 0.2s ease; }
+        .btn-bulk-ars { background: #e3f2fd; color: #0052A3; border: 1px solid #90caf9; }
+        .btn-bulk-ars:hover { background: #0052A3; color: #fff; }
+        .btn-bulk-usd { background: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; }
+        .btn-bulk-usd:hover { background: #2e7d32; color: #fff; }
+        .prod-empty { text-align: center; padding: 30px; color: #86868b; font-size: 0.9rem; }
+        .prod-cat-badge { font-size: 0.7rem; background: #f0f0f0; padding: 2px 8px; border-radius: 10px; color: #666; white-space: nowrap; }
+        @media (max-width: 768px) {
+            .edit-cat-container { margin-top: 80px; }
+            .edit-cat-section { padding: 20px 18px; }
+            .edit-cat-actions { padding: 18px; flex-direction: column-reverse; gap: 12px; }
+            .btn-save-cat { width: 100%; text-align: center; }
+            .edit-cat-header h1 { font-size: 1.4rem; }
+            .plan-row { flex-wrap: wrap; }
+            .productos-section { padding: 20px 18px; }
+            .productos-tabs { flex-direction: column; }
+            .prod-item { flex-wrap: wrap; gap: 8px; }
+            .prod-item-actions { width: 100%; justify-content: flex-end; }
+            .moneda-bulk-bar { flex-direction: column; align-items: stretch; }
+            .btn-bulk-moneda { text-align: center; }
+        }
+    </style>
+</head>
+<body>
+    <%- include('partials/navbarUser') %>
+
+    <div class="edit-cat-container">
+        <!-- Header -->
+        <div class="edit-cat-header">
+            <div class="cat-icon-big" style="background: <%= categoria.color || '#0052A3' %>20;">
+                <span><%= categoria.icono || '📦' %></span>
+            </div>
+            <div>
+                <h1>Editar Categoría</h1>
+                <p>Modificá los datos de "<%= categoria.nombre %>"</p>
+            </div>
+        </div>
+
+        <form action="/edit-category/<%= categoria.id %>" method="POST">
+            <div class="edit-cat-card">
+                <!-- Sección: Información básica -->
+                <div class="edit-cat-section">
+                    <h3>📋 Información básica</h3>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <label>Nombre de la categoría *</label>
+                                <input type="text" class="form-control" name="nombre" value="<%= categoria.nombre %>" required placeholder="Ej: Smartphones, Accesorios...">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Orden</label>
+                                <input type="number" class="form-control" name="orden" value="<%= categoria.orden || 0 %>" min="0">
+                                <small class="text-muted">Menor = aparece primero</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Descripción</label>
+                        <textarea class="form-control" name="descripcion" rows="3" placeholder="Descripción breve de esta categoría..."><%= categoria.descripcion || '' %></textarea>
+                    </div>
+                </div>
+
+                <!-- Sección: Apariencia -->
+                <div class="edit-cat-section">
+                    <h3>🎨 Apariencia</h3>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Icono (emoji)</label>
+                                <input type="text" class="form-control" id="iconoInput" name="icono" value="<%= categoria.icono || '' %>" maxlength="2" placeholder="📱">
+                                <div class="emoji-suggestions">
+                                    <% const emojis = ['📱','💻','🎧','🔌','📲','⌚','🖥️','⌨️','🖱️','📀','🔋','📡','🎮','🕹️','📷','🔊','💡','🛒']; %>
+                                    <% emojis.forEach(emoji => { %>
+                                    <button type="button" class="emoji-btn <%= (categoria.icono === emoji) ? 'selected' : '' %>" onclick="selectEmoji(this, '<%= emoji %>')"><%= emoji %></button>
+                                    <% }); %>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Color de la categoría</label>
+                                <div class="color-input-group">
+                                    <input type="color" id="colorInput" name="color" value="<%= categoria.color || '#0052A3' %>" onchange="updateColorHex()">
+                                    <span class="color-hex" id="colorHex"><%= categoria.color || '#0052A3' %></span>
+                                </div>
+                                <div style="margin-top: 10px;">
+                                    <small class="text-muted">Colores sugeridos:</small>
+                                    <div style="display: flex; gap: 6px; margin-top: 4px;">
+                                        <% const colores = ['#0052A3','#00B4D8','#2e7d32','#ff6f00','#d32f2f','#7b1fa2','#1565c0','#00838f','#ef6c00','#ad1457']; %>
+                                        <% colores.forEach(c => { %>
+                                        <button type="button" style="width: 28px; height: 28px; border-radius: 50%; background: <%= c %>; border: 2px solid <%= c === (categoria.color || '#0052A3') ? '#333' : 'transparent' %>; cursor: pointer;" onclick="selectColor('<%= c %>')"></button>
+                                        <% }); %>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Preview en vivo -->
+                    <div style="margin-top: 16px;">
+                        <label style="font-weight: 600; color: #333; font-size: 0.9rem;">Vista previa:</label>
+                        <div style="margin-top: 6px;">
+                            <span class="preview-badge" id="previewBadge" style="background: <%= categoria.color || '#0052A3' %>;">
+                                <span id="previewIcon"><%= categoria.icono || '📦' %></span>
+                                <span id="previewName"><%= categoria.nombre %></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sección: Cuotas -->
+                <div class="edit-cat-section">
+                    <h3>💳 Planes de cuotas</h3>
+                    <p style="color: #86868b; font-size: 0.88rem; margin-bottom: 16px;">
+                        Configurá las opciones de financiación para los productos de esta categoría. 
+                        Podés agregar múltiples planes con diferentes cantidades de cuotas e intereses.
+                    </p>
+
+                    <input type="hidden" name="cuotas_max" value="0">
+                    <input type="hidden" name="interes_cuotas" value="0">
+
+                    <div id="planesContainer">
+                        <!-- Los planes se cargan dinámicamente -->
+                    </div>
+
+                    <div style="display: flex; gap: 10px; align-items: center; margin-top: 12px; flex-wrap: wrap;">
+                        <button type="button" class="btn-add-plan" onclick="agregarPlan()">
+                            ➕ Agregar plan
+                        </button>
+                        <span style="color: #86868b; font-size: 0.8rem;">ó agrega rápido:</span>
+                        <div class="quick-plans">
+                            <button type="button" class="quick-plan-btn" onclick="agregarPlan(3, 0)">3x s/int</button>
+                            <button type="button" class="quick-plan-btn" onclick="agregarPlan(6, 0)">6x s/int</button>
+                            <button type="button" class="quick-plan-btn" onclick="agregarPlan(12, 0)">12x s/int</button>
+                            <button type="button" class="quick-plan-btn" onclick="agregarPlan(18, 0)">18x s/int</button>
+                            <button type="button" class="quick-plan-btn" onclick="agregarPlan(24, 0)">24x s/int</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sección: Productos en esta categoría -->
+                <div class="productos-section">
+                    <h3>📦 Productos de esta categoría</h3>
+                    
+                    <div class="productos-tabs">
+                        <button type="button" class="tab-btn active" onclick="switchTab('asignados')">
+                            ✅ En esta categoría <span class="tab-count" id="countAsignados"><%= productosEnCat.length %></span>
+                        </button>
+                        <button type="button" class="tab-btn" onclick="switchTab('disponibles')">
+                            ➕ Agregar productos <span class="tab-count" id="countDisponibles"><%= productosDisponibles.length %></span>
+                        </button>
+                    </div>
+
+                    <!-- Tab: Productos asignados -->
+                    <div id="tab-asignados" class="tab-panel active">
+                        <% if (productosEnCat.length > 0) { %>
+                        <!-- Barra de moneda masiva -->
+                        <div class="moneda-bulk-bar">
+                            <span>💱 Moneda masiva:</span>
+                            <button type="button" class="btn-bulk-moneda btn-bulk-ars" onclick="cambiarMonedaBulk('ARS')">Todos a ARS $</button>
+                            <button type="button" class="btn-bulk-moneda btn-bulk-usd" onclick="cambiarMonedaBulk('USD')">Todos a USD $</button>
+                        </div>
+                        <input type="text" class="prod-search" placeholder="🔍 Buscar en esta categoría..." oninput="filtrarProductos('asignados', this.value)">
+                        <div class="prod-list" id="list-asignados">
+                            <% productosEnCat.forEach(p => { %>
+                            <div class="prod-item" data-name="<%= p.name.toLowerCase() %>" data-id="<%= p.id %>">
+                                <img src="<%= p.img || '/imgs/placeholder.png' %>" alt="" class="prod-item-img">
+                                <div class="prod-item-info">
+                                    <div class="prod-item-name"><%= p.name %></div>
+                                    <div class="prod-item-meta">
+                                        <span><%= (p.moneda || 'ARS') === 'USD' ? 'USD' : '$' %> <%= parseFloat(p.price).toLocaleString('es-AR') %></span>
+                                        <span>📦 Stock: <%= p.stock %></span>
+                                    </div>
+                                </div>
+                                <div class="prod-item-actions">
+                                    <button type="button" class="btn-convertir" onclick="convertirPrecio(<%= p.id %>, '<%= p.moneda || 'ARS' %>', this)" title="Convertir precio">
+                                        <% if ((p.moneda || 'ARS') === 'ARS') { %>
+                                            💱 → USD
+                                        <% } else { %>
+                                            💱 → ARS
+                                        <% } %>
+                                    </button>
+                                    <div class="moneda-toggle">
+                                        <button type="button" class="moneda-btn <%= (p.moneda || 'ARS') === 'ARS' ? 'active-ars' : '' %>" 
+                                                onclick="cambiarMoneda(<%= p.id %>, 'ARS', this)">ARS</button>
+                                        <button type="button" class="moneda-btn <%= (p.moneda || 'ARS') === 'USD' ? 'active-usd' : '' %>" 
+                                                onclick="cambiarMoneda(<%= p.id %>, 'USD', this)">USD</button>
+                                    </div>
+                                    <button type="button" class="btn-unassign" onclick="desasignarProducto(<%= p.id %>, this)" title="Quitar de esta categoría">✕</button>
+                                </div>
+                            </div>
+                            <% }); %>
+                        </div>
+                        <% } else { %>
+                        <div class="prod-empty">
+                            <p style="font-size: 2rem; margin-bottom: 8px;">📭</p>
+                            <p>No hay productos en esta categoría</p>
+                            <p style="font-size: 0.82rem;">Usá la pestaña "➕ Agregar productos" para asignar</p>
+                        </div>
+                        <% } %>
+                    </div>
+
+                    <!-- Tab: Productos disponibles para agregar -->
+                    <div id="tab-disponibles" class="tab-panel">
+                        <% if (productosDisponibles.length > 0) { %>
+                        <input type="text" class="prod-search" placeholder="🔍 Buscar producto para agregar..." oninput="filtrarProductos('disponibles', this.value)">
+                        <div class="prod-list" id="list-disponibles">
+                            <% productosDisponibles.forEach(p => { %>
+                            <div class="prod-item" data-name="<%= p.name.toLowerCase() %>" data-id="<%= p.id %>">
+                                <img src="<%= p.img || '/imgs/placeholder.png' %>" alt="" class="prod-item-img">
+                                <div class="prod-item-info">
+                                    <div class="prod-item-name"><%= p.name %></div>
+                                    <div class="prod-item-meta">
+                                        <span><%= (p.moneda || 'ARS') === 'USD' ? 'USD' : '$' %> <%= parseFloat(p.price).toLocaleString('es-AR') %></span>
+                                        <span>📦 <%= p.stock %></span>
+                                        <% if (p.cat_nombre) { %>
+                                        <span class="prod-cat-badge"><%= p.cat_icono || '📁' %> <%= p.cat_nombre %></span>
+                                        <% } else { %>
+                                        <span class="prod-cat-badge">Sin categoría</span>
+                                        <% } %>
+                                    </div>
+                                </div>
+                                <div class="prod-item-actions">
+                                    <button type="button" class="btn-assign" onclick="asignarProducto(<%= p.id %>, this)">➕ Agregar</button>
+                                </div>
+                            </div>
+                            <% }); %>
+                        </div>
+                        <% } else { %>
+                        <div class="prod-empty">
+                            <p style="font-size: 2rem; margin-bottom: 8px;">✅</p>
+                            <p>Todos los productos ya están en alguna categoría</p>
+                        </div>
+                        <% } %>
+                    </div>
+                </div>
+
+                <!-- Footer con acciones -->
+                <div class="edit-cat-actions">
+                    <a href="/categorias" class="btn-cancel-cat">← Volver a categorías</a>
+                    <button type="submit" class="btn-save-cat">💾 Guardar cambios</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        // Seleccionar emoji
+        function selectEmoji(btn, emoji) {
+            document.getElementById('iconoInput').value = emoji;
+            document.querySelectorAll('.emoji-btn').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            document.getElementById('previewIcon').textContent = emoji;
+        }
+
+        // Seleccionar color rápido
+        function selectColor(color) {
+            document.getElementById('colorInput').value = color;
+            document.getElementById('colorHex').textContent = color;
+            document.getElementById('previewBadge').style.background = color;
+        }
+
+        // Actualizar hex al cambiar color picker
+        function updateColorHex() {
+            const color = document.getElementById('colorInput').value;
+            document.getElementById('colorHex').textContent = color;
+            document.getElementById('previewBadge').style.background = color;
+        }
+
+        // Actualizar preview del nombre en tiempo real
+        document.querySelector('input[name="nombre"]').addEventListener('input', function() {
+            document.getElementById('previewName').textContent = this.value || 'Categoría';
+        });
+
+        // Planes de cuotas
+        function agregarPlan(cuotas, interes) {
+            const container = document.getElementById('planesContainer');
+            const row = document.createElement('div');
+            row.className = 'plan-row';
+            row.innerHTML = `
+                <div class="plan-field">
+                    <label>Cuotas</label>
+                    <input type="number" class="form-control form-control-sm" name="plan_cuotas[]" 
+                           value="${cuotas || ''}" min="1" max="48" placeholder="Ej: 12" required>
+                </div>
+                <div class="plan-field">
+                    <label>Interés %</label>
+                    <input type="number" step="0.01" class="form-control form-control-sm" name="plan_interes[]" 
+                           value="${interes !== undefined ? interes : ''}" min="0" placeholder="0 = sin interés">
+                </div>
+                <button type="button" class="btn-remove-plan" onclick="this.parentElement.remove()">🗑️</button>
+            `;
+            container.appendChild(row);
+        }
+
+        // Cargar planes existentes al iniciar
+        (function() {
+            const planesJSON = '<%= encodeURIComponent(JSON.stringify(planesCategoria)) %>';
+            try {
+                const planes = JSON.parse(decodeURIComponent(planesJSON));
+                if (Array.isArray(planes)) {
+                    planes.forEach(p => agregarPlan(p.cuotas, p.interes));
+                }
+            } catch(e) {
+                console.log('No hay planes previos');
+            }
+        })();
+
+        // ========== Productos management ==========
+        const catId = <%= categoria.id %>;
+
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+            document.getElementById('tab-' + tab).classList.add('active');
+            event.target.closest('.tab-btn') ? event.target.closest('.tab-btn').classList.add('active') : 
+                document.querySelector('.tab-btn' + (tab === 'asignados' ? ':first-child' : ':last-child')).classList.add('active');
+        }
+
+        function filtrarProductos(tab, query) {
+            const items = document.querySelectorAll('#list-' + tab + ' .prod-item');
+            const q = query.toLowerCase().trim();
+            items.forEach(item => {
+                item.style.display = item.dataset.name.includes(q) ? '' : 'none';
+            });
+        }
+
+        async function asignarProducto(productId, btn) {
+            btn.disabled = true;
+            btn.textContent = '⏳';
+            try {
+                const resp = await fetch('/api/category/' + catId + '/assign', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ productId })
+                });
+                if (resp.ok) {
+                    // Mover el item visualmente
+                    const item = btn.closest('.prod-item');
+                    const listAsignados = document.getElementById('list-asignados');
+                    
+                    // Cambiar botones del item
+                    const name = item.querySelector('.prod-item-name').textContent;
+                    const img = item.querySelector('.prod-item-img').src;
+                    const meta = item.querySelector('.prod-item-meta');
+                    const priceText = meta.querySelector('span').textContent;
+                    const stockText = meta.querySelectorAll('span')[1].textContent;
+                    const moneda = priceText.startsWith('USD') ? 'USD' : 'ARS';
+                    
+                    item.remove();
+                    
+                    // Actualizar contadores
+                    updateCounts();
+                    
+                    // Si la lista de asignados existe, agregar ahí
+                    if (listAsignados) {
+                        const newItem = document.createElement('div');
+                        newItem.className = 'prod-item';
+                        newItem.dataset.name = name.toLowerCase();
+                        newItem.dataset.id = productId;
+                        newItem.innerHTML = `
+                            <img src="${img}" alt="" class="prod-item-img">
+                            <div class="prod-item-info">
+                                <div class="prod-item-name">${name}</div>
+                                <div class="prod-item-meta">
+                                    <span>${priceText}</span>
+                                    <span>${stockText}</span>
+                                </div>
+                            </div>
+                            <div class="prod-item-actions">
+                                <div class="moneda-toggle">
+                                    <button type="button" class="moneda-btn ${moneda === 'ARS' ? 'active-ars' : ''}" onclick="cambiarMoneda(${productId}, 'ARS', this)">ARS</button>
+                                    <button type="button" class="moneda-btn ${moneda === 'USD' ? 'active-usd' : ''}" onclick="cambiarMoneda(${productId}, 'USD', this)">USD</button>
+                                </div>
+                                <button type="button" class="btn-unassign" onclick="desasignarProducto(${productId}, this)" title="Quitar de esta categoría">✕</button>
+                            </div>
+                        `;
+                        listAsignados.appendChild(newItem);
+                    } else {
+                        // Si no habia lista, recargar la pagina
+                        location.reload();
+                    }
+                } else {
+                    btn.textContent = '❌ Error';
+                    setTimeout(() => { btn.textContent = '➕ Agregar'; btn.disabled = false; }, 2000);
+                }
+            } catch (err) {
+                console.error(err);
+                btn.textContent = '❌ Error';
+                setTimeout(() => { btn.textContent = '➕ Agregar'; btn.disabled = false; }, 2000);
+            }
+        }
+
+        async function desasignarProducto(productId, btn) {
+            if (!confirm('¿Quitar este producto de la categoría?')) return;
+            btn.disabled = true;
+            btn.textContent = '⏳';
+            try {
+                const resp = await fetch('/api/category/' + catId + '/unassign', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ productId })
+                });
+                if (resp.ok) {
+                    const item = btn.closest('.prod-item');
+                    item.style.transition = 'opacity 0.3s, transform 0.3s';
+                    item.style.opacity = '0';
+                    item.style.transform = 'translateX(20px)';
+                    setTimeout(() => { item.remove(); updateCounts(); }, 300);
+                }
+            } catch (err) {
+                console.error(err);
+                btn.textContent = '✕';
+                btn.disabled = false;
+            }
+        }
+
+        async function cambiarMoneda(productId, moneda, btn) {
+            const toggle = btn.closest('.moneda-toggle');
+            toggle.querySelectorAll('.moneda-btn').forEach(b => { b.classList.remove('active-ars', 'active-usd'); });
+            btn.classList.add(moneda === 'ARS' ? 'active-ars' : 'active-usd');
+            try {
+                await fetch('/api/product/' + productId + '/moneda', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ moneda })
+                });
+                // Actualizar precio display
+                const item = btn.closest('.prod-item');
+                const priceSpan = item.querySelector('.prod-item-meta span');
+                const priceNum = priceSpan.textContent.replace(/[^\d.,]/g, '').replace(/\./g, '').replace(',', '.');
+                priceSpan.textContent = (moneda === 'USD' ? 'USD ' : '$ ') + parseFloat(priceNum || 0).toLocaleString('es-AR');
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        async function cambiarMonedaBulk(moneda) {
+            const label = moneda === 'ARS' ? 'pesos (ARS)' : 'dólares (USD)';
+            if (!confirm('¿Cambiar TODOS los productos de esta categoría a ' + label + '?')) return;
+            try {
+                const resp = await fetch('/api/category/' + catId + '/moneda-bulk', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ moneda })
+                });
+                const data = await resp.json();
+                if (data.success) {
+                    // Actualizar todos los toggles visibles
+                    document.querySelectorAll('#list-asignados .moneda-toggle').forEach(toggle => {
+                        toggle.querySelectorAll('.moneda-btn').forEach(b => b.classList.remove('active-ars', 'active-usd'));
+                        const targetBtn = moneda === 'ARS' ? toggle.querySelector('.moneda-btn:first-child') : toggle.querySelector('.moneda-btn:last-child');
+                        targetBtn.classList.add(moneda === 'ARS' ? 'active-ars' : 'active-usd');
+                    });
+                    // Actualizar prefijos de precio
+                    document.querySelectorAll('#list-asignados .prod-item-meta span:first-child').forEach(span => {
+                        const priceNum = span.textContent.replace(/[^\d.,]/g, '').replace(/\./g, '').replace(',', '.');
+                        span.textContent = (moneda === 'USD' ? 'USD ' : '$ ') + parseFloat(priceNum || 0).toLocaleString('es-AR');
+                    });
+                    alert('✅ ' + data.updated + ' productos actualizados a ' + label);
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Error al cambiar moneda masiva');
+            }
+        }
+
+        async function convertirPrecio(productId, monedaActual, btn) {
+            const btnText = btn.innerHTML;
+            btn.disabled = true;
+            btn.textContent = '⏳';
+            try {
+                const resp = await fetch('/api/product/' + productId + '/convertir-precio', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ monedaActual })
+                });
+                const data = await resp.json();
+                if (data.success) {
+                    // Actualizar el precio en el item
+                    const item = btn.closest('.prod-item');
+                    const priceSpan = item.querySelector('.prod-item-meta span');
+                    const nuevaMoneda = data.nuevaMoneda;
+                    priceSpan.textContent = (nuevaMoneda === 'USD' ? 'USD ' : '$ ') + parseFloat(data.nuevoPrecio).toLocaleString('es-AR');
+                    
+                    // Actualizar toggles
+                    const toggle = item.querySelector('.moneda-toggle');
+                    toggle.querySelectorAll('.moneda-btn').forEach(b => b.classList.remove('active-ars', 'active-usd'));
+                    const targetBtn = nuevaMoneda === 'ARS' ? toggle.querySelector('.moneda-btn:first-child') : toggle.querySelector('.moneda-btn:last-child');
+                    targetBtn.classList.add(nuevaMoneda === 'ARS' ? 'active-ars' : 'active-usd');
+                    
+                    // Actualizar el botón de conversión
+                    btn.innerHTML = nuevaMoneda === 'ARS' ? '💱 → USD' : '💱 → ARS';
+                    btn.disabled = false;
+                    
+                    // Mostrar notificación
+                    alert(`✅ Precio convertido: ${data.viejoPrecio} ${monedaActual} → ${data.nuevoPrecio} ${nuevaMoneda}`);
+                } else {
+                    btn.innerHTML = btnText;
+                    btn.disabled = false;
+                    alert('❌ ' + (data.error || 'Error al convertir precio'));
+                }
+            } catch (err) {
+                console.error(err);
+                btn.innerHTML = btnText;
+                btn.disabled = false;
+                alert('❌ Error al convertir precio');
+            }
+        }
+
+        function updateCounts() {
+            const asignados = document.querySelectorAll('#list-asignados .prod-item').length;
+            const disponibles = document.querySelectorAll('#list-disponibles .prod-item').length;
+            const countA = document.getElementById('countAsignados');
+            const countD = document.getElementById('countDisponibles');
+            if (countA) countA.textContent = asignados;
+            if (countD) countD.textContent = disponibles;
+        }
+    </script>
+</body>
+</html>
