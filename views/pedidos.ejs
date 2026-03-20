@@ -299,7 +299,7 @@
                         <h5 style="margin-bottom: 15px; color: #8B1538;">
                             <i class="fas fa-box"></i> Items del Pedido
                         </h5>
-                        <% JSON.parse(pedido.items).forEach(item => { %>
+                        <% (Array.isArray(pedido.items) ? pedido.items : JSON.parse(pedido.items)).forEach(item => { %>
                             <div class="item-row">
                                 <div>
                                     <strong><%= item.name %></strong>
