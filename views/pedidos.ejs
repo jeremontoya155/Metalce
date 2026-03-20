@@ -307,8 +307,8 @@
                                     <small>Cantidad: <%= item.cantidad %></small>
                                 </div>
                                 <div style="text-align: right;">
-                                    <div>$<%= (item.price * item.cantidad).toLocaleString('es-AR') %></div>
-                                    <small style="color: #999;">$<%= item.price.toLocaleString('es-AR') %> c/u</small>
+                                    <div>$<%= (parseFloat(item.precio_unitario) * item.cantidad).toLocaleString('es-AR') %></div>
+                                    <small style="color: #999;">$<%= parseFloat(item.precio_unitario).toLocaleString('es-AR') %> c/u</small>
                                 </div>
                             </div>
                         <% }); %>
