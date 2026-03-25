@@ -69,15 +69,24 @@ if (process.env.MP_ACCESS_TOKEN) {
 }
 
 // Configuración de Multer para almacenamiento en Cloudinary
+// ✅ WebP + calidad 80 + máx 1200px — reduce hasta 85% el tamaño vs PNG original
 const storage = new CloudinaryStorage({
     cloudinary: cloudinary,
     params: {
-        folder: 'uploads', // Carpeta en Cloudinary
-        format: async (req, file) => 'png', // Puedes cambiar el formato si es necesario
-        public_id: (req, file) => file.fieldname + '-' + Date.now(), // Nombre del archivo en Cloudinary
-        allowed_formats: ['jpg', 'png', 'jpeg', 'gif', 'webp'], // Formatos permitidos
+        folder: 'uploads',
+        format: async (req, file) => 'webp',
+        transformation: [{ width: 1200, crop: 'limit', quality: 80, fetch_format: 'auto' }],
+        public_id: (req, file) => file.fieldname + '-' + Date.now(),
+        allowed_formats: ['jpg', 'png', 'jpeg', 'gif', 'webp'],
     },
 });
+
+// Transforma URLs Cloudinary existentes al vuelo sin re-subirlas
+function optimizeCloudinaryUrl(url, width = 800) {
+    if (!url || !url.includes('res.cloudinary.com')) return url;
+    if (url.includes('f_auto') || url.includes('q_auto')) return url;
+    return url.replace('/image/upload/', `/image/upload/f_auto,q_auto:eco,w_${width},c_limit,dpr_auto/`);
+}
 
 const upload = multer({ 
     storage: storage,
@@ -125,12 +134,19 @@ const SwalMixin = Swal.mixin({
 
 // Configurar middleware
 app.set('view engine', 'ejs');
-app.use(express.static('public'));
-app.use(express.json()); // Usar express.json() directamente
-app.use(express.urlencoded({ extended: true })); // Usar express.urlencoded() directamente
-app.use(cors()); // Middleware para permitir CORS
-
-// Configurar middleware para manejar sesiones
+app.use(express.static('public', {
+    maxAge: '7d',
+    setHeaders: (res, filePath) => {
+        if (/\.(jpg|jpeg|png|webp|gif|svg|ico)$/i.test(filePath)) {
+            res.setHeader('Cache-Control', 'public, max-age=604800, immutable');
+        } else if (/\.(css|js)$/i.test(filePath)) {
+            res.setHeader('Cache-Control', 'public, max-age=86400');
+        }
+    }
+}));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 const sessionSecret = process.env.SESSION_SECRET;
 
 app.use(session({
@@ -432,7 +448,7 @@ app.get('/', async (req, res) => {
         const logoUrl = images.imagen1 || '/imgs/LogoChip.png';
         const imagen2Url = images.imagen2 || '/imgs/LogoChip.png';
 
-        res.render('index', { products, about, logoUrl, imagen2Url, isAdmin: req.session.isAdmin, cotizacionDolar, mostrarPrecioPesos, pixelId });
+        res.render('index', { products: products.map(p => ({...p, img: optimizeCloudinaryUrl(p.img, 500)})), about, logoUrl, imagen2Url, isAdmin: req.session.isAdmin, cotizacionDolar, mostrarPrecioPesos, pixelId });
     } catch (err) {
         console.error('Error al obtener datos:', err);
         res.status(500).send('Error interno del servidor');
@@ -542,7 +558,7 @@ app.get('/cart', async (req, res) => {
         const logoUrl = images.imagen1 || '/imgs/LogoChip.png';
         const imagenUrl2 = images.imagen2 || '/imgs/LogoChip.png';
 
-        res.render('cart', { products, about, logoUrl, imagenUrl2, isAdmin: req.session.isAdmin, cotizacionDolar, mostrarPrecioPesos });
+        res.render('cart', { products: products.map(p => ({...p, img: optimizeCloudinaryUrl(p.img, 500)})), about, logoUrl, imagenUrl2, isAdmin: req.session.isAdmin, cotizacionDolar, mostrarPrecioPesos });
     } catch (err) {
         console.error('Error al obtener productos para el carrito:', err);
         res.status(500).send('Error interno del servidor');
@@ -1366,7 +1382,7 @@ app.get('/product/:id', async (req, res) => {
             }
         }
 
-        res.render('product', { product, isAdmin: req.session.isAdmin, cotizacionDolar, mostrarPrecioPesos });
+        res.render('product', { product: {...product, img: optimizeCloudinaryUrl(product.img, 1000)}, isAdmin: req.session.isAdmin, cotizacionDolar, mostrarPrecioPesos });
     } catch (err) {
         console.error('Error al obtener el producto:', err);
         res.status(500).send('Error interno del servidor');
