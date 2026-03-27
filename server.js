@@ -2655,10 +2655,10 @@ app.get('/catalogo/descargar', async (req, res) => {
     try {
         const result = await pool.query(`
             SELECT p.id, p.codigo, p.name, p.description, p.price, p.moneda, p.stock,
-                   p.bateria, p.almacenamiento, c.name AS categoria
+                   p.bateria, p.almacenamiento, c.nombre AS categoria
             FROM products p
             LEFT JOIN categorias c ON p.categoria_id = c.id
-            ORDER BY c.name NULLS LAST, p.name
+            ORDER BY c.nombre NULLS LAST, p.name
         `);
 
         const workbook = new ExcelJS.Workbook();

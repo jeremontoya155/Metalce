@@ -150,8 +150,8 @@
     <%- include('partials/navbarUser') %>
 
     <div class="form-page-hero">
-        <h1><i class="fas fa-envelope" style="margin-right:12px;"></i>Contactanos</h1>
-        <p>Consultá precios, pedí cotización o solicitá asesoramiento técnico</p>
+        <h1><i class="fas fa-envelope" style="margin-right:12px;"></i><span data-i18n="contact_title">Contactanos</span></h1>
+        <p data-i18n="contact_subtitle">Consultá precios, pedí cotización o solicitá asesoramiento técnico</p>
     </div>
 
     <div class="container">
@@ -161,8 +161,8 @@
             <div class="alert-custom-success">
                 <i class="fas fa-check-circle"></i>
                 <div>
-                    <strong>¡Mensaje enviado correctamente!</strong>
-                    <span>Te responderemos a la brevedad. Revisá tu bandeja de entrada.</span>
+                    <strong data-i18n="contact_success_title">¡Mensaje enviado correctamente!</strong>
+                    <span data-i18n="contact_success_msg">Te responderemos a la brevedad. Revisá tu bandeja de entrada.</span>
                 </div>
             </div>
             <% } %>
@@ -176,19 +176,19 @@
             <% if (enviado !== true) { %>
             <form action="/contacto" method="POST">
 
-                <div class="form-section-title"><i class="fas fa-user"></i> Tus datos</div>
+                <div class="form-section-title"><i class="fas fa-user"></i> <span data-i18n="contact_your_data">Tus datos</span></div>
 
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label>Nombre completo <span class="required-star">*</span></label>
+                            <label><span data-i18n="contact_fullname">Nombre completo</span> <span class="required-star">*</span></label>
                             <input type="text" class="form-control" name="nombre" placeholder="Juan García" required>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label>Empresa / Razón social</label>
-                            <input type="text" class="form-control" name="empresa" placeholder="Mi Empresa S.A. (opcional)">
+                            <label data-i18n="contact_company">Empresa / Razón social</label>
+                            <input type="text" class="form-control" name="empresa" placeholder="Mi Empresa S.A. (opcional)" data-i18n-placeholder="contact_company_ph">
                         </div>
                     </div>
                 </div>
@@ -202,41 +202,41 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label>Teléfono</label>
+                            <label data-i18n="contact_phone">Teléfono</label>
                             <input type="tel" class="form-control" name="telefono" placeholder="+54 9 351 ...">
                         </div>
                     </div>
                 </div>
 
-                <div class="form-section-title" style="margin-top:10px;"><i class="fas fa-comment-dots"></i> Consulta</div>
+                <div class="form-section-title" style="margin-top:10px;"><i class="fas fa-comment-dots"></i> <span data-i18n="contact_inquiry">Consulta</span></div>
 
                 <div class="form-group">
-                    <label>Tipo de consulta <span class="required-star">*</span></label>
+                    <label><span data-i18n="contact_inquiry_type">Tipo de consulta</span> <span class="required-star">*</span></label>
                     <select class="form-control" name="tipo_consulta" required>
-                        <option value="">— Seleccioná una opción —</option>
-                        <option value="Cotización de productos">💰 Cotización de productos</option>
-                        <option value="Información técnica">🔧 Información técnica</option>
-                        <option value="Disponibilidad de stock">📦 Disponibilidad de stock</option>
-                        <option value="Condiciones de pago">💳 Condiciones de pago</option>
-                        <option value="Otro">📝 Otro</option>
+                        <option value="" data-i18n="contact_select">— Seleccioná una opción —</option>
+                        <option value="Cotización de productos" data-i18n="contact_quote">💰 Cotización de productos</option>
+                        <option value="Información técnica" data-i18n="contact_technical">🔧 Información técnica</option>
+                        <option value="Disponibilidad de stock" data-i18n="contact_stock">📦 Disponibilidad de stock</option>
+                        <option value="Condiciones de pago" data-i18n="contact_payment">💳 Condiciones de pago</option>
+                        <option value="Otro" data-i18n="contact_other">📝 Otro</option>
                     </select>
                 </div>
 
                 <div class="form-group">
-                    <label>Mensaje <span class="required-star">*</span></label>
-                    <textarea class="form-control" name="mensaje" rows="5" placeholder="Describirme tu consulta con la mayor cantidad de detalle posible..." required></textarea>
+                    <label><span data-i18n="contact_message">Mensaje</span> <span class="required-star">*</span></label>
+                    <textarea class="form-control" name="mensaje" rows="5" placeholder="Describirme tu consulta con la mayor cantidad de detalle posible..." data-i18n-placeholder="contact_message_ph" required></textarea>
                 </div>
 
-                <p style="font-size:.8rem;color:#999;margin-bottom:18px;">Los campos marcados con <span class="required-star">*</span> son obligatorios.</p>
+                <p style="font-size:.8rem;color:#999;margin-bottom:18px;"><span data-i18n="contact_required">Los campos marcados con <span class="required-star">*</span> son obligatorios.</span></p>
 
                 <button type="submit" class="btn-submit">
-                    <i class="fas fa-paper-plane" style="margin-right:8px;"></i>Enviar consulta
+                    <i class="fas fa-paper-plane" style="margin-right:8px;"></i><span data-i18n="contact_submit">Enviar consulta</span>
                 </button>
             </form>
             <% } else { %>
             <div style="text-align:center;margin-top:20px;">
                 <a href="/" class="btn-submit" style="display:inline-block;text-decoration:none;width:auto;padding:14px 32px;">
-                    <i class="fas fa-home" style="margin-right:8px;"></i>Volver al inicio
+                    <i class="fas fa-home" style="margin-right:8px;"></i><span data-i18n="contact_back">Volver al inicio</span>
                 </a>
             </div>
             <% } %>
@@ -248,19 +248,19 @@
                 <div class="col-md-4">
                     <div class="info-pill">
                         <i class="fas fa-map-marker-alt"></i>
-                        <div><strong>Dirección</strong><span>Av. Colón 4160, Córdoba</span></div>
+                        <div><strong data-i18n="contact_address">Dirección</strong><span>Av. Colón 4160, Córdoba</span></div>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="info-pill">
                         <i class="fas fa-clock"></i>
-                        <div><strong>Horarios</strong><span>Lun–Vie 8–18 · Sáb 8–13</span></div>
+                        <div><strong data-i18n="contact_hours">Horarios</strong><span data-i18n="contact_hours_val">Lun–Vie 8–18 · Sáb 8–13</span></div>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="info-pill">
                         <i class="fab fa-whatsapp"></i>
-                        <div><strong>WhatsApp directo</strong><span><a href="https://wa.me/5493512345678" target="_blank" style="color:#8B1538;">+54 9 351 234-5678</a></span></div>
+                        <div><strong data-i18n="contact_whatsapp">WhatsApp directo</strong><span><a href="https://wa.me/5493512345678" target="_blank" style="color:#8B1538;">+54 9 351 234-5678</a></span></div>
                     </div>
                 </div>
             </div>

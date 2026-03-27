@@ -25,15 +25,21 @@
                         <li><a href="/contacto" data-i18n="nav_contacto">Contacto</a></li>
                         <li><a href="/trabaja-con-nosotros" data-i18n="nav_trabaja">Trabajá con nosotros</a></li>
                         <% if (isAdmin) { %>
-                            <li><a href="/pedidos">📦 Pedidos</a></li>
-                            <li><a href="/cajas">CAJAS</a></li>
-                            <li><a href="/historico">Histórico</a></li>
-                            <li><a href="/categorias">Categorías</a></li>
-                            <li><a href="/admin/ofertas">🏷️ Ofertas</a></li>
-                            <li><a href="/admin/cotizacion">💲 Cotización</a></li>
-                            <li><a href="/edit-about">Editar About</a></li>
-                            <li><a href="/logout">Cerrar Sesión</a></li>
-                            <% } %>
+                            <li class="mc-dropdown">
+                                <a href="#" class="mc-dropdown-toggle" onclick="toggleDropdown(event, this)">⚙️ Admin ▾</a>
+                                <ul class="mc-dropdown-menu">
+                                    <li><a href="/pedidos">📦 Pedidos</a></li>
+                                    <li><a href="/cajas">📦 Cajas</a></li>
+                                    <li><a href="/historico">📋 Histórico</a></li>
+                                    <li><a href="/categorias">📂 Categorías</a></li>
+                                    <li><a href="/admin/ofertas">🏷️ Ofertas</a></li>
+                                    <li><a href="/admin/cotizacion">💲 Cotización</a></li>
+                                    <li class="mc-dropdown-divider"></li>
+                                    <li><a href="/edit-about">✏️ Editar About</a></li>
+                                    <li><a href="/logout">🚪 Cerrar Sesión</a></li>
+                                </ul>
+                            </li>
+                        <% } %>
                         <li>
                             <button class="mc-lang-btn" id="mc-lang-btn" onclick="mcToggleLang()" title="Cambiar idioma / Change language" aria-label="Toggle language">
                                 🌐 <span id="mc-lang-label">ES</span>
@@ -92,6 +98,7 @@
 }
 .mc-lang-btn:hover { background: #8B1538; color: #fff; }
 </style>
+<script src="/js/translations.js"></script>
 <script>
     const menuToggle = document.querySelector('.menu-toggle');
     const navbar = document.querySelector('.custom-navbar');
@@ -118,35 +125,8 @@
         if (!isOpen) li.classList.add('open');
     }
 
-    // ===== i18n EN/ES =====
-    const mcTranslations = {
-        es: {
-            nav_inicio: 'Inicio', nav_catalogo: 'Catálogo', nav_empresa: 'La Empresa ▾',
-            nav_quienes: '👥 Quiénes Somos', nav_historia: '📖 Nuestra Historia',
-            nav_novedades: '📰 Novedades', nav_verde: '🌿 Línea Verde',
-            nav_iso: '🏆 Certificaciones ISO', nav_calidad: '⚙️ Sistema de Calidad',
-            nav_contacto: 'Contacto', nav_trabaja: 'Trabajá con nosotros',
-            catalogo_title: 'CATÁLOGO', catalogo_sub: 'Encuentra la tecnología perfecta para ti',
-            search_placeholder: '🔍 Buscar productos...', filter_catalog: '🗂️ Filtrar catálogo ▾',
-            sort_price: '💰 Ordenar por precio', sort_asc: 'Menor a mayor', sort_desc: 'Mayor a menor',
-            btn_clear: '✖ Limpiar', all_cats: '✅ Todas las categorías',
-            btn_ver_mas: 'Ver más', btn_sin_stock: 'Sin stock', btn_cotizar: '💬 Cotizar',
-            footer_contact: 'Contacto', footer_rights: 'Todos los derechos reservados'
-        },
-        en: {
-            nav_inicio: 'Home', nav_catalogo: 'Catalogue', nav_empresa: 'The Company ▾',
-            nav_quienes: '👥 About Us', nav_historia: '📖 Our History',
-            nav_novedades: '📰 News', nav_verde: '🌿 Green Line',
-            nav_iso: '🏆 ISO Certifications', nav_calidad: '⚙️ Quality System',
-            nav_contacto: 'Contact', nav_trabaja: 'Work with us',
-            catalogo_title: 'CATALOGUE', catalogo_sub: 'Find the perfect technology for you',
-            search_placeholder: '🔍 Search products...', filter_catalog: '🗂️ Filter catalogue ▾',
-            sort_price: '💰 Sort by price', sort_asc: 'Lowest first', sort_desc: 'Highest first',
-            btn_clear: '✖ Clear', all_cats: '✅ All categories',
-            btn_ver_mas: 'View more', btn_sin_stock: 'Out of stock', btn_cotizar: '💬 Quote',
-            footer_contact: 'Contact', footer_rights: 'All rights reserved'
-        }
-    };
+    // ===== i18n EN/ES (translations loaded from /js/translations.js) =====
+    var mcTranslations = window.mcTranslations || {es:{},en:{}};
 
     function mcApplyLang(lang) {
         const t = mcTranslations[lang] || mcTranslations.es;

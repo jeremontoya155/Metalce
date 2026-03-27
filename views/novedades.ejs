@@ -83,15 +83,15 @@
 
     <section class="page-hero">
         <div class="breadcrumb"><a href="/">Inicio</a> › <span>Novedades</span></div>
-        <h1>Novedades</h1>
-        <p>Lanzamientos, actualizaciones del catálogo, logros y todo lo que está pasando en Metal-Ce.</p>
+        <h1 data-i18n="news_title">Novedades</h1>
+        <p data-i18n="news_subtitle">Lanzamientos, actualizaciones del catálogo, logros y todo lo que está pasando en Metal-Ce.</p>
     </section>
 
     <!-- Destacado -->
     <section class="featured-section">
         <div class="section-title">
             <p class="subtitle">Lo más reciente</p>
-            <h2>Nota Destacada</h2>
+            <h2 data-i18n="news_featured">Nota Destacada</h2>
             <div class="title-bar"></div>
         </div>
         <div class="featured-card">
@@ -99,9 +99,9 @@
             <div class="featured-body">
                 <span class="featured-tag">🆕 Lanzamiento</span>
                 <span class="featured-date">Diciembre 2024</span>
-                <h2>Nueva plataforma digital y catálogo en línea</h2>
+                <h2 data-i18n="news_featured_d">Nueva plataforma digital y catálogo en línea</h2>
                 <p>Metal-Ce estrena su plataforma online con catálogo completo, sistema de cotizaciones y gestión de pedidos. Ahora podés consultar stock, precios y hacer tu pedido desde cualquier dispositivo.</p>
-                <a href="/cart" class="btn-white">Ver catálogo →</a>
+                <a href="/cart" class="btn-white" data-i18n="news_read">Ver catálogo →</a>
             </div>
         </div>
     </section>
@@ -110,16 +110,16 @@
     <section class="news-section">
         <div class="section-title">
             <p class="subtitle">Todas las noticias</p>
-            <h2>Últimas Novedades</h2>
+            <h2 data-i18n="news_latest">Últimas Novedades</h2>
             <div class="title-bar"></div>
         </div>
 
         <div class="filter-bar">
-            <a href="#" class="filter-btn active">Todas</a>
-            <a href="#" class="filter-btn">Productos</a>
-            <a href="#" class="filter-btn">Certificaciones</a>
-            <a href="#" class="filter-btn">Empresa</a>
-            <a href="#" class="filter-btn">Línea Verde</a>
+            <a href="#" class="filter-btn active" data-i18n="news_categories">Todas</a>
+            <a href="#" class="filter-btn" data-i18n="news_cat1">Productos</a>
+            <a href="#" class="filter-btn" data-i18n="news_cat2">Certificaciones</a>
+            <a href="#" class="filter-btn" data-i18n="news_cat3">Empresa</a>
+            <a href="#" class="filter-btn" data-i18n="news_cat4">Línea Verde</a>
         </div>
 
         <div class="news-grid">
@@ -130,8 +130,8 @@
                         <span class="news-tag">Línea Verde</span>
                         <span class="news-date">Nov 2024</span>
                     </div>
-                    <h4>Ampliación de la Línea Verde con 12 nuevos productos</h4>
-                    <p>Incorporamos nuevos SKUs ecológicos al catálogo: utensilios de cocina, recipientes industriales y sanitarios bajo el sello Línea Verde.</p>
+                    <h4 data-i18n="news_n1">Ampliación de la Línea Verde con 12 nuevos productos</h4>
+                    <p data-i18n="news_n1_d">Incorporamos nuevos SKUs ecológicos al catálogo: utensilios de cocina, recipientes industriales y sanitarios bajo el sello Línea Verde.</p>
                     <a href="/linea-verde" class="news-link">Leer más →</a>
                 </div>
             </div>
@@ -142,8 +142,8 @@
                         <span class="news-tag">Certificaciones</span>
                         <span class="news-date">Oct 2024</span>
                     </div>
-                    <h4>Renovación exitosa de la certificación ISO 9001</h4>
-                    <p>Pasamos con excelencia la auditoría de renovación de la ISO 9001. Cero no conformidades mayores y cinco oportunidades de mejora identificadas.</p>
+                    <h4 data-i18n="news_n2">Renovación exitosa de la certificación ISO 9001</h4>
+                    <p data-i18n="news_n2_d">Pasamos con excelencia la auditoría de renovación de la ISO 9001. Cero no conformidades mayores y cinco oportunidades de mejora identificadas.</p>
                     <a href="/iso" class="news-link">Ver certificaciones →</a>
                 </div>
             </div>
@@ -154,8 +154,8 @@
                         <span class="news-tag">Empresa</span>
                         <span class="news-date">Sep 2024</span>
                     </div>
-                    <h4>Incorporación de maquinaria CNC de última generación</h4>
-                    <p>Nueva inversión en equipamiento: dos centros de mecanizado CNC que incrementan la capacidad productiva en un 35% y reducen los tiempos de entrega.</p>
+                    <h4 data-i18n="news_n3">Incorporación de maquinaria CNC de última generación</h4>
+                    <p data-i18n="news_n3_d">Nueva inversión en equipamiento: dos centros de mecanizado CNC que incrementan la capacidad productiva en un 35% y reducen los tiempos de entrega.</p>
                     <a href="/quienes-somos" class="news-link">Conocer más →</a>
                 </div>
             </div>
@@ -200,20 +200,20 @@
 
     <!-- Newsletter -->
     <section class="newsletter-section">
-        <h2>📬 Recibí las novedades</h2>
-        <p>Suscribite para recibir lanzamientos, ofertas exclusivas y novedades del sector directamente en tu casilla.</p>
+        <h2 data-i18n="news_newsletter">📬 Recibí las novedades</h2>
+        <p data-i18n="news_nl_sub">Suscribite para recibir lanzamientos, ofertas exclusivas y novedades del sector directamente en tu casilla.</p>
         <form class="newsletter-form" onsubmit="suscribirNewsletter(event)">
-            <input type="email" class="newsletter-input" placeholder="Tu email..." required>
-            <button type="submit" class="newsletter-btn">Suscribirme</button>
+            <input type="email" class="newsletter-input" placeholder="Tu email..." required data-i18n-placeholder="news_email_ph">
+            <button type="submit" class="newsletter-btn" data-i18n="news_subscribe">Suscribirme</button>
         </form>
         <p class="newsletter-disclaimer">Sin spam. Podés darte de baja cuando quieras.</p>
     </section>
 
     <section class="cta-section">
-        <h2>¿Algo que te gustaría saber más?</h2>
-        <p>Contactanos directamente o explorá el catálogo completo.</p>
-        <a href="/contacto" class="btn-primary-mc">✉️ Contacto</a>
-        <a href="/cart" class="btn-outline-mc">📦 Ver Catálogo</a>
+        <h2 data-i18n="news_cta">¿Algo que te gustaría saber más?</h2>
+        <p data-i18n="news_cta_sub">Contactanos directamente o explorá el catálogo completo.</p>
+        <a href="/contacto" class="btn-primary-mc" data-i18n="news_contact">✉️ Contacto</a>
+        <a href="/cart" class="btn-outline-mc" data-i18n="news_catalog">📦 Ver Catálogo</a>
     </section>
 
     <%- include('partials/footer') %>

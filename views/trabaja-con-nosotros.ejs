@@ -195,14 +195,14 @@
     <%- include('partials/navbarUser') %>
 
     <div class="form-page-hero">
-        <h1><i class="fas fa-briefcase" style="margin-right:12px;"></i>Trabajá con nosotros</h1>
-        <p>Somos una empresa en crecimiento. Sumate al equipo Metal-Ce.</p>
+        <h1><i class="fas fa-briefcase" style="margin-right:12px;"></i><span data-i18n="work_title">Trabajá con nosotros</span></h1>
+        <p data-i18n="work_subtitle">Somos una empresa en crecimiento. Sumate al equipo Metal-Ce.</p>
         <div class="benefits-strip">
-            <div class="benefit-chip">🏢 Ambiente profesional</div>
-            <div class="benefit-chip">📈 Crecimiento real</div>
-            <div class="benefit-chip">🎓 Capacitación continua</div>
-            <div class="benefit-chip">💼 Estabilidad laboral</div>
-            <div class="benefit-chip">🤝 Buen clima de trabajo</div>
+            <div class="benefit-chip" data-i18n="work_chip1">🏢 Ambiente profesional</div>
+            <div class="benefit-chip" data-i18n="work_chip2">📈 Crecimiento real</div>
+            <div class="benefit-chip" data-i18n="work_chip3">🎓 Capacitación continua</div>
+            <div class="benefit-chip" data-i18n="work_chip4">💼 Estabilidad laboral</div>
+            <div class="benefit-chip" data-i18n="work_chip5">🤝 Buen clima de trabajo</div>
         </div>
     </div>
 
@@ -213,13 +213,13 @@
             <div class="alert-custom-success">
                 <i class="fas fa-check-circle"></i>
                 <div>
-                    <strong>¡Postulación recibida!</strong>
-                    <p style="margin:4px 0 0;">Revisamos tu CV y nos ponemos en contacto si surge una oportunidad. Muchas gracias por tu interés en Metal-Ce.</p>
+                    <strong data-i18n="work_success_title">¡Postulación recibida!</strong>
+                    <p style="margin:4px 0 0;" data-i18n="work_success_msg">Revisamos tu CV y nos ponemos en contacto si surge una oportunidad. Muchas gracias por tu interés en Metal-Ce.</p>
                 </div>
             </div>
             <div style="text-align:center;margin-top:16px;">
                 <a href="/" style="display:inline-block;padding:12px 28px;background:linear-gradient(135deg,#8B1538,#A91D47);color:white;border-radius:12px;text-decoration:none;font-weight:700;">
-                    <i class="fas fa-home" style="margin-right:8px;"></i>Volver al inicio
+                    <i class="fas fa-home" style="margin-right:8px;"></i><span data-i18n="work_back">Volver al inicio</span>
                 </a>
             </div>
             <% } %>
@@ -234,13 +234,13 @@
             <% if (enviado !== true) { %>
             <form action="/trabaja-con-nosotros" method="POST" enctype="multipart/form-data">
 
-                <div class="form-section-title"><i class="fas fa-user"></i> Tus datos personales</div>
+                <div class="form-section-title"><i class="fas fa-user"></i> <span data-i18n="work_personal">Tus datos personales</span></div>
 
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label>Nombre completo <span class="required-star">*</span></label>
-                            <input type="text" class="form-control" name="nombre" placeholder="Tu nombre completo" required>
+                            <label><span data-i18n="work_fullname">Nombre completo</span> <span class="required-star">*</span></label>
+                            <input type="text" class="form-control" name="nombre" placeholder="Tu nombre completo" data-i18n-placeholder="work_fullname_ph" required>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -252,50 +252,50 @@
                 </div>
 
                 <div class="form-group">
-                    <label>Teléfono / WhatsApp</label>
+                    <label data-i18n="work_phone">Teléfono / WhatsApp</label>
                     <input type="tel" class="form-control" name="telefono" placeholder="+54 9 351 ...">
                 </div>
 
-                <div class="form-section-title" style="margin-top:10px;"><i class="fas fa-sitemap"></i> Área de interés <span class="required-star">*</span></div>
+                <div class="form-section-title" style="margin-top:10px;"><i class="fas fa-sitemap"></i> <span data-i18n="work_area">Área de interés</span> <span class="required-star">*</span></div>
 
                 <div class="areas-grid">
                     <div class="area-option">
                         <input type="radio" name="area_interes" id="area-ventas" value="Ventas" required>
-                        <label for="area-ventas">🤝 Ventas</label>
+                        <label for="area-ventas" data-i18n="work_sales">🤝 Ventas</label>
                     </div>
                     <div class="area-option">
                         <input type="radio" name="area_interes" id="area-deposito" value="Depósito / Logística">
-                        <label for="area-deposito">📦 Depósito / Logística</label>
+                        <label for="area-deposito" data-i18n="work_warehouse">📦 Depósito / Logística</label>
                     </div>
                     <div class="area-option">
                         <input type="radio" name="area_interes" id="area-admin" value="Administración">
-                        <label for="area-admin">📋 Administración</label>
+                        <label for="area-admin" data-i18n="work_admin">📋 Administración</label>
                     </div>
                     <div class="area-option">
                         <input type="radio" name="area_interes" id="area-tecnico" value="Técnico / Calidad">
-                        <label for="area-tecnico">🔧 Técnico / Calidad</label>
+                        <label for="area-tecnico" data-i18n="work_technical">🔧 Técnico / Calidad</label>
                     </div>
                     <div class="area-option">
                         <input type="radio" name="area_interes" id="area-sistemas" value="Sistemas / IT">
-                        <label for="area-sistemas">💻 Sistemas / IT</label>
+                        <label for="area-sistemas" data-i18n="work_it">💻 Sistemas / IT</label>
                     </div>
                     <div class="area-option">
                         <input type="radio" name="area_interes" id="area-otro" value="Otra área">
-                        <label for="area-otro">📝 Otra área</label>
+                        <label for="area-otro" data-i18n="work_other">📝 Otra área</label>
                     </div>
                 </div>
 
-                <div class="form-section-title" style="margin-top:24px;"><i class="fas fa-paperclip"></i> CV y presentación</div>
+                <div class="form-section-title" style="margin-top:24px;"><i class="fas fa-paperclip"></i> <span data-i18n="work_cv">CV y presentación</span></div>
 
                 <div class="form-group">
-                    <label>Adjuntá tu CV <span style="color:#999;font-weight:400;">(PDF o Word, máx. 5MB)</span></label>
+                    <label><span data-i18n="work_attach">Adjuntá tu CV</span> <span style="color:#999;font-weight:400;" data-i18n="work_cv_format">(PDF o Word, máx. 5MB)</span></label>
                     <div class="cv-upload-zone" onclick="document.getElementById('cv-file-input').click()"
                          ondragover="event.preventDefault();this.classList.add('drag-over')"
                          ondrop="handleDrop(event)"
                          ondragleave="this.classList.remove('drag-over')">
                         <i class="fas fa-cloud-upload-alt"></i>
-                        <p><strong>Hacé click</strong> o arrastrá tu CV acá</p>
-                        <p>PDF, DOC o DOCX</p>
+                        <p><strong data-i18n="work_click">Hacé click</strong> <span data-i18n="work_drag">o arrastrá tu CV acá</span></p>
+                        <p data-i18n="work_cv_types">PDF, DOC o DOCX</p>
                     </div>
                     <input type="file" id="cv-file-input" name="cv" accept=".pdf,.doc,.docx"
                            onchange="showFileName(this)">
@@ -303,15 +303,15 @@
                 </div>
 
                 <div class="form-group">
-                    <label>Mensaje o presentación breve</label>
+                    <label data-i18n="work_brief">Mensaje o presentación breve</label>
                     <textarea class="form-control" name="mensaje" rows="4"
-                              placeholder="Contanos por qué te gustaría sumarte a Metal-Ce, tu experiencia relevante o cualquier info que quieras compartir..."></textarea>
+                              placeholder="Contanos por qué te gustaría sumarte a Metal-Ce, tu experiencia relevante o cualquier info que quieras compartir..." data-i18n-placeholder="work_brief_ph"></textarea>
                 </div>
 
-                <p style="font-size:.8rem;color:#999;margin-bottom:18px;">Los campos marcados con <span class="required-star">*</span> son obligatorios.</p>
+                <p style="font-size:.8rem;color:#999;margin-bottom:18px;"><span data-i18n="work_required">Los campos marcados con <span class="required-star">*</span> son obligatorios.</span></p>
 
                 <button type="submit" class="btn-submit">
-                    <i class="fas fa-paper-plane" style="margin-right:8px;"></i>Enviar postulación
+                    <i class="fas fa-paper-plane" style="margin-right:8px;"></i><span data-i18n="work_submit">Enviar postulación</span>
                 </button>
             </form>
             <% } %>

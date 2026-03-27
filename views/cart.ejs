@@ -158,7 +158,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                        onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 20px rgba(139,21,56,.45)'"
                        onmouseout="this.style.transform='';this.style.boxShadow='0 4px 14px rgba(139,21,56,.3)'"
                        title="Descargar catálogo completo en Excel">
-                        📥 Descargar catálogo (.xlsx)
+                        <span data-i18n="cart_download">📥 Descargar catálogo (.xlsx)</span>
                     </a>
                 </div>
             </div>
@@ -183,101 +183,86 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     </div>
                     <button class="filter-reset-btn" id="reset-filters" data-i18n="btn_clear">✖ Limpiar</button>
                 </div>
-                <!-- Panel jerárquico 3 niveles -->
-                <div id="hierarchy-panel" style="display:none; padding: 12px 0 4px; border-top: 1px solid rgba(139,21,56,.1); margin-top:10px;">
-                    <div id="hierarchy-tree" style="display:flex; flex-wrap:wrap; gap:8px; align-items:flex-start;">
-                        <%
-                        // Construir estructura jerárquica
-                        const famMap = new Map(); // familia => { lineas: Map(linea => [{id, nombre, icono}]) }
-                        const sinFamilia = []; // categorías sin familia
-                        const catMap = new Map(); // id => {nombre, icono, familia, linea}
-
-                        products.forEach(p => {
-                            if (!p.categoria_id || !p.categoria_nombre) return;
-                            if (!catMap.has(p.categoria_id)) {
-                                catMap.set(p.categoria_id, {
-                                    id: p.categoria_id,
-                                    nombre: p.categoria_nombre,
-                                    icono: p.categoria_icono || '📦',
-                                    familia: p.categoria_familia || null,
-                                    linea: p.categoria_linea || null
-                                });
-                            }
-                        });
-
-                        catMap.forEach(cat => {
-                            if (!cat.familia) {
-                                sinFamilia.push(cat);
-                                return;
-                            }
-                            if (!famMap.has(cat.familia)) famMap.set(cat.familia, new Map());
-                            const linea = cat.linea || '—';
-                            if (!famMap.get(cat.familia).has(linea)) famMap.get(cat.familia).set(linea, []);
-                            famMap.get(cat.familia).get(linea).push(cat);
-                        });
-                        %>
-
-                        <% famMap.forEach((lineas, familia) => { %>
-                        <div class="hie-familia" data-familia="<%= familia %>">
-                            <button class="hie-btn hie-familia-btn" onclick="toggleFamilia(this)" data-familia="<%= familia %>">
-                                🏭 <%= familia %> <span class="hie-arrow">▾</span>
-                            </button>
-                            <div class="hie-lineas" style="display:none;">
-                                <% lineas.forEach((cats, linea) => { %>
-                                <div class="hie-linea-group">
-                                    <button class="hie-btn hie-linea-btn" onclick="toggleLinea(this)" data-linea="<%= linea %>">
-                                        📐 <%= linea %> <span class="hie-arrow">▾</span>
-                                    </button>
-                                    <div class="hie-cats" style="display:none;">
-                                        <% cats.forEach(cat => { %>
-                                        <button class="hie-btn hie-cat-btn" data-cat-id="<%= cat.id %>" onclick="selectHierarchyCat(this)">
-                                            <%= cat.icono %> <%= cat.nombre %>
-                                        </button>
-                                        <% }); %>
-                                    </div>
-                                </div>
-                                <% }); %>
-                            </div>
-                        </div>
-                        <% }); %>
-
-                        <% if (sinFamilia.length > 0) { %>
-                        <div class="hie-familia">
-                            <button class="hie-btn hie-familia-btn" onclick="toggleFamilia(this)" data-familia="">
-                                📦 Sin clasificar <span class="hie-arrow">▾</span>
-                            </button>
-                            <div class="hie-lineas" style="display:none;">
-                                <% sinFamilia.forEach(cat => { %>
-                                <button class="hie-btn hie-cat-btn" data-cat-id="<%= cat.id %>" onclick="selectHierarchyCat(this)">
-                                    <%= cat.icono %> <%= cat.nombre %>
-                                </button>
-                                <% }); %>
-                            </div>
-                        </div>
-                        <% } %>
-
-                        <% if (famMap.size === 0 && sinFamilia.length === 0) { %>
-                        <span style="color:#999;font-size:.85rem;padding:6px;">Sin categorías definidas</span>
-                        <% } %>
-                    </div>
-                    <% if (catMap.size > 0) { %>
-                    <div style="margin-top:8px;">
-                        <button class="hie-btn hie-all-btn active" id="btn-all-cats" onclick="showAllCats()" data-i18n="all_cats">
-                            ✅ Todas las categorías
-                        </button>
-                    </div>
-                    <% } %>
-                </div>
             </div>
 
+            <!-- Panel de categorías (FUERA del sticky para que no quede cortado) -->
+            <%
+            const famMap2 = new Map();
+            const sinFamilia2 = [];
+            const catMap2 = new Map();
+            products.forEach(p => {
+                if (!p.categoria_id || !p.categoria_nombre) return;
+                if (!catMap2.has(p.categoria_id)) {
+                    catMap2.set(p.categoria_id, {
+                        id: p.categoria_id,
+                        nombre: p.categoria_nombre,
+                        icono: p.categoria_icono || '📦',
+                        familia: p.categoria_familia || null,
+                        linea: p.categoria_linea || null
+                    });
+                }
+            });
+            catMap2.forEach(cat => {
+                if (!cat.familia) { sinFamilia2.push(cat); return; }
+                if (!famMap2.has(cat.familia)) famMap2.set(cat.familia, new Map());
+                const linea2 = cat.linea || '—';
+                if (!famMap2.get(cat.familia).has(linea2)) famMap2.get(cat.familia).set(linea2, []);
+                famMap2.get(cat.familia).get(linea2).push(cat);
+            });
+            %>
+            <div id="hierarchy-panel" style="display:none; background:#fff; border:1px solid rgba(139,21,56,.12); border-radius:16px; padding:14px 18px; margin-bottom:18px; box-shadow:0 2px 12px rgba(139,21,56,.07);">
+                <% if (catMap2.size === 0) { %>
+                    <span style="color:#999;font-size:.85rem;" data-i18n="cart_no_cats">Sin categorías — asigná categorías a los productos desde el panel admin.</span>
+                <% } else { %>
+                    <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;">
+                        <button class="hie-btn hie-all-btn active" id="btn-all-cats" onclick="showAllCats()" data-i18n="cart_all">✅ Todas</button>
+                        <% if (famMap2.size === 0) { %>
+                            <% sinFamilia2.forEach(cat => { %>
+                            <button class="hie-btn hie-cat-btn" data-cat-id="<%= cat.id %>" onclick="selectHierarchyCat(this)">
+                                <%= cat.icono %> <%= cat.nombre %>
+                            </button>
+                            <% }); %>
+                        <% } else { %>
+                            <% famMap2.forEach((lineas2, familia2) => { %>
+                            <div class="hie-familia" data-familia="<%= familia2 %>">
+                                <button class="hie-btn hie-familia-btn" onclick="toggleFamilia(this)" data-familia="<%= familia2 %>">
+                                    🏭 <%= familia2 %> <span class="hie-arrow">▾</span>
+                                </button>
+                                <div class="hie-lineas" style="display:none;">
+                                    <% lineas2.forEach((cats2, linea3) => { %>
+                                    <div class="hie-linea-group">
+                                        <button class="hie-btn hie-linea-btn" onclick="toggleLinea(this)" data-linea="<%= linea3 %>">
+                                            📐 <%= linea3 %> <span class="hie-arrow">▾</span>
+                                        </button>
+                                        <div class="hie-cats" style="display:none;">
+                                            <% cats2.forEach(cat => { %>
+                                            <button class="hie-btn hie-cat-btn" data-cat-id="<%= cat.id %>" onclick="selectHierarchyCat(this)">
+                                                <%= cat.icono %> <%= cat.nombre %>
+                                            </button>
+                                            <% }); %>
+                                        </div>
+                                    </div>
+                                    <% }); %>
+                                </div>
+                            </div>
+                            <% }); %>
+                            <% sinFamilia2.forEach(cat => { %>
+                            <button class="hie-btn hie-cat-btn" data-cat-id="<%= cat.id %>" onclick="selectHierarchyCat(this)">
+                                <%= cat.icono %> <%= cat.nombre %>
+                            </button>
+                            <% }); %>
+                        <% } %>
+                    </div>
+                <% } %>
+            </div>
             <!-- Modal de filtros -->
             <div class="filters-modal">
                 <div class="filters-modal-content">
-                    <h3>Filtrar productos</h3>
+                    <h3 data-i18n="cart_filter_title">Filtrar productos</h3>
                     <div class="input-group mb-3">
                         <input id="search-input" type="text" class="form-control" placeholder="Buscar productos">
                     </div>
-                    <label for="model-filter">Modelo</label>
+                    <label for="model-filter" data-i18n="cart_model">Modelo</label>
                     <select id="model-filter" class="form-control mb-2">
                         <option value="">Todos los modelos</option>
                         <% let uniqueModels=new Set(); products.forEach(product=> {
@@ -288,7 +273,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                             </option>
                             <% } }); %>
                     </select>
-                    <label for="estado-filter">Estado</label>
+                    <label for="estado-filter" data-i18n="cart_state">Estado</label>
                     <select id="estado-filter" class="form-control mb-2">
                         <option value="">Todos los estados</option>
                         <% let uniqueEstados=new Set(); products.forEach(product=> {
@@ -301,14 +286,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                             </option>
                             <% } } }); %>
                     </select>
-                    <label for="storage-filter">Almacenamiento (GB)</label>
+                    <label for="storage-filter" data-i18n="cart_storage_label">Almacenamiento (GB)</label>
                     <input id="storage-filter" type="number" class="form-control mb-2"
                         placeholder="Almacenamiento mínimo (GB)">
-                    <label for="battery-filter">Batería mínima (%)</label>
+                    <label for="battery-filter" data-i18n="cart_battery_label">Batería mínima (%)</label>
                     <input id="battery-filter" type="number" class="form-control mb-2" placeholder="Batería mínima (%)">
                     <div class="buttons">
-                        <button id="reset-button" class="btn btn-secondary">Resetear</button>
-                        <button id="filter-button" class="btn btn-primary">Buscar</button>
+                        <button id="reset-button" class="btn btn-secondary" data-i18n="cart_reset">Resetear</button>
+                        <button id="filter-button" class="btn btn-primary" data-i18n="cart_search_btn">Buscar</button>
                     </div>
                 </div>
             </div>
@@ -343,7 +328,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                                     <% }); %>
                 </div>
                 <!-- Mensaje de "No se encontraron coincidencias" -->
-                <div id="no-results-message" class="alert alert-warning" style="display: none;">
+                <div id="no-results-message" class="alert alert-warning" style="display: none;" data-i18n="cart_no_results">
                     No se encontraron productos que coincidan con los filtros aplicados.
                 </div>
 

@@ -81,9 +81,9 @@
     <%- include('partials/navbarUser', { isAdmin: isAdmin }) %>
 
     <section class="page-hero">
-        <div class="breadcrumb"><a href="/">Inicio</a> › <span>Calidad</span></div>
-        <h1>Sistema de Calidad</h1>
-        <p>Cada pieza que fabricamos pasa por controles rigurosos. La calidad no es un departamento — es una cultura que atraviesa toda la organización.</p>
+        <div class="breadcrumb"><a href="/">Inicio</a> › <span data-i18n="qual_badge">Calidad</span></div>
+        <h1 data-i18n="qual_title">Sistema de Calidad</h1>
+        <p data-i18n="qual_subtitle">Cada pieza que fabricamos pasa por controles rigurosos. La calidad no es un departamento — es una cultura que atraviesa toda la organización.</p>
     </section>
 
     <section class="intro-section">
@@ -95,25 +95,25 @@
                 <p>Menos del 0.5% de nuestros productos presentan observaciones post-entrega. Ese número nos exige que sigamos mejorando.</p>
             </div>
             <div class="quality-kpis">
-                <div class="kpi-box"><h3>&lt;0.5%</h3><p>Tasa de reclamos</p></div>
-                <div class="kpi-box"><h3>100%</h3><p>Lotes controlados</p></div>
-                <div class="kpi-box"><h3>ISO<br>9001</h3><p>Certificado vigente</p></div>
-                <div class="kpi-box"><h3>30+</h3><p>Años de experiencia</p></div>
+                <div class="kpi-box"><h3 data-i18n="qual_s1">&lt;0.5%</h3><p data-i18n="qual_s1_d">Tasa de reclamos</p></div>
+                <div class="kpi-box"><h3 data-i18n="qual_s2">100%</h3><p data-i18n="qual_s2_d">Lotes controlados</p></div>
+                <div class="kpi-box"><h3 data-i18n="qual_s3">ISO<br>9001</h3><p data-i18n="qual_s3_d">Certificado vigente</p></div>
+                <div class="kpi-box"><h3 data-i18n="qual_s4">30+</h3><p data-i18n="qual_s4_d">Años de experiencia</p></div>
             </div>
         </div>
     </section>
 
     <section class="controls-section">
         <div class="section-title">
-            <p class="subtitle">Qué controlamos</p>
-            <h2>Controles de Calidad</h2>
+            <p class="subtitle" data-i18n="qual_stats_sub">Qué controlamos</p>
+            <h2 data-i18n="qual_stats">Controles de Calidad</h2>
             <div class="title-bar"></div>
         </div>
         <div class="controls-grid">
-            <div class="control-card"><span class="ctrl-icon">🧪</span><h4>Control de Materia Prima</h4><p>Cada bobina o plancha de acero ingresante es analizada: composición química, dureza, espesor. Solo materiales aprobados ingresan a producción.</p></div>
-            <div class="control-card"><span class="ctrl-icon">📏</span><h4>Control Dimensional</h4><p>Medición por instrumentos calibrados de todas las dimensiones críticas: diámetros, espesores, longitudes. Tolerancias definidas por norma.</p></div>
-            <div class="control-card"><span class="ctrl-icon">🔭</span><h4>Inspección Visual</h4><p>Revisión del acabado superficial: sin rebabas, rallones, soldaduras irregulares ni defectos estéticos. Personal entrenado en cada turno.</p></div>
-            <div class="control-card"><span class="ctrl-icon">💧</span><h4>Prueba de Hermeticidad</h4><p>Para productos que requieren estanqueidad (recipientes, grifería): ensayo de presión hidráulica o neumática según norma aplicable.</p></div>
+            <div class="control-card"><span class="ctrl-icon">🧪</span><h4 data-i18n="qual_st1">Control de Materia Prima</h4><p data-i18n="qual_st1_d">Cada bobina o plancha de acero ingresante es analizada: composición química, dureza, espesor. Solo materiales aprobados ingresan a producción.</p></div>
+            <div class="control-card"><span class="ctrl-icon">📏</span><h4 data-i18n="qual_st2">Control Dimensional</h4><p data-i18n="qual_st2_d">Medición por instrumentos calibrados de todas las dimensiones críticas: diámetros, espesores, longitudes. Tolerancias definidas por norma.</p></div>
+            <div class="control-card"><span class="ctrl-icon">🔭</span><h4 data-i18n="qual_st3">Inspección Visual</h4><p data-i18n="qual_st3_d">Revisión del acabado superficial: sin rebabas, rallones, soldaduras irregulares ni defectos estéticos. Personal entrenado en cada turno.</p></div>
+            <div class="control-card"><span class="ctrl-icon">💧</span><h4 data-i18n="qual_st4">Prueba de Hermeticidad</h4><p data-i18n="qual_st4_d">Para productos que requieren estanqueidad (recipientes, grifería): ensayo de presión hidráulica o neumática según norma aplicable.</p></div>
             <div class="control-card"><span class="ctrl-icon">📦</span><h4>Control de Packaging</h4><p>Verificación del embalaje, etiquetado, cantidad y conformidad antes del despacho. Sin producto no conforme sale a distribución.</p></div>
             <div class="control-card"><span class="ctrl-icon">📊</span><h4>Trazabilidad y Registros</h4><p>Cada lote tiene un número de trazabilidad que permite identificar materiales, operarios, equipos y fechas de producción.</p></div>
         </div>
@@ -121,8 +121,8 @@
 
     <section class="flow-section">
         <div class="section-title">
-            <p class="subtitle">De la bobina al cliente</p>
-            <h2>Flujo Productivo con Calidad</h2>
+            <p class="subtitle" data-i18n="qual_process_sub">De la bobina al cliente</p>
+            <h2 data-i18n="qual_process">Flujo Productivo con Calidad</h2>
             <div class="title-bar"></div>
         </div>
         <div class="flow-container">
@@ -144,23 +144,23 @@
 
     <section class="equipment-section">
         <div class="section-title">
-            <p class="subtitle">Herramientas y equipos</p>
-            <h2>Equipamiento de Control</h2>
+            <p class="subtitle" data-i18n="qual_lab_sub">Herramientas y equipos</p>
+            <h2 data-i18n="qual_lab">Equipamiento de Control</h2>
             <div class="title-bar"></div>
         </div>
         <div class="eq-grid">
-            <div class="eq-item"><span class="e-icon">📐</span><h4>Pie de rey digital</h4><p>Medición de dimensiones con precisión de centésima de milímetro. Calibración certificada.</p></div>
-            <div class="eq-item"><span class="e-icon">🔬</span><h4>Rugosímetro</h4><p>Medición del acabado superficial. Garantiza la estética y protección anticorrosiva del producto.</p></div>
-            <div class="eq-item"><span class="e-icon">💎</span><h4>Durómetro</h4><p>Verificación de la dureza del material para asegurar la resistencia mecánica según especificación.</p></div>
+            <div class="eq-item"><span class="e-icon">📐</span><h4 data-i18n="qual_l1">Pie de rey digital</h4><p data-i18n="qual_l1_d">Medición de dimensiones con precisión de centésima de milímetro. Calibración certificada.</p></div>
+            <div class="eq-item"><span class="e-icon">🔬</span><h4 data-i18n="qual_l2">Rugosímetro</h4><p data-i18n="qual_l2_d">Medición del acabado superficial. Garantiza la estética y protección anticorrosiva del producto.</p></div>
+            <div class="eq-item"><span class="e-icon">💎</span><h4 data-i18n="qual_l3">Durómetro</h4><p data-i18n="qual_l3_d">Verificación de la dureza del material para asegurar la resistencia mecánica según especificación.</p></div>
             <div class="eq-item"><span class="e-icon">🧲</span><h4>Analizador de composición</h4><p>Verificación rápida del grado de acero inoxidable para evitar mezclas de material.</p></div>
         </div>
     </section>
 
     <section class="cta-section">
-        <h2>¿Requerís especificaciones técnicas del producto?</h2>
-        <p>Podemos enviarte fichas técnicas, certificados de calidad de lote y declaraciones de conformidad.</p>
-        <a href="/contacto" class="btn-blue">📋 Solicitar documentación</a>
-        <a href="/iso" class="btn-outline-blue">🏆 Ver Certificaciones ISO</a>
+        <h2 data-i18n="qual_cta">¿Requerís especificaciones técnicas del producto?</h2>
+        <p data-i18n="qual_cta_sub">Podemos enviarte fichas técnicas, certificados de calidad de lote y declaraciones de conformidad.</p>
+        <a href="/contacto" class="btn-blue" data-i18n="qual_contact">📋 Solicitar documentación</a>
+        <a href="/iso" class="btn-outline-blue" data-i18n="qual_iso">🏆 Ver Certificaciones ISO</a>
     </section>
 
     <%- include('partials/footer') %>

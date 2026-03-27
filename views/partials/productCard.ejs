@@ -33,7 +33,7 @@
     <% if (porcentajeDescuento) { %>
       -<%= porcentajeDescuento %>%
     <% } else { %>
-      OFERTA
+      <span data-i18n="card_offer">OFERTA</span>
     <% } %>
   </div>
   <% } %>
@@ -58,7 +58,7 @@
     <% } %>
 
     <% if (product.codigo) { %>
-    <div style="font-size:.78rem;color:#999;font-family:monospace;margin-bottom:4px;letter-spacing:.5px;">Cód: <%= product.codigo %></div>
+    <div style="font-size:.78rem;color:#999;font-family:monospace;margin-bottom:4px;letter-spacing:.5px;"><span data-i18n="card_code">Cód:</span> <%= product.codigo %></div>
     <% } %>
 
     <% if (tieneOferta) { %>
@@ -68,13 +68,13 @@
         <span class="precio-oferta"><%= simbolo %> <%= precioFinal %></span>
       </div>
       <div class="oferta-meta">
-        <span class="ahorro-text">Ahorrás <%= simbolo %> <%= (precioOriginal - precioFinal).toFixed(2) %></span>
+        <span class="ahorro-text"><span data-i18n="card_save">Ahorrás</span> <%= simbolo %> <%= (precioOriginal - precioFinal).toFixed(2) %></span>
         <% if (esOfertaGeneral && nombreOfertaGeneral) { %>
         <span class="oferta-chip"><%= nombreOfertaGeneral %></span>
         <% } else if (!esOfertaGeneral && porcentajeDescuento) { %>
-        <span class="oferta-chip">Desc. <%= porcentajeDescuento %>%</span>
+        <span class="oferta-chip"><span data-i18n="card_discount">Desc.</span> <%= porcentajeDescuento %>%</span>
         <% } else if (!esOfertaGeneral) { %>
-        <span class="oferta-chip">Oferta especial</span>
+        <span class="oferta-chip" data-i18n="card_special_offer">Oferta especial</span>
         <% } %>
       </div>
       <% if (esUSD) { %>
@@ -117,12 +117,12 @@
       <span class="cuotas-badge__icon">💳</span>
       <span class="cuotas-badge__text">
         <% if (planesCard.length > 1) { %>
-          Hasta <strong><%= mejorPlan.cuotas %> cuotas</strong> de <strong>$<%= valorCuotaCard %></strong>
+          <span data-i18n="card_up_to">Hasta</span> <strong><%= mejorPlan.cuotas %> <span data-i18n="card_installments">cuotas</span></strong> <span data-i18n="card_of">de</span> <strong>$<%= valorCuotaCard %></strong>
         <% } else { %>
-          <strong><%= mejorPlan.cuotas %> cuotas</strong> de <strong>$<%= valorCuotaCard %></strong>
+          <strong><%= mejorPlan.cuotas %> <span data-i18n="card_installments">cuotas</span></strong> <span data-i18n="card_of">de</span> <strong>$<%= valorCuotaCard %></strong>
         <% } %>
         <% if (sinInteres) { %>
-        <span class="cuotas-sin-interes">sin interés</span>
+        <span class="cuotas-sin-interes" data-i18n="card_interest_free">sin interés</span>
         <% } %>
       </span>
     </div>
@@ -155,7 +155,7 @@
       
       <form action="/product" method="POST" class="d-inline" onclick="event.stopPropagation()">
         <input type="hidden" name="productId" value="<%= product.id %>">
-        <button type="submit" class="btn-ver-mas-small">Ver más</button>
+        <button type="submit" class="btn-ver-mas-small" data-i18n="btn_ver_mas">Ver más</button>
       </form>
       
       <% if (product.stock > 0) { %>
@@ -163,7 +163,7 @@
         <i class="fas fa-shopping-cart"></i>
       </button>
       <% } else { %>
-      <span class="badge-sin-stock">Sin stock</span>
+      <span class="badge-sin-stock" data-i18n="btn_sin_stock">Sin stock</span>
       <% } %>
     </div>
   </div>

@@ -16,7 +16,7 @@
     <!-- Incluir Navbar -->
     <%- include('partials/navbarUser') %> <!-- Asegúrate de que la ruta 'partials/navbarUser' sea correcta -->
         <header>
-            <h1>Detalles del Producto</h1>
+            <h1 data-i18n="prod_title">Detalles del Producto</h1>
         </header>
 
         <main class="productPage-container">
@@ -26,7 +26,7 @@
                     <% if (product.img) { %>
                         <img src="<%= product.img %>" alt="Imagen de <%= product.name %>">
                         <% } else { %>
-                            <p>Imagen no disponible</p>
+                            <p data-i18n="prod_no_image">Imagen no disponible</p>
                             <% } %>
                 </div>
 
@@ -38,11 +38,11 @@
 
                     <% if (product.codigo) { %>
                     <p style="margin-bottom:10px;">
-                        <strong>Código:</strong>
+                        <strong data-i18n="prod_code">Código:</strong>
                         <span style="font-family:monospace;background:#f3f3f3;padding:2px 8px;border-radius:6px;font-size:.95rem;border:1px solid #ddd;"><%= product.codigo %></span>
                     </p>
                     <% } %>
-                    <p><strong>Categoría:</strong>
+                    <p><strong data-i18n="prod_category">Categoría:</strong>
                         <span style="background: <%= product.categoria_color || '#0052A3' %>; color: white; padding: 0.25rem 0.75rem; border-radius: 15px; display: inline-block;">
                             <%= product.categoria_icono %> <%= product.categoria_nombre %>
                         </span>
@@ -50,18 +50,18 @@
                     <% } %>
                     
                     <% if (product.almacenamiento) { %>
-                    <p><strong>Almacenamiento:</strong>
+                    <p><strong data-i18n="prod_storage">Almacenamiento:</strong>
                         <%= product.almacenamiento %> GB
                     </p>
                     <% } %>
                     
                     <% if (product.bateria) { %>
-                    <p><strong>Batería:</strong>
+                    <p><strong data-i18n="prod_battery">Batería:</strong>
                         <%= product.bateria %>% 
                     </p>
                     <% } %>
                     
-                    <p><strong>Descripción:</strong>
+                    <p><strong data-i18n="prod_description">Descripción:</strong>
                         <%
                         // Función para limpiar solo caracteres problemáticos y normalizar acentos
                         function cleanText(text) {
@@ -145,7 +145,7 @@
                         %>
                         <%= cleanText(product.description) %>
                     </p>
-                    <p><strong>Stock:</strong>
+                    <p><strong data-i18n="prod_stock">Stock:</strong>
                         <%= product.stock %>
                     </p>
                     <% if (product.tiene_oferta_vigente) { %>
@@ -155,7 +155,7 @@
                       <span style="font-size: 1.4rem; color: #ff3b30; font-weight: 700; margin-left: 8px;"><%= (product.moneda || 'ARS') === 'USD' ? 'USD' : '$' %> <%= product.precio_final %></span>
                       <div style="margin-top: 4px;">
                         <span style="background: rgba(52,199,89,0.12); color: #34c759; padding: 3px 10px; border-radius: 12px; font-size: 0.85rem; font-weight: 600;">
-                          Ahorrás $<%= (product.price - product.precio_final).toFixed(2) %>
+                          <span data-i18n="prod_save">Ahorrás</span> $<%= (product.price - product.precio_final).toFixed(2) %>
                         </span>
                         <% if (product.es_oferta_general && product.nombre_oferta_general) { %>
                         <span style="background: rgba(255,59,48,0.08); color: #ff3b30; padding: 3px 10px; border-radius: 12px; font-size: 0.8rem; font-weight: 600; margin-left: 6px;">
@@ -180,7 +180,7 @@
                       <% } %>
                     </div>
                     <% } else { %>
-                    <p><strong>Precio (<%= product.moneda || 'ARS' %>):</strong> <%= (product.moneda || 'ARS') === 'USD' ? 'USD' : '$' %> <%= product.price %>
+                    <p><strong><span data-i18n="prod_price">Precio</span> (<%= product.moneda || 'ARS' %>):</strong> <%= (product.moneda || 'ARS') === 'USD' ? 'USD' : '$' %> <%= product.price %>
                     </p>
                     <% if (typeof mostrarPrecioPesos !== 'undefined' && mostrarPrecioPesos && typeof cotizacionDolar !== 'undefined') { %>
                     <div style="margin-top: 4px; margin-bottom: 10px; padding: 10px 14px; background: rgba(0,82,163,0.06); border-radius: 10px; border: 1px solid rgba(0,82,163,0.15);">
@@ -204,7 +204,7 @@
                     %>
                     <% if (planesProducto.length > 0) { %>
                     <div style="margin-top: 8px; margin-bottom: 12px; padding: 10px 14px; background: rgba(46,125,50,0.06); border-radius: 10px; border: 1px solid rgba(46,125,50,0.15);">
-                        <div style="font-size: 0.9rem; color: #2e7d32; font-weight: 700; margin-bottom: 6px;">💳 Opciones de cuotas <span style="font-size: 0.75rem; color: #86868b; font-weight: 400;">(en ARS)</span></div>
+                        <div style="font-size: 0.9rem; color: #2e7d32; font-weight: 700; margin-bottom: 6px;">💳 <span data-i18n="prod_installments_title">Opciones de cuotas</span> <span style="font-size: 0.75rem; color: #86868b; font-weight: 400;" data-i18n="prod_in_ars">(en ARS)</span></div>
                         <% 
                           let precioBase = product.tiene_oferta_vigente ? product.precio_final : product.price;
                           // Si el producto es en USD, convertir a ARS para cuotas
@@ -220,7 +220,7 @@
                             const valorCuotaPlan = (totalPlan / plan.cuotas).toFixed(2);
                         %>
                         <div style="display: flex; justify-content: space-between; align-items: center; padding: 4px 0; border-bottom: 1px solid rgba(46,125,50,0.08);">
-                            <span style="font-size: 0.9rem; color: #333; font-weight: 600;"><%= plan.cuotas %> cuotas</span>
+                            <span style="font-size: 0.9rem; color: #333; font-weight: 600;"><%= plan.cuotas %> <span data-i18n="prod_installments">cuotas</span></span>
                             <span style="font-size: 0.9rem; color: #2e7d32; font-weight: 700;">$<%= valorCuotaPlan %>/mes</span>
                         </div>
                         <% }); %>
@@ -230,7 +230,7 @@
                     <!-- Botones de acción -->
                     <% if (product.aclaracion) { %>
                     <div style="margin:16px 0;padding:14px 18px;background:#fffbea;border-left:4px solid #f59e0b;border-radius:10px;">
-                        <strong style="color:#92400e;">&#9888; Aclaración:</strong>
+                        <strong style="color:#92400e;">&#9888; <span data-i18n="prod_disclaimer">Aclaración:</span></strong>
                         <p style="margin:6px 0 0;color:#78350f;font-size:.93rem;line-height:1.55;"><%= product.aclaracion %></p>
                     </div>
                     <% } %>
@@ -239,19 +239,19 @@
                     <div style="margin-bottom:16px;">
                         <a href="<%= product.folleto_url %>" target="_blank" rel="noopener"
                            style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;background:linear-gradient(135deg,#8B1538,#A91D47);color:white;border-radius:10px;text-decoration:none;font-weight:700;font-size:.9rem;">
-                            📄 Descargar folleto
+                            📄 <span data-i18n="prod_download">📄 Descargar folleto</span>
                         </a>
                     </div>
                     <% } %>
 
                     <div class="productPage-actions">
                         <% if (isAdmin) { %>
-                            <a href="/edit/<%= product.id %>" class="productPage-editButton">Editar Producto</a>
+                            <a href="/edit/<%= product.id %>" class="productPage-editButton" data-i18n="prod_edit">Editar Producto</a>
                             <% } %>
                             <div class="productPage-actionCentered">
                                 <form action="/buy/<%= product.id %>" method="POST" class="d-inline"
                                     onclick="event.stopPropagation()">
-                                    <button type="submit" class="btn-ver-mas-small productPage-consultar">Consultar</button>
+                                    <button type="submit" class="btn-ver-mas-small productPage-consultar" data-i18n="prod_inquire">Consultar</button>
                                 </form>
                             </div>
                     </div>
