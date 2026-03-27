@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Novedades | Metal-Ce</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="/css/navBar.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/index-modern.css">
+    <link rel="icon" type="image/x-icon" href="/imgs/favicon.ico">
+    <style>
+        body { margin: 0; padding: 0; }
+        .page-hero { background:linear-gradient(135deg,#6B0F2A 0%,#8B1538 50%,#A91D47 100%);color:#fff;padding:100px 24px 60px;text-align:center;position:relative;overflow:hidden; }
+        .page-hero::before { content:'📰';position:absolute;font-size:200px;opacity:.06;top:-20px;right:-30px;line-height:1;pointer-events:none; }
+        .breadcrumb { display:flex;align-items:center;justify-content:center;gap:8px;font-size:.85rem;opacity:.7;margin-bottom:20px; }
+        .breadcrumb a { color:#fff;text-decoration:none; }
+        .page-hero h1 { font-size:clamp(2rem,5vw,3.5rem);font-weight:800;letter-spacing:2px;margin:0 0 16px; }
+        .page-hero p { font-size:1.1rem;opacity:.85;max-width:620px;margin:0 auto; }
+
+        .section-title { text-align:center;margin-bottom:48px; }
+        .section-title h2 { font-size:clamp(1.6rem,3vw,2.4rem);font-weight:800;color:#2d2d2d;margin:0 0 10px; }
+        .section-title .subtitle { color:#8B1538;font-size:1rem;letter-spacing:2px;text-transform:uppercase;font-weight:600; }
+        .title-bar { width:60px;height:4px;background:linear-gradient(90deg,#8B1538,#A91D47);border-radius:2px;margin:12px auto 0; }
+
+        /* FEATURED */
+        .featured-section { padding:80px 24px;background:#fff; }
+        .featured-card { max-width:900px;margin:0 auto;background:linear-gradient(135deg,#6B0F2A,#8B1538);border-radius:20px;overflow:hidden;display:grid;grid-template-columns:1fr 1fr;box-shadow:0 12px 48px rgba(139,21,56,.3); }
+        @media(max-width:650px){ .featured-card{grid-template-columns:1fr;} }
+        .featured-img { background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:5rem;min-height:220px;padding:32px; }
+        .featured-body { padding:40px 36px;color:#fff; }
+        .featured-tag { display:inline-block;background:rgba(255,255,255,.2);border-radius:20px;padding:4px 14px;font-size:.78rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:14px;border:1px solid rgba(255,255,255,.3); }
+        .featured-date { font-size:.82rem;opacity:.65;margin-bottom:10px;display:block; }
+        .featured-body h2 { font-size:1.5rem;font-weight:800;margin:0 0 14px;line-height:1.3; }
+        .featured-body p { font-size:.92rem;opacity:.88;line-height:1.6;margin:0 0 24px; }
+        .btn-white { display:inline-block;background:#fff;color:#8B1538;padding:12px 28px;border-radius:50px;text-decoration:none;font-weight:700;font-size:.9rem;transition:transform .2s; }
+        .btn-white:hover { transform:translateY(-2px); }
+
+        /* NEWS GRID */
+        .news-section { padding:80px 24px;background:#f7f3f4; }
+        .news-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:28px;max-width:1100px;margin:0 auto; }
+        .news-card { background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.08);transition:transform .3s ease,box-shadow .3s ease; }
+        .news-card:hover { transform:translateY(-6px);box-shadow:0 14px 40px rgba(139,21,56,.15); }
+        .news-thumb { height:160px;display:flex;align-items:center;justify-content:center;font-size:4rem;background:linear-gradient(135deg,#fdf0f3,#f7e6eb); }
+        .news-body { padding:22px 20px; }
+        .news-meta { display:flex;align-items:center;gap:10px;margin-bottom:10px; }
+        .news-tag { font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;padding:3px 10px;border-radius:20px;border:1px solid #8B1538;color:#8B1538; }
+        .news-date { font-size:.78rem;color:#aaa; }
+        .news-body h4 { font-size:1rem;font-weight:700;color:#2d2d2d;margin:0 0 10px;line-height:1.3; }
+        .news-body p { font-size:.85rem;color:#666;line-height:1.55;margin:0 0 16px; }
+        .news-link { font-size:.85rem;color:#8B1538;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:5px; }
+        .news-link:hover { text-decoration:underline; }
+
+        /* CATEGORIES FILTER */
+        .filter-bar { display:flex;gap:10px;flex-wrap:wrap;max-width:1100px;margin:0 auto 32px;justify-content:center; }
+        .filter-btn { background:#fff;border:2px solid #e0d6d8;color:#555;padding:8px 20px;border-radius:50px;font-size:.85rem;font-weight:600;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-block; }
+        .filter-btn:hover, .filter-btn.active { background:#8B1538;border-color:#8B1538;color:#fff; }
+
+        /* NEWSLETTER */
+        .newsletter-section { padding:80px 24px;background:linear-gradient(135deg,#6B0F2A,#8B1538);color:#fff;text-align:center; }
+        .newsletter-section h2 { font-size:1.8rem;font-weight:800;margin:0 0 10px; }
+        .newsletter-section p { opacity:.85;margin:0 0 28px;font-size:1rem;max-width:500px;margin-left:auto;margin-right:auto;margin-bottom:28px; }
+        .newsletter-form { display:flex;gap:10px;max-width:480px;margin:0 auto;flex-wrap:wrap;justify-content:center; }
+        .newsletter-input { flex:1;min-width:220px;padding:14px 20px;border-radius:50px;border:2px solid rgba(255,255,255,.3);background:rgba(255,255,255,.12);color:#fff;font-size:.95rem;outline:none;transition:border-color .2s; }
+        .newsletter-input::placeholder { color:rgba(255,255,255,.6); }
+        .newsletter-input:focus { border-color:rgba(255,255,255,.7); }
+        .newsletter-btn { background:#fff;color:#8B1538;padding:14px 28px;border-radius:50px;border:none;font-weight:700;font-size:.95rem;cursor:pointer;transition:transform .2s; }
+        .newsletter-btn:hover { transform:translateY(-2px); }
+        .newsletter-disclaimer { font-size:.78rem;opacity:.6;margin-top:14px; }
+
+        .cta-section { padding:70px 24px;background:#fff;text-align:center; }
+        .cta-section h2 { font-size:1.8rem;color:#2d2d2d;font-weight:800;margin:0 0 12px; }
+        .cta-section p { color:#666;margin:0 0 28px; }
+        .btn-primary-mc { display:inline-block;background:linear-gradient(135deg,#8B1538,#A91D47);color:#fff;padding:14px 36px;border-radius:50px;text-decoration:none;font-weight:700;font-size:1rem;transition:transform .2s,box-shadow .2s;margin:6px; }
+        .btn-primary-mc:hover { transform:translateY(-2px);box-shadow:0 8px 24px rgba(139,21,56,.35); }
+        .btn-outline-mc { display:inline-block;border:2px solid #8B1538;color:#8B1538;padding:12px 36px;border-radius:50px;text-decoration:none;font-weight:700;font-size:1rem;transition:all .2s;margin:6px; }
+        .btn-outline-mc:hover { background:#8B1538;color:#fff; }
+    </style>
+</head>
+<body>
+    <%- include('partials/navbarUser', { isAdmin: isAdmin }) %>
+
+    <section class="page-hero">
+        <div class="breadcrumb"><a href="/">Inicio</a> › <span>Novedades</span></div>
+        <h1>Novedades</h1>
+        <p>Lanzamientos, actualizaciones del catálogo, logros y todo lo que está pasando en Metal-Ce.</p>
+    </section>
+
+    <!-- Destacado -->
+    <section class="featured-section">
+        <div class="section-title">
+            <p class="subtitle">Lo más reciente</p>
+            <h2>Nota Destacada</h2>
+            <div class="title-bar"></div>
+        </div>
+        <div class="featured-card">
+            <div class="featured-img">🚀</div>
+            <div class="featured-body">
+                <span class="featured-tag">🆕 Lanzamiento</span>
+                <span class="featured-date">Diciembre 2024</span>
+                <h2>Nueva plataforma digital y catálogo en línea</h2>
+                <p>Metal-Ce estrena su plataforma online con catálogo completo, sistema de cotizaciones y gestión de pedidos. Ahora podés consultar stock, precios y hacer tu pedido desde cualquier dispositivo.</p>
+                <a href="/cart" class="btn-white">Ver catálogo →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Noticias -->
+    <section class="news-section">
+        <div class="section-title">
+            <p class="subtitle">Todas las noticias</p>
+            <h2>Últimas Novedades</h2>
+            <div class="title-bar"></div>
+        </div>
+
+        <div class="filter-bar">
+            <a href="#" class="filter-btn active">Todas</a>
+            <a href="#" class="filter-btn">Productos</a>
+            <a href="#" class="filter-btn">Certificaciones</a>
+            <a href="#" class="filter-btn">Empresa</a>
+            <a href="#" class="filter-btn">Línea Verde</a>
+        </div>
+
+        <div class="news-grid">
+            <div class="news-card">
+                <div class="news-thumb">🌿</div>
+                <div class="news-body">
+                    <div class="news-meta">
+                        <span class="news-tag">Línea Verde</span>
+                        <span class="news-date">Nov 2024</span>
+                    </div>
+                    <h4>Ampliación de la Línea Verde con 12 nuevos productos</h4>
+                    <p>Incorporamos nuevos SKUs ecológicos al catálogo: utensilios de cocina, recipientes industriales y sanitarios bajo el sello Línea Verde.</p>
+                    <a href="/linea-verde" class="news-link">Leer más →</a>
+                </div>
+            </div>
+            <div class="news-card">
+                <div class="news-thumb">🏆</div>
+                <div class="news-body">
+                    <div class="news-meta">
+                        <span class="news-tag">Certificaciones</span>
+                        <span class="news-date">Oct 2024</span>
+                    </div>
+                    <h4>Renovación exitosa de la certificación ISO 9001</h4>
+                    <p>Pasamos con excelencia la auditoría de renovación de la ISO 9001. Cero no conformidades mayores y cinco oportunidades de mejora identificadas.</p>
+                    <a href="/iso" class="news-link">Ver certificaciones →</a>
+                </div>
+            </div>
+            <div class="news-card">
+                <div class="news-thumb">⚙️</div>
+                <div class="news-body">
+                    <div class="news-meta">
+                        <span class="news-tag">Empresa</span>
+                        <span class="news-date">Sep 2024</span>
+                    </div>
+                    <h4>Incorporación de maquinaria CNC de última generación</h4>
+                    <p>Nueva inversión en equipamiento: dos centros de mecanizado CNC que incrementan la capacidad productiva en un 35% y reducen los tiempos de entrega.</p>
+                    <a href="/quienes-somos" class="news-link">Conocer más →</a>
+                </div>
+            </div>
+            <div class="news-card">
+                <div class="news-thumb">🤝</div>
+                <div class="news-body">
+                    <div class="news-meta">
+                        <span class="news-tag">Empresa</span>
+                        <span class="news-date">Ago 2024</span>
+                    </div>
+                    <h4>Nuevos acuerdos con distribuidores del interior del país</h4>
+                    <p>Metal-Ce amplía su red de distribución a las provincias de Córdoba, Santa Fe, Mendoza y Tucumán con distribuidores exclusivos certificados.</p>
+                    <a href="/contacto" class="news-link">Ser distribuidor →</a>
+                </div>
+            </div>
+            <div class="news-card">
+                <div class="news-thumb">📦</div>
+                <div class="news-body">
+                    <div class="news-meta">
+                        <span class="news-tag">Productos</span>
+                        <span class="news-date">Jul 2024</span>
+                    </div>
+                    <h4>Nueva línea de equipamiento gastronómico profesional</h4>
+                    <p>Lanzamiento de la línea GASTRO PRO: mesas, estantes, mesadas y equipamiento completo para cocinas profesionales. Stock disponible.</p>
+                    <a href="/cart" class="news-link">Ver catálogo →</a>
+                </div>
+            </div>
+            <div class="news-card">
+                <div class="news-thumb">🎓</div>
+                <div class="news-body">
+                    <div class="news-meta">
+                        <span class="news-tag">Empresa</span>
+                        <span class="news-date">Jun 2024</span>
+                    </div>
+                    <h4>Programa de capacitación técnica para el equipo de planta</h4>
+                    <p>Todo el personal de producción completó el programa de certificación en soldadura TIG y MIG, elevando los estándares de calidad de unión en nuestros productos.</p>
+                    <a href="/calidad" class="news-link">Ver calidad →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="newsletter-section">
+        <h2>📬 Recibí las novedades</h2>
+        <p>Suscribite para recibir lanzamientos, ofertas exclusivas y novedades del sector directamente en tu casilla.</p>
+        <form class="newsletter-form" onsubmit="suscribirNewsletter(event)">
+            <input type="email" class="newsletter-input" placeholder="Tu email..." required>
+            <button type="submit" class="newsletter-btn">Suscribirme</button>
+        </form>
+        <p class="newsletter-disclaimer">Sin spam. Podés darte de baja cuando quieras.</p>
+    </section>
+
+    <section class="cta-section">
+        <h2>¿Algo que te gustaría saber más?</h2>
+        <p>Contactanos directamente o explorá el catálogo completo.</p>
+        <a href="/contacto" class="btn-primary-mc">✉️ Contacto</a>
+        <a href="/cart" class="btn-outline-mc">📦 Ver Catálogo</a>
+    </section>
+
+    <%- include('partials/footer') %>
+
+    <script>
+        function suscribirNewsletter(e) {
+            e.preventDefault();
+            const btn = e.target.querySelector('button');
+            btn.textContent = '✅ ¡Suscripto!';
+            btn.disabled = true;
+            e.target.querySelector('input').disabled = true;
+        }
+    </script>
+</body>
+</html>

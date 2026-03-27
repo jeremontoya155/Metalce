@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trabajá con nosotros — Metal-Ce S.R.L.</title>
+    <link rel="stylesheet" href="/css/navBar.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body { background: #f8f5f6; }
+
+        .form-page-hero {
+            background: linear-gradient(135deg, #6B0F2A 0%, #8B1538 50%, #A91D47 100%);
+            color: white;
+            padding: 60px 20px 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .form-page-hero::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat;
+        }
+        .form-page-hero h1 { font-size: 2.5rem; font-weight: 800; margin-bottom: 12px; position: relative; }
+        .form-page-hero p  { font-size: 1.1rem; opacity: .85; position: relative; }
+
+        .benefits-strip {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 16px;
+            max-width: 900px;
+            margin: 0 auto;
+            margin-top: 30px;
+            position: relative;
+        }
+        .benefit-chip {
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 50px;
+            padding: 8px 20px;
+            font-size: .88rem;
+            font-weight: 600;
+            backdrop-filter: blur(4px);
+        }
+
+        .form-card {
+            background: white;
+            border-radius: 24px;
+            padding: 50px 50px;
+            box-shadow: 0 15px 50px rgba(139,21,56,0.1);
+            max-width: 720px;
+            margin: -50px auto 60px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .form-section-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #8B1538;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .form-section-title::after {
+            content: '';
+            flex: 1;
+            height: 2px;
+            background: linear-gradient(90deg, rgba(139,21,56,0.2), transparent);
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: #333;
+            font-size: .9rem;
+            margin-bottom: 6px;
+        }
+        .required-star { color: #8B1538; }
+
+        .form-control {
+            border: 2px solid #eee;
+            border-radius: 10px;
+            padding: 12px 16px;
+            font-size: .95rem;
+            transition: border-color .2s, box-shadow .2s;
+        }
+        .form-control:focus {
+            border-color: #8B1538;
+            box-shadow: 0 0 0 3px rgba(139,21,56,0.1);
+            outline: none;
+        }
+
+        .cv-upload-zone {
+            border: 2px dashed #d0a0ab;
+            border-radius: 12px;
+            padding: 30px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all .2s;
+            background: #fdf5f7;
+        }
+        .cv-upload-zone:hover, .cv-upload-zone.drag-over {
+            border-color: #8B1538;
+            background: #fce8ed;
+        }
+        .cv-upload-zone i { font-size: 2.5rem; color: #8B1538; margin-bottom: 10px; display: block; }
+        .cv-upload-zone p { margin: 0; color: #777; font-size: .9rem; }
+        .cv-upload-zone strong { color: #8B1538; }
+        #cv-file-input { display: none; }
+        #cv-file-name { margin-top: 8px; font-size: .85rem; color: #8B1538; font-weight: 600; min-height: 20px; }
+
+        .btn-submit {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #8B1538 0%, #A91D47 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform .2s, box-shadow .2s;
+            letter-spacing: .5px;
+        }
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(139,21,56,0.4);
+        }
+
+        .alert-custom-success {
+            background: #f0fdf4;
+            border: 2px solid #22c55e;
+            border-radius: 14px;
+            padding: 20px 24px;
+            color: #166534;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 24px;
+        }
+        .alert-custom-error {
+            background: #fef2f2;
+            border: 2px solid #f87171;
+            border-radius: 14px;
+            padding: 20px 24px;
+            color: #991b1b;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 24px;
+        }
+        .alert-custom-success i, .alert-custom-error i { font-size: 1.5rem; }
+
+        .areas-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+        .area-option input[type="radio"] { display: none; }
+        .area-option label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 14px;
+            border: 2px solid #eee;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: .88rem;
+            transition: all .2s;
+            color: #555;
+            margin: 0;
+        }
+        .area-option input[type="radio"]:checked + label {
+            border-color: #8B1538;
+            background: rgba(139,21,56,0.06);
+            color: #8B1538;
+            font-weight: 700;
+        }
+        .area-option label:hover { border-color: #A91D47; }
+
+        @media (max-width: 576px) {
+            .form-card { padding: 30px 20px; margin: -30px 12px 40px; }
+            .areas-grid { grid-template-columns: 1fr 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <%- include('partials/navbarUser') %>
+
+    <div class="form-page-hero">
+        <h1><i class="fas fa-briefcase" style="margin-right:12px;"></i>Trabajá con nosotros</h1>
+        <p>Somos una empresa en crecimiento. Sumate al equipo Metal-Ce.</p>
+        <div class="benefits-strip">
+            <div class="benefit-chip">🏢 Ambiente profesional</div>
+            <div class="benefit-chip">📈 Crecimiento real</div>
+            <div class="benefit-chip">🎓 Capacitación continua</div>
+            <div class="benefit-chip">💼 Estabilidad laboral</div>
+            <div class="benefit-chip">🤝 Buen clima de trabajo</div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="form-card">
+
+            <% if (enviado === true) { %>
+            <div class="alert-custom-success">
+                <i class="fas fa-check-circle"></i>
+                <div>
+                    <strong>¡Postulación recibida!</strong>
+                    <p style="margin:4px 0 0;">Revisamos tu CV y nos ponemos en contacto si surge una oportunidad. Muchas gracias por tu interés en Metal-Ce.</p>
+                </div>
+            </div>
+            <div style="text-align:center;margin-top:16px;">
+                <a href="/" style="display:inline-block;padding:12px 28px;background:linear-gradient(135deg,#8B1538,#A91D47);color:white;border-radius:12px;text-decoration:none;font-weight:700;">
+                    <i class="fas fa-home" style="margin-right:8px;"></i>Volver al inicio
+                </a>
+            </div>
+            <% } %>
+
+            <% if (enviado === false && error) { %>
+            <div class="alert-custom-error">
+                <i class="fas fa-exclamation-circle"></i>
+                <div><strong>Error:</strong> <%= error %></div>
+            </div>
+            <% } %>
+
+            <% if (enviado !== true) { %>
+            <form action="/trabaja-con-nosotros" method="POST" enctype="multipart/form-data">
+
+                <div class="form-section-title"><i class="fas fa-user"></i> Tus datos personales</div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Nombre completo <span class="required-star">*</span></label>
+                            <input type="text" class="form-control" name="nombre" placeholder="Tu nombre completo" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Email <span class="required-star">*</span></label>
+                            <input type="email" class="form-control" name="email" placeholder="tu@email.com" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Teléfono / WhatsApp</label>
+                    <input type="tel" class="form-control" name="telefono" placeholder="+54 9 351 ...">
+                </div>
+
+                <div class="form-section-title" style="margin-top:10px;"><i class="fas fa-sitemap"></i> Área de interés <span class="required-star">*</span></div>
+
+                <div class="areas-grid">
+                    <div class="area-option">
+                        <input type="radio" name="area_interes" id="area-ventas" value="Ventas" required>
+                        <label for="area-ventas">🤝 Ventas</label>
+                    </div>
+                    <div class="area-option">
+                        <input type="radio" name="area_interes" id="area-deposito" value="Depósito / Logística">
+                        <label for="area-deposito">📦 Depósito / Logística</label>
+                    </div>
+                    <div class="area-option">
+                        <input type="radio" name="area_interes" id="area-admin" value="Administración">
+                        <label for="area-admin">📋 Administración</label>
+                    </div>
+                    <div class="area-option">
+                        <input type="radio" name="area_interes" id="area-tecnico" value="Técnico / Calidad">
+                        <label for="area-tecnico">🔧 Técnico / Calidad</label>
+                    </div>
+                    <div class="area-option">
+                        <input type="radio" name="area_interes" id="area-sistemas" value="Sistemas / IT">
+                        <label for="area-sistemas">💻 Sistemas / IT</label>
+                    </div>
+                    <div class="area-option">
+                        <input type="radio" name="area_interes" id="area-otro" value="Otra área">
+                        <label for="area-otro">📝 Otra área</label>
+                    </div>
+                </div>
+
+                <div class="form-section-title" style="margin-top:24px;"><i class="fas fa-paperclip"></i> CV y presentación</div>
+
+                <div class="form-group">
+                    <label>Adjuntá tu CV <span style="color:#999;font-weight:400;">(PDF o Word, máx. 5MB)</span></label>
+                    <div class="cv-upload-zone" onclick="document.getElementById('cv-file-input').click()"
+                         ondragover="event.preventDefault();this.classList.add('drag-over')"
+                         ondrop="handleDrop(event)"
+                         ondragleave="this.classList.remove('drag-over')">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p><strong>Hacé click</strong> o arrastrá tu CV acá</p>
+                        <p>PDF, DOC o DOCX</p>
+                    </div>
+                    <input type="file" id="cv-file-input" name="cv" accept=".pdf,.doc,.docx"
+                           onchange="showFileName(this)">
+                    <div id="cv-file-name"></div>
+                </div>
+
+                <div class="form-group">
+                    <label>Mensaje o presentación breve</label>
+                    <textarea class="form-control" name="mensaje" rows="4"
+                              placeholder="Contanos por qué te gustaría sumarte a Metal-Ce, tu experiencia relevante o cualquier info que quieras compartir..."></textarea>
+                </div>
+
+                <p style="font-size:.8rem;color:#999;margin-bottom:18px;">Los campos marcados con <span class="required-star">*</span> son obligatorios.</p>
+
+                <button type="submit" class="btn-submit">
+                    <i class="fas fa-paper-plane" style="margin-right:8px;"></i>Enviar postulación
+                </button>
+            </form>
+            <% } %>
+        </div>
+    </div>
+
+    <%- include('partials/footer') %>
+
+    <script>
+        function showFileName(input) {
+            const el = document.getElementById('cv-file-name');
+            if (input.files && input.files[0]) {
+                el.textContent = '📎 ' + input.files[0].name;
+            }
+        }
+        function handleDrop(event) {
+            event.preventDefault();
+            event.currentTarget.classList.remove('drag-over');
+            const file = event.dataTransfer.files[0];
+            if (!file) return;
+            const allowed = ['application/pdf', 'application/msword',
+                'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+            if (!allowed.includes(file.type)) {
+                alert('Solo se aceptan archivos PDF o Word.');
+                return;
+            }
+            const input = document.getElementById('cv-file-input');
+            const dt = new DataTransfer();
+            dt.items.add(file);
+            input.files = dt.files;
+            document.getElementById('cv-file-name').textContent = '📎 ' + file.name;
+        }
+    </script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuestra Historia | Metal-Ce</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="/css/navBar.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/index-modern.css">
+    <link rel="icon" type="image/x-icon" href="/imgs/favicon.ico">
+    <style>
+        /* ===== PAGE HERO ===== */
+        body { margin: 0; padding: 0; }
+        .page-hero {
+            background: linear-gradient(135deg, #2d0a16 0%, #6B0F2A 50%, #8B1538 100%);
+            color: #fff;
+            padding: 100px 24px 70px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .page-hero::after {
+            content: '';
+            position: absolute;
+            bottom: -2px; left: 0; right: 0;
+            height: 60px;
+            background: #fff;
+            clip-path: ellipse(55% 100% at 50% 100%);
+        }
+        .breadcrumb {
+            display: flex; align-items: center; justify-content: center;
+            gap: 8px; font-size: .85rem; opacity: .7; margin-bottom: 20px;
+        }
+        .breadcrumb a { color: #fff; text-decoration: none; }
+        .breadcrumb a:hover { text-decoration: underline; }
+        .page-hero h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 800; letter-spacing: 2px; margin: 0 0 16px;
+        }
+        .page-hero p { font-size: 1.1rem; opacity: .85; max-width: 600px; margin: 0 auto; }
+        .founding-year {
+            display: inline-block;
+            background: rgba(255,255,255,.15);
+            border: 1px solid rgba(255,255,255,.3);
+            border-radius: 50px;
+            padding: 8px 24px;
+            font-size: .9rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            backdrop-filter: blur(4px);
+        }
+
+        /* ===== TIMELINE ===== */
+        .timeline-section {
+            padding: 90px 24px;
+            background: #fff;
+        }
+        .section-title {
+            text-align: center;
+            margin-bottom: 64px;
+        }
+        .section-title h2 {
+            font-size: clamp(1.6rem, 3vw, 2.4rem);
+            font-weight: 800; color: #2d2d2d; margin: 0 0 10px;
+        }
+        .section-title .subtitle {
+            color: #8B1538; font-size: 1rem; letter-spacing: 2px;
+            text-transform: uppercase; font-weight: 600;
+        }
+        .title-bar {
+            width: 60px; height: 4px;
+            background: linear-gradient(90deg, #8B1538, #A91D47);
+            border-radius: 2px; margin: 12px auto 0;
+        }
+        .timeline {
+            position: relative;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            top: 0; bottom: 0;
+            width: 3px;
+            background: linear-gradient(180deg, #8B1538, #A91D47, #8B1538);
+            border-radius: 2px;
+        }
+        .tl-item {
+            position: relative;
+            padding: 0 0 56px;
+            display: grid;
+            grid-template-columns: 1fr 60px 1fr;
+            align-items: center;
+            gap: 0;
+        }
+        .tl-item:last-child { padding-bottom: 0; }
+        .tl-content-left, .tl-content-right {
+            padding: 0 32px;
+        }
+        .tl-card {
+            background: #fafafa;
+            border-radius: 14px;
+            padding: 24px 22px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+            border-left: 4px solid #8B1538;
+            transition: transform .3s ease, box-shadow .3s ease;
+        }
+        .tl-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(139,21,56,.15);
+        }
+        .tl-year {
+            background: #8B1538;
+            color: #fff;
+            font-size: .85rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            padding: 4px 10px;
+            border-radius: 6px;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+        .tl-card h3 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #2d2d2d;
+            margin: 0 0 8px;
+        }
+        .tl-card p {
+            font-size: .88rem;
+            color: #666;
+            line-height: 1.6;
+            margin: 0;
+        }
+        .tl-center {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+        }
+        .tl-dot {
+            width: 22px; height: 22px;
+            border-radius: 50%;
+            background: #8B1538;
+            border: 4px solid #fff;
+            box-shadow: 0 0 0 3px #8B1538;
+        }
+        .tl-icon {
+            font-size: 1.6rem;
+            background: #fff;
+            width: 52px; height: 52px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 16px rgba(139,21,56,.25);
+            border: 2px solid #8B1538;
+        }
+        /* Even items → content on right */
+        .tl-item.right .tl-content-left { visibility: hidden; }
+        .tl-item.left .tl-content-right { visibility: hidden; }
+
+        @media(max-width: 700px) {
+            .timeline::before { left: 24px; transform: none; }
+            .tl-item {
+                grid-template-columns: 52px 1fr;
+                grid-template-rows: auto;
+            }
+            .tl-content-left { display: none; }
+            .tl-item.right .tl-content-left { display: none; }
+            .tl-item.left .tl-content-right { visibility: visible; }
+            .tl-center { grid-column: 1; grid-row: 1; }
+            .tl-content-right { grid-column: 2; grid-row: 1; padding: 0 0 0 16px; }
+            .tl-item.left .tl-content-right { grid-column: 2; }
+        }
+
+        /* ===== QUOTE ===== */
+        .quote-section {
+            background: linear-gradient(135deg, #6B0F2A, #8B1538);
+            color: #fff;
+            padding: 80px 24px;
+            text-align: center;
+        }
+        .quote-section blockquote {
+            max-width: 760px;
+            margin: 0 auto;
+            font-size: clamp(1.2rem, 2.5vw, 1.7rem);
+            font-style: italic;
+            line-height: 1.6;
+            opacity: .95;
+            position: relative;
+        }
+        .quote-section blockquote::before {
+            content: '"';
+            font-size: 5rem;
+            color: rgba(255,255,255,.2);
+            line-height: 0;
+            vertical-align: -0.5em;
+            margin-right: 8px;
+        }
+        .quote-author {
+            margin-top: 24px;
+            font-size: .9rem;
+            opacity: .7;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* ===== FOUNDERS ===== */
+        .founders-section {
+            padding: 80px 24px;
+            background: #f7f3f4;
+        }
+        .founders-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 28px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .founder-card {
+            background: #fff;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+        .founder-banner {
+            height: 8px;
+            background: linear-gradient(90deg, #8B1538, #A91D47);
+        }
+        .founder-body {
+            padding: 28px 24px;
+        }
+        .founder-avatar {
+            width: 80px; height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #8B1538, #A91D47);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: #fff;
+            margin: 0 auto 16px;
+        }
+        .founder-card h4 {
+            text-align: center;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #2d2d2d;
+            margin: 0 0 4px;
+        }
+        .founder-card .role-badge {
+            text-align: center;
+            font-size: .78rem;
+            color: #8B1538;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 0 0 14px;
+        }
+        .founder-card p {
+            font-size: .87rem;
+            color: #666;
+            line-height: 1.6;
+            text-align: center;
+        }
+
+        /* ===== CTA ===== */
+        .cta-section {
+            padding: 70px 24px;
+            background: #fff;
+            text-align: center;
+        }
+        .cta-section h2 { font-size: 1.8rem; color: #2d2d2d; font-weight: 800; margin: 0 0 12px; }
+        .cta-section p { color: #666; margin: 0 0 28px; font-size: 1rem; }
+        .btn-primary-mc {
+            display: inline-block;
+            background: linear-gradient(135deg, #8B1538, #A91D47);
+            color: #fff;
+            padding: 14px 36px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: transform .2s ease, box-shadow .2s ease;
+            margin: 6px;
+        }
+        .btn-primary-mc:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(139,21,56,.35); }
+        .btn-outline-mc {
+            display: inline-block;
+            border: 2px solid #8B1538;
+            color: #8B1538;
+            padding: 12px 36px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: all .2s ease;
+            margin: 6px;
+        }
+        .btn-outline-mc:hover { background: #8B1538; color: #fff; }
+    </style>
+</head>
+<body>
+    <%- include('partials/navbarUser', { isAdmin: isAdmin }) %>
+
+    <!-- Hero -->
+    <section class="page-hero">
+        <div class="breadcrumb">
+            <a href="/">Inicio</a> › <a href="/quienes-somos">Quiénes Somos</a> › <span>Historia</span>
+        </div>
+        <div class="founding-year">⚙️ Fundada en Argentina</div>
+        <h1>Nuestra Historia</h1>
+        <p>Un recorrido por más de tres décadas de dedicación, crecimiento y calidad en la fabricación de acero inoxidable.</p>
+    </section>
+
+    <!-- Timeline -->
+    <section class="timeline-section">
+        <div class="section-title">
+            <p class="subtitle">El camino recorrido</p>
+            <h2>Hitos y Logros</h2>
+            <div class="title-bar"></div>
+        </div>
+        <div class="timeline">
+
+            <div class="tl-item left">
+                <div class="tl-content-right">
+                    <div class="tl-card">
+                        <span class="tl-year">1990s</span>
+                        <h3>🏭 Los Comienzos</h3>
+                        <p>Metal-Ce nace como un pequeño taller familiar con la visión de fabricar productos de acero inoxidable de calidad para el mercado local. Los primeros pedidos, la primera máquina, el primer equipo.</p>
+                    </div>
+                </div>
+                <div class="tl-center"><div class="tl-icon">🏭</div></div>
+                <div class="tl-content-left"></div>
+            </div>
+
+            <div class="tl-item right">
+                <div class="tl-content-left">
+                    <div class="tl-card">
+                        <span class="tl-year">2000s</span>
+                        <h3>📈 Expansión del Catálogo</h3>
+                        <p>Incorporación de nuevas líneas de productos. Primeras exportaciones a países limítrofes. Crecimiento del equipo y ampliación de planta productiva.</p>
+                    </div>
+                </div>
+                <div class="tl-center"><div class="tl-icon">📈</div></div>
+                <div class="tl-content-right"></div>
+            </div>
+
+            <div class="tl-item left">
+                <div class="tl-content-right">
+                    <div class="tl-card">
+                        <span class="tl-year">2010</span>
+                        <h3>🏆 Primera Certificación ISO</h3>
+                        <p>Obtención de la certificación ISO 9001 — un hito que marcó el compromiso formal con la calidad y la mejora continua en todos nuestros procesos productivos.</p>
+                    </div>
+                </div>
+                <div class="tl-center"><div class="tl-icon">🏆</div></div>
+                <div class="tl-content-left"></div>
+            </div>
+
+            <div class="tl-item right">
+                <div class="tl-content-left">
+                    <div class="tl-card">
+                        <span class="tl-year">2015</span>
+                        <h3>🌿 Línea Verde</h3>
+                        <p>Lanzamiento de la Línea Verde: productos fabricados con materiales reciclados y procesos de bajo impacto ambiental. Certificación ISO 14001 obtenida ese mismo año.</p>
+                    </div>
+                </div>
+                <div class="tl-center"><div class="tl-icon">🌿</div></div>
+                <div class="tl-content-right"></div>
+            </div>
+
+            <div class="tl-item left">
+                <div class="tl-content-right">
+                    <div class="tl-card">
+                        <span class="tl-year">2018</span>
+                        <h3>🤝 Red de Distribuidores</h3>
+                        <p>Consolidación de la red nacional de distribuidores. Alianzas estratégicas con proveedores internacionales de acero de primera calidad para garantizar la mejor materia prima.</p>
+                    </div>
+                </div>
+                <div class="tl-center"><div class="tl-icon">🤝</div></div>
+                <div class="tl-content-left"></div>
+            </div>
+
+            <div class="tl-item right">
+                <div class="tl-content-left">
+                    <div class="tl-card">
+                        <span class="tl-year">2020</span>
+                        <h3>💻 Digitalización</h3>
+                        <p>Transformación digital de la empresa: nuevo sistema de gestión, catálogo online, seguimiento de pedidos en tiempo real y plataforma de cotizaciones para distribuidores.</p>
+                    </div>
+                </div>
+                <div class="tl-center"><div class="tl-icon">💻</div></div>
+                <div class="tl-content-right"></div>
+            </div>
+
+            <div class="tl-item left">
+                <div class="tl-content-right">
+                    <div class="tl-card">
+                        <span class="tl-year">2023</span>
+                        <h3>⚙️ Nueva Maquinaria</h3>
+                        <p>Inversión en tecnología de punta: incorporación de equipos CNC de última generación que multiplican la capacidad productiva y mejoran la precisión de los productos.</p>
+                    </div>
+                </div>
+                <div class="tl-center"><div class="tl-icon">⚙️</div></div>
+                <div class="tl-content-left"></div>
+            </div>
+
+            <div class="tl-item right">
+                <div class="tl-content-left">
+                    <div class="tl-card">
+                        <span class="tl-year">Hoy</span>
+                        <h3>🚀 Presente y Futuro</h3>
+                        <p>Más de 30 años de historia, 500+ clientes activos, 3 certificaciones internacionales y un equipo comprometido. El futuro de Metal-Ce es seguir creciendo con calidad, innovación y responsabilidad.</p>
+                    </div>
+                </div>
+                <div class="tl-center"><div class="tl-icon">🚀</div></div>
+                <div class="tl-content-right"></div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Quote -->
+    <section class="quote-section">
+        <blockquote>
+            En Metal-Ce creemos que el acero no es solo un material — es el resultado del trabajo humano, la precisión técnica y el compromiso con quienes confían en nosotros.
+        </blockquote>
+        <p class="quote-author">— Dirección General, Metal-Ce</p>
+    </section>
+
+    <!-- Fundadores -->
+    <section class="founders-section">
+        <div class="section-title">
+            <p class="subtitle">Quienes lo hicieron posible</p>
+            <h2>Fundadores y Trayectoria</h2>
+            <div class="title-bar"></div>
+        </div>
+        <div class="founders-grid">
+            <div class="founder-card">
+                <div class="founder-banner"></div>
+                <div class="founder-body">
+                    <div class="founder-avatar">👤</div>
+                    <h4>Fundación Familiar</h4>
+                    <p class="role-badge">Origen</p>
+                    <p>Metal-Ce nació de la visión emprendedora de una familia apasionada por la manufactura. Desde un pequeño taller hasta convertirse en referente nacional del sector.</p>
+                </div>
+            </div>
+            <div class="founder-card">
+                <div class="founder-banner"></div>
+                <div class="founder-body">
+                    <div class="founder-avatar">🌱</div>
+                    <h4>Segunda Generación</h4>
+                    <p class="role-badge">Crecimiento</p>
+                    <p>La segunda generación incorporó tecnología, procesos certificados y nuevas líneas de producto, llevando a Metal-Ce a posicionarse en todo el mercado argentino.</p>
+                </div>
+            </div>
+            <div class="founder-card">
+                <div class="founder-banner"></div>
+                <div class="founder-body">
+                    <div class="founder-avatar">🔮</div>
+                    <h4>Visión Futura</h4>
+                    <p class="role-badge">Innovación</p>
+                    <p>Con una nueva generación al frente, Metal-Ce apuesta por la digitalización, la sustentabilidad y la expansión internacional sin perder la esencia artesanal que nos define.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+        <h2>¿Querés ser parte de esta historia?</h2>
+        <p>Conocé cómo trabajamos, sumate al equipo o consultanos por tu proyecto.</p>
+        <a href="/trabaja-con-nosotros" class="btn-primary-mc">💼 Sumate al equipo</a>
+        <a href="/quienes-somos" class="btn-outline-mc">👥 Quiénes Somos</a>
+        <a href="/contacto" class="btn-outline-mc">✉️ Contacto</a>
+    </section>
+
+    <%- include('partials/footer') %>
+</body>
+</html>

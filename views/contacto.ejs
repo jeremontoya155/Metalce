@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacto — Metal-Ce S.R.L.</title>
+    <link rel="stylesheet" href="/css/navBar.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        body { background: #f8f5f6; }
+
+        .form-page-hero {
+            background: linear-gradient(135deg, #8B1538 0%, #A91D47 50%, #6B0F2A 100%);
+            color: white;
+            padding: 60px 20px 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .form-page-hero::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat;
+        }
+        .form-page-hero h1 { font-size: 2.5rem; font-weight: 800; margin-bottom: 12px; position: relative; }
+        .form-page-hero p  { font-size: 1.1rem; opacity: .85; position: relative; }
+
+        .form-card {
+            background: white;
+            border-radius: 24px;
+            padding: 50px 50px;
+            box-shadow: 0 15px 50px rgba(139,21,56,0.1);
+            max-width: 720px;
+            margin: -50px auto 60px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .form-section-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #8B1538;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .form-section-title::after {
+            content: '';
+            flex: 1;
+            height: 2px;
+            background: linear-gradient(90deg, rgba(139,21,56,0.2), transparent);
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: #333;
+            font-size: .9rem;
+            margin-bottom: 6px;
+        }
+        .required-star { color: #8B1538; }
+
+        .form-control {
+            border: 2px solid #eee;
+            border-radius: 10px;
+            padding: 12px 16px;
+            font-size: .95rem;
+            transition: border-color .2s, box-shadow .2s;
+        }
+        .form-control:focus {
+            border-color: #8B1538;
+            box-shadow: 0 0 0 3px rgba(139,21,56,0.1);
+            outline: none;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #8B1538 0%, #A91D47 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform .2s, box-shadow .2s;
+            letter-spacing: .5px;
+        }
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(139,21,56,0.4);
+        }
+
+        .alert-custom-success {
+            background: #f0fdf4;
+            border: 2px solid #22c55e;
+            border-radius: 14px;
+            padding: 20px 24px;
+            color: #166534;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 24px;
+        }
+        .alert-custom-error {
+            background: #fef2f2;
+            border: 2px solid #f87171;
+            border-radius: 14px;
+            padding: 20px 24px;
+            color: #991b1b;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 24px;
+        }
+        .alert-custom-success i, .alert-custom-error i { font-size: 1.5rem; }
+
+        .contact-side-info {
+            max-width: 720px;
+            margin: 0 auto 60px;
+            padding: 0 20px;
+        }
+        .contact-side-info .row > div {
+            margin-bottom: 16px;
+        }
+        .info-pill {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            background: white;
+            border-radius: 14px;
+            padding: 16px 20px;
+            box-shadow: 0 4px 15px rgba(139,21,56,0.07);
+            border-left: 4px solid #8B1538;
+            height: 100%;
+        }
+        .info-pill i { color: #8B1538; font-size: 1.3rem; flex-shrink: 0; }
+        .info-pill strong { display: block; color: #222; font-size: .88rem; }
+        .info-pill span { color: #666; font-size: .84rem; }
+
+        @media (max-width: 576px) {
+            .form-card { padding: 30px 20px; margin: -30px 12px 40px; }
+        }
+    </style>
+</head>
+<body>
+    <%- include('partials/navbarUser') %>
+
+    <div class="form-page-hero">
+        <h1><i class="fas fa-envelope" style="margin-right:12px;"></i>Contactanos</h1>
+        <p>Consultá precios, pedí cotización o solicitá asesoramiento técnico</p>
+    </div>
+
+    <div class="container">
+        <div class="form-card">
+
+            <% if (enviado === true) { %>
+            <div class="alert-custom-success">
+                <i class="fas fa-check-circle"></i>
+                <div>
+                    <strong>¡Mensaje enviado correctamente!</strong>
+                    <span>Te responderemos a la brevedad. Revisá tu bandeja de entrada.</span>
+                </div>
+            </div>
+            <% } %>
+            <% if (enviado === false && error) { %>
+            <div class="alert-custom-error">
+                <i class="fas fa-exclamation-circle"></i>
+                <div><strong>Error:</strong> <%= error %></div>
+            </div>
+            <% } %>
+
+            <% if (enviado !== true) { %>
+            <form action="/contacto" method="POST">
+
+                <div class="form-section-title"><i class="fas fa-user"></i> Tus datos</div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Nombre completo <span class="required-star">*</span></label>
+                            <input type="text" class="form-control" name="nombre" placeholder="Juan García" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Empresa / Razón social</label>
+                            <input type="text" class="form-control" name="empresa" placeholder="Mi Empresa S.A. (opcional)">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Email <span class="required-star">*</span></label>
+                            <input type="email" class="form-control" name="email" placeholder="tu@email.com" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Teléfono</label>
+                            <input type="tel" class="form-control" name="telefono" placeholder="+54 9 351 ...">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section-title" style="margin-top:10px;"><i class="fas fa-comment-dots"></i> Consulta</div>
+
+                <div class="form-group">
+                    <label>Tipo de consulta <span class="required-star">*</span></label>
+                    <select class="form-control" name="tipo_consulta" required>
+                        <option value="">— Seleccioná una opción —</option>
+                        <option value="Cotización de productos">💰 Cotización de productos</option>
+                        <option value="Información técnica">🔧 Información técnica</option>
+                        <option value="Disponibilidad de stock">📦 Disponibilidad de stock</option>
+                        <option value="Condiciones de pago">💳 Condiciones de pago</option>
+                        <option value="Otro">📝 Otro</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Mensaje <span class="required-star">*</span></label>
+                    <textarea class="form-control" name="mensaje" rows="5" placeholder="Describirme tu consulta con la mayor cantidad de detalle posible..." required></textarea>
+                </div>
+
+                <p style="font-size:.8rem;color:#999;margin-bottom:18px;">Los campos marcados con <span class="required-star">*</span> son obligatorios.</p>
+
+                <button type="submit" class="btn-submit">
+                    <i class="fas fa-paper-plane" style="margin-right:8px;"></i>Enviar consulta
+                </button>
+            </form>
+            <% } else { %>
+            <div style="text-align:center;margin-top:20px;">
+                <a href="/" class="btn-submit" style="display:inline-block;text-decoration:none;width:auto;padding:14px 32px;">
+                    <i class="fas fa-home" style="margin-right:8px;"></i>Volver al inicio
+                </a>
+            </div>
+            <% } %>
+        </div>
+
+        <!-- Info lateral debajo del form -->
+        <div class="contact-side-info">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="info-pill">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div><strong>Dirección</strong><span>Av. Colón 4160, Córdoba</span></div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="info-pill">
+                        <i class="fas fa-clock"></i>
+                        <div><strong>Horarios</strong><span>Lun–Vie 8–18 · Sáb 8–13</span></div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="info-pill">
+                        <i class="fab fa-whatsapp"></i>
+                        <div><strong>WhatsApp directo</strong><span><a href="https://wa.me/5493512345678" target="_blank" style="color:#8B1538;">+54 9 351 234-5678</a></span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%- include('partials/footer') %>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

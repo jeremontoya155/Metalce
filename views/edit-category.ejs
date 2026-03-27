@@ -366,6 +366,22 @@
                         <label>Descripción</label>
                         <textarea class="form-control" name="descripcion" rows="3" placeholder="Descripción breve de esta categoría..."><%= categoria.descripcion || '' %></textarea>
                     </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>🏭 Familia</label>
+                                <input type="text" class="form-control" name="familia" value="<%= categoria.familia || '' %>" placeholder="Ej: Cocina, Industrial, Sanitarios">
+                                <small class="text-muted">Nivel 1 del catálogo jerárquico</small>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>📐 Línea</label>
+                                <input type="text" class="form-control" name="linea" value="<%= categoria.linea || '' %>" placeholder="Ej: Línea Verde, Premium, Standard">
+                                <small class="text-muted">Nivel 2 del catálogo jerárquico</small>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Sección: Apariencia -->

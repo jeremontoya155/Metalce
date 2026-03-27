@@ -164,6 +164,9 @@
             <section class="hero-banner-new fade-in-section">
                 <div class="hero-image-container">
                     <img src="<%= imagen2Url %>" alt="Metal-Ce" class="hero-main-image" />
+                    <div class="hero-hashtag-overlay">
+                        <span class="hero-hashtag">#SOMOSMETALCE</span>
+                    </div>
                 </div>
             </section>
             
@@ -214,6 +217,43 @@
                         </div>
                         <h3 class="feature-title-modern">30 Años</h3>
                         <p class="feature-text-modern">Experiencia y confianza en el mercado</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Badges de certificaciones -->
+            <section class="iso-badges-section fade-in-section">
+                <div class="iso-badges-container">
+                    <div class="iso-badge">
+                        <div class="iso-badge-icon">🏆</div>
+                        <div class="iso-badge-info">
+                            <span class="iso-number">ISO 9001</span>
+                            <span class="iso-desc">Gestión de Calidad</span>
+                        </div>
+                    </div>
+                    <div class="iso-divider"></div>
+                    <div class="iso-badge">
+                        <div class="iso-badge-icon">🌿</div>
+                        <div class="iso-badge-info">
+                            <span class="iso-number">ISO 14001</span>
+                            <span class="iso-desc">Gestión Ambiental</span>
+                        </div>
+                    </div>
+                    <div class="iso-divider"></div>
+                    <div class="iso-badge">
+                        <div class="iso-badge-icon">✅</div>
+                        <div class="iso-badge-info">
+                            <span class="iso-number">IRAM</span>
+                            <span class="iso-desc">Certificación Argentina</span>
+                        </div>
+                    </div>
+                    <div class="iso-divider"></div>
+                    <div class="iso-badge">
+                        <div class="iso-badge-icon">⭐</div>
+                        <div class="iso-badge-info">
+                            <span class="iso-number">30+ Años</span>
+                            <span class="iso-desc">Trayectoria en el mercado</span>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -316,6 +356,11 @@
                 <div class="mb-3">
                     <a href="/new" class="btn-generico">Agregar Nuevo</a>
                     <button id="download-btn" class="btn-generico">Descargar lista</button>
+                    <button id="btn-mantenimiento" class="btn-generico" 
+                        style="background:linear-gradient(135deg,#555,#333);" 
+                        onclick="toggleMantenimiento()">
+                        🛠️ Mantenimiento
+                    </button>
                 </div>
                 <!-- Campo de búsqueda -->
                 <div class="input-group mb-3">
@@ -326,6 +371,7 @@
                         <thead class="thead-dark">
                             <tr>
                                 <th>Imagen</th>
+                                <th>Código</th>
                                 <th>Nombre</th>
                                 <th>Descripción</th>
                                 <th>Estado</th>
@@ -338,6 +384,13 @@
                             <% products.forEach(product=> { %>
                                 <tr>
                                     <td data-label="Imagen"><img src="<%= product.img %>" alt="<%= product.name %>">
+                                    </td>
+                                    <td data-label="Código">
+                                        <% if (product.codigo) { %>
+                                        <code style="font-size:.8rem;background:#f3f3f3;padding:1px 6px;border-radius:4px;"><%= product.codigo %></code>
+                                        <% } else { %>
+                                        <span style="color:#ccc;">—</span>
+                                        <% } %>
                                     </td>
                                     <td data-label="Nombre">
                                         <%= product.name %>
@@ -446,10 +499,57 @@
                 <% } else { %>
 
                     <div class="container my-2 py-2 fade-in-section">
-                        <h3 class="about-title">Encontranos en:</h3>
+                        <h3 class="about-title">Contacto &amp; Ubicación</h3>
+
+                        <!-- Grid de info de contacto -->
+                        <div class="contact-info-grid">
+                            <div class="contact-info-card">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <div>
+                                    <strong>Dirección</strong>
+                                    <p>Av. Colón 4160, Córdoba, Argentina</p>
+                                </div>
+                            </div>
+                            <div class="contact-info-card">
+                                <i class="fas fa-clock"></i>
+                                <div>
+                                    <strong>Horarios</strong>
+                                    <p>Lun a Vie: 8:00 – 18:00<br>Sáb: 8:00 – 13:00</p>
+                                </div>
+                            </div>
+                            <div class="contact-info-card">
+                                <i class="fas fa-credit-card"></i>
+                                <div>
+                                    <strong>Medios de pago</strong>
+                                    <p>Efectivo · Transferencia · Cheque · Tarjeta</p>
+                                </div>
+                            </div>
+                            <div class="contact-info-card">
+                                <i class="fas fa-truck"></i>
+                                <div>
+                                    <strong>Despachos</strong>
+                                    <p>Envíos a todo el país · Retiro en local</p>
+                                </div>
+                            </div>
+                            <div class="contact-info-card">
+                                <i class="fas fa-file-invoice"></i>
+                                <div>
+                                    <strong>Datos fiscales</strong>
+                                    <p>CUIT: 30-XXXXXXXX-X<br>IVA Responsable Inscripto</p>
+                                </div>
+                            </div>
+                            <div class="contact-info-card">
+                                <i class="fab fa-whatsapp"></i>
+                                <div>
+                                    <strong>WhatsApp</strong>
+                                    <p><a href="https://wa.me/5493512345678" target="_blank">+54 9 351 234-5678</a></p>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="iframe-container">
-                        
-<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3402.0947488382726!2d-64.0753997243488!3d-31.494079374225983!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9432986f9eb90f67%3A0xdf312a2eb0e831f2!2sMetal%20-%20Ce%20SRL!5e0!3m2!1sen!2sar!4v1774013973504!5m2!1sen!2sar" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>                            </div>
+<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3402.0947488382726!2d-64.0753997243488!3d-31.494079374225983!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9432986f9eb90f67%3A0xdf312a2eb0e831f2!2sMetal%20-%20Ce%20SRL!5e0!3m2!1sen!2sar!4v1774013973504!5m2!1sen!2sar" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        </div>
                     </div>
                     <% } %>
         </div>
@@ -480,6 +580,36 @@
         });
     });
 </script>
+
+    <!-- FAB: Botón cotización flotante -->
+    <a href="https://wa.me/5493512345678?text=Hola%2C%20quisiera%20solicitar%20una%20cotizaci%C3%B3n" 
+       class="fab-cotizacion" 
+       target="_blank" 
+       rel="noopener noreferrer"
+       title="Solicitar cotización por WhatsApp">
+        <i class="fas fa-comment-dollar"></i>
+        <span class="fab-label">Cotizá</span>
+    </a>
+
+    <script>
+    async function toggleMantenimiento() {
+        const btn = document.getElementById('btn-mantenimiento');
+        try {
+            const r = await fetch('/admin/toggle-mantenimiento', { method: 'POST' });
+            const data = await r.json();
+            if (data.ok) {
+                const activo = data.modo_mantenimiento;
+                btn.textContent = activo ? '✅ Mantenimiento ACTIVO' : '🛠️ Mantenimiento';
+                btn.style.background = activo 
+                    ? 'linear-gradient(135deg,#8B1538,#A91D47)' 
+                    : 'linear-gradient(135deg,#555,#333)';
+                alert(activo ? '⚠️ Modo mantenimiento ACTIVADO. El sitio está oculto para usuarios.' : '✅ Modo mantenimiento DESACTIVADO. El sitio es visible.');
+            }
+        } catch(e) {
+            alert('Error al cambiar modo mantenimiento');
+        }
+    }
+    </script>
 
     </body>
     

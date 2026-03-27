@@ -36,7 +36,12 @@
                         <%= product.name %>
                     </h1>
 
-                    <% if (product.categoria_nombre) { %>
+                    <% if (product.codigo) { %>
+                    <p style="margin-bottom:10px;">
+                        <strong>Código:</strong>
+                        <span style="font-family:monospace;background:#f3f3f3;padding:2px 8px;border-radius:6px;font-size:.95rem;border:1px solid #ddd;"><%= product.codigo %></span>
+                    </p>
+                    <% } %>
                     <p><strong>Categoría:</strong>
                         <span style="background: <%= product.categoria_color || '#0052A3' %>; color: white; padding: 0.25rem 0.75rem; border-radius: 15px; display: inline-block;">
                             <%= product.categoria_icono %> <%= product.categoria_nombre %>
@@ -223,6 +228,22 @@
                     <% } %>
 
                     <!-- Botones de acción -->
+                    <% if (product.aclaracion) { %>
+                    <div style="margin:16px 0;padding:14px 18px;background:#fffbea;border-left:4px solid #f59e0b;border-radius:10px;">
+                        <strong style="color:#92400e;">&#9888; Aclaración:</strong>
+                        <p style="margin:6px 0 0;color:#78350f;font-size:.93rem;line-height:1.55;"><%= product.aclaracion %></p>
+                    </div>
+                    <% } %>
+
+                    <% if (product.folleto_url) { %>
+                    <div style="margin-bottom:16px;">
+                        <a href="<%= product.folleto_url %>" target="_blank" rel="noopener"
+                           style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;background:linear-gradient(135deg,#8B1538,#A91D47);color:white;border-radius:10px;text-decoration:none;font-weight:700;font-size:.9rem;">
+                            📄 Descargar folleto
+                        </a>
+                    </div>
+                    <% } %>
+
                     <div class="productPage-actions">
                         <% if (isAdmin) { %>
                             <a href="/edit/<%= product.id %>" class="productPage-editButton">Editar Producto</a>

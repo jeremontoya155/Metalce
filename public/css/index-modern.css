@@ -373,3 +373,208 @@
     background: none;
     border: none;
 }
+
+/* ==================== #SOMOSMETALCE HERO OVERLAY ==================== */
+.hero-image-container {
+    position: relative;
+}
+
+.hero-hashtag-overlay {
+    position: absolute;
+    bottom: 28px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    z-index: 10;
+    pointer-events: none;
+}
+
+.hero-hashtag {
+    display: inline-block;
+    font-size: clamp(1.4rem, 3.5vw, 3rem);
+    font-weight: 900;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    background: linear-gradient(90deg, #fff 0%, #f9c0c0 20%, #A91D47 50%, #f9c0c0 80%, #fff 100%);
+    background-size: 300% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: metalceFadeIn 1.2s ease forwards, metalceShimmer 3s linear infinite;
+    filter: drop-shadow(0 2px 12px rgba(139, 21, 56, 0.6));
+}
+
+@keyframes metalceShimmer {
+    0%   { background-position: 0% center; }
+    100% { background-position: 300% center; }
+}
+
+@keyframes metalceFadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ==================== BADGES ISO / CERTIFICACIONES ==================== */
+.iso-badges-section {
+    margin: 0 0 50px;
+}
+
+.iso-badges-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    background: white;
+    border-radius: 20px;
+    padding: 28px 40px;
+    box-shadow: 0 6px 25px rgba(139, 21, 56, 0.08);
+    border: 1px solid rgba(139, 21, 56, 0.1);
+}
+
+.iso-badge {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 8px 18px;
+}
+
+.iso-badge-icon {
+    font-size: 2.2rem;
+    line-height: 1;
+}
+
+.iso-badge-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.iso-number {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #8B1538;
+    letter-spacing: 1px;
+}
+
+.iso-desc {
+    font-size: 0.78rem;
+    color: #777;
+    font-weight: 400;
+    margin-top: 2px;
+}
+
+.iso-divider {
+    width: 1px;
+    height: 48px;
+    background: rgba(139, 21, 56, 0.15);
+    flex-shrink: 0;
+}
+
+/* ==================== CONTACT INFO GRID ==================== */
+.contact-info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 30px;
+}
+
+.contact-info-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    background: white;
+    border-radius: 14px;
+    padding: 18px 16px;
+    box-shadow: 0 4px 15px rgba(139, 21, 56, 0.07);
+    border-left: 4px solid #8B1538;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.contact-info-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 22px rgba(139, 21, 56, 0.13);
+}
+
+.contact-info-card i {
+    font-size: 1.35rem;
+    color: #8B1538;
+    margin-top: 3px;
+    flex-shrink: 0;
+}
+
+.contact-info-card strong {
+    display: block;
+    color: #222;
+    font-weight: 700;
+    font-size: 0.9rem;
+    margin-bottom: 4px;
+}
+
+.contact-info-card p {
+    margin: 0;
+    color: #666;
+    font-size: 0.86rem;
+    line-height: 1.55;
+}
+
+.contact-info-card p a {
+    color: #8B1538;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.contact-info-card p a:hover {
+    text-decoration: underline;
+}
+
+/* ==================== FAB COTIZACIÓN FLOTANTE ==================== */
+.fab-cotizacion {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    background: linear-gradient(135deg, #8B1538 0%, #A91D47 100%);
+    color: white !important;
+    border-radius: 18px;
+    padding: 14px 18px;
+    text-decoration: none !important;
+    box-shadow: 0 6px 25px rgba(139, 21, 56, 0.5);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    animation: fabPulse 2.5s ease-in-out infinite;
+}
+
+.fab-cotizacion:hover {
+    transform: scale(1.1) translateY(-4px);
+    box-shadow: 0 12px 35px rgba(139, 21, 56, 0.65);
+    animation: none;
+    color: white !important;
+    text-decoration: none !important;
+}
+
+.fab-cotizacion i {
+    font-size: 1.6rem;
+}
+
+.fab-label {
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+@keyframes fabPulse {
+    0%, 100% { box-shadow: 0 6px 25px rgba(139, 21, 56, 0.5); }
+    50%       { box-shadow: 0 6px 35px rgba(139, 21, 56, 0.75), 0 0 0 10px rgba(139, 21, 56, 0.1); }
+}
+
+@media (max-width: 576px) {
+    .iso-divider        { display: none; }
+    .iso-badges-container { gap: 8px; padding: 20px 16px; }
+    .hero-hashtag       { font-size: clamp(1rem, 5vw, 1.6rem); letter-spacing: 2px; }
+    .contact-info-grid  { grid-template-columns: 1fr; }
+    .fab-cotizacion     { bottom: 20px; right: 16px; padding: 12px 14px; }
+}

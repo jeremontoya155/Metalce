@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiénes Somos | Metal-Ce</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="/css/navBar.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/index-modern.css">
+    <link rel="icon" type="image/x-icon" href="/imgs/favicon.ico">
+    <style>
+        /* ===== PAGE HERO ===== */
+        body { margin: 0; padding: 0; }
+        .page-hero {
+            background: linear-gradient(135deg, #6B0F2A 0%, #8B1538 50%, #A91D47 100%);
+            color: #fff;
+            padding: 100px 24px 60px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .page-hero::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><polygon points="0,100 100,0 100,100" fill="rgba(255,255,255,0.04)"/></svg>');
+            background-size: cover;
+        }
+        .page-hero h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 800;
+            letter-spacing: 2px;
+            margin: 0 0 16px;
+            position: relative;
+        }
+        .page-hero p {
+            font-size: 1.15rem;
+            opacity: .85;
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+        }
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: .85rem;
+            opacity: .7;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .breadcrumb a { color: #fff; text-decoration: none; }
+        .breadcrumb a:hover { text-decoration: underline; }
+
+        /* ===== MISSION/VISION/VALUES ===== */
+        .mvv-section {
+            padding: 80px 24px;
+            background: #fff;
+        }
+        .mvv-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 32px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .mvv-card {
+            background: #fafafa;
+            border-radius: 16px;
+            padding: 36px 28px;
+            border-top: 5px solid #8B1538;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            transition: transform .3s ease, box-shadow .3s ease;
+        }
+        .mvv-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 40px rgba(139,21,56,.15);
+        }
+        .mvv-icon {
+            font-size: 2.5rem;
+            margin-bottom: 16px;
+            display: block;
+        }
+        .mvv-card h3 {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: #8B1538;
+            margin: 0 0 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .mvv-card p {
+            color: #555;
+            line-height: 1.7;
+            font-size: .97rem;
+        }
+
+        /* ===== STATS STRIP ===== */
+        .stats-strip {
+            background: #8B1538;
+            color: #fff;
+            padding: 50px 24px;
+        }
+        .stats-inner {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 24px;
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .stat-item h2 {
+            font-size: 3rem;
+            font-weight: 900;
+            margin: 0 0 6px;
+            line-height: 1;
+        }
+        .stat-item p {
+            font-size: .9rem;
+            opacity: .85;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .stat-divider {
+            width: 1px;
+            background: rgba(255,255,255,.25);
+            align-self: center;
+            height: 60px;
+        }
+        @media(max-width:600px){ .stat-divider { display: none; } }
+
+        /* ===== TEAM ===== */
+        .team-section {
+            padding: 80px 24px;
+            background: #f7f3f4;
+        }
+        .section-title {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+        .section-title h2 {
+            font-size: clamp(1.6rem, 3vw, 2.4rem);
+            font-weight: 800;
+            color: #2d2d2d;
+            margin: 0 0 10px;
+        }
+        .section-title .subtitle {
+            color: #8B1538;
+            font-size: 1rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+        .title-bar {
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, #8B1538, #A91D47);
+            border-radius: 2px;
+            margin: 12px auto 0;
+        }
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 28px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .team-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 32px 20px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+            transition: transform .3s ease;
+        }
+        .team-card:hover { transform: translateY(-5px); }
+        .team-avatar {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #8B1538, #A91D47);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+            margin: 0 auto 16px;
+            color: #fff;
+        }
+        .team-card h4 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #2d2d2d;
+            margin: 0 0 4px;
+        }
+        .team-card .role {
+            font-size: .85rem;
+            color: #8B1538;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 0 0 10px;
+        }
+        .team-card p {
+            font-size: .85rem;
+            color: #777;
+            line-height: 1.5;
+        }
+
+        /* ===== CERTIFICATIONS ===== */
+        .cert-section {
+            padding: 70px 24px;
+            background: #fff;
+        }
+        .cert-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 24px;
+            max-width: 960px;
+            margin: 0 auto;
+        }
+        .cert-card {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            background: #fafafa;
+            border-radius: 12px;
+            padding: 20px 22px;
+            border: 1.5px solid #e5e5e5;
+            transition: border-color .3s ease;
+        }
+        .cert-card:hover { border-color: #8B1538; }
+        .cert-badge-num {
+            min-width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            background: #8B1538;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: .75rem;
+            font-weight: 700;
+            text-align: center;
+            letter-spacing: .5px;
+        }
+        .cert-info h5 {
+            font-size: .95rem;
+            font-weight: 700;
+            color: #2d2d2d;
+            margin: 0 0 4px;
+        }
+        .cert-info p {
+            font-size: .82rem;
+            color: #777;
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        /* ===== VALUES LIST ===== */
+        .values-section {
+            padding: 70px 24px;
+            background: linear-gradient(135deg, #6B0F2A 0%, #8B1538 100%);
+            color: #fff;
+        }
+        .values-section .section-title h2 { color: #fff; }
+        .values-section .section-title .subtitle { color: rgba(255,255,255,.7); }
+        .values-section .title-bar { background: rgba(255,255,255,.5); }
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .value-item {
+            background: rgba(255,255,255,.1);
+            border-radius: 12px;
+            padding: 24px 20px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,.15);
+            backdrop-filter: blur(4px);
+            transition: background .3s ease;
+        }
+        .value-item:hover { background: rgba(255,255,255,.18); }
+        .value-item .v-icon { font-size: 2rem; margin-bottom: 10px; display: block; }
+        .value-item h4 { font-size: 1rem; font-weight: 700; margin: 0 0 8px; }
+        .value-item p { font-size: .83rem; opacity: .8; line-height: 1.5; margin: 0; }
+
+        /* ===== CTA ===== */
+        .cta-section {
+            padding: 70px 24px;
+            background: #f7f3f4;
+            text-align: center;
+        }
+        .cta-section h2 { font-size: 1.8rem; color: #2d2d2d; font-weight: 800; margin: 0 0 12px; }
+        .cta-section p { color: #666; margin: 0 0 28px; font-size: 1rem; }
+        .btn-primary-mc {
+            display: inline-block;
+            background: linear-gradient(135deg, #8B1538, #A91D47);
+            color: #fff;
+            padding: 14px 36px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1rem;
+            letter-spacing: .5px;
+            transition: transform .2s ease, box-shadow .2s ease;
+            margin: 6px;
+        }
+        .btn-primary-mc:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(139,21,56,.35);
+        }
+        .btn-outline-mc {
+            display: inline-block;
+            border: 2px solid #8B1538;
+            color: #8B1538;
+            padding: 12px 36px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: all .2s ease;
+            margin: 6px;
+        }
+        .btn-outline-mc:hover {
+            background: #8B1538;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <%- include('partials/navbarUser', { isAdmin: isAdmin }) %>
+
+    <!-- Hero -->
+    <section class="page-hero">
+        <div class="breadcrumb">
+            <a href="/">Inicio</a> › <span>Quiénes Somos</span>
+        </div>
+        <h1>Quiénes Somos</h1>
+        <p>Más de 30 años fabricando soluciones en acero inoxidable con calidad certificada y compromiso con cada cliente.</p>
+    </section>
+
+    <!-- Misión / Visión / Propósito -->
+    <section class="mvv-section">
+        <div class="section-title">
+            <p class="subtitle">Nuestra identidad</p>
+            <h2>Misión, Visión y Propósito</h2>
+            <div class="title-bar"></div>
+        </div>
+        <div class="mvv-grid">
+            <div class="mvv-card">
+                <span class="mvv-icon">🎯</span>
+                <h3>Misión</h3>
+                <p>Proveer productos de acero inoxidable de alta calidad, diseñados y fabricados con precisión, que satisfagan las necesidades de cada cliente con un servicio personalizado y eficiente.</p>
+            </div>
+            <div class="mvv-card">
+                <span class="mvv-icon">🚀</span>
+                <h3>Visión</h3>
+                <p>Ser la empresa de referencia en la fabricación de acero inoxidable en Argentina, reconocida por la innovación, la calidad certificada y la sustentabilidad de nuestros procesos.</p>
+            </div>
+            <div class="mvv-card">
+                <span class="mvv-icon">💡</span>
+                <h3>Propósito</h3>
+                <p>Transformar el acero en soluciones funcionales que mejoren la vida cotidiana de las personas, generando valor para clientes, colaboradores y la comunidad en la que operamos.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="stats-strip">
+        <div class="stats-inner">
+            <div class="stat-item">
+                <h2>30+</h2>
+                <p>Años de experiencia</p>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <h2>500+</h2>
+                <p>Clientes activos</p>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <h2>3</h2>
+                <p>Certificaciones ISO</p>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <h2>100%</h2>
+                <p>Fabricación nacional</p>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <h2>24hs</h2>
+                <p>Tiempo de respuesta</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Equipo -->
+    <section class="team-section">
+        <div class="section-title">
+            <p class="subtitle">Las personas detrás de Metal-Ce</p>
+            <h2>Nuestro Equipo</h2>
+            <div class="title-bar"></div>
+        </div>
+        <div class="team-grid">
+            <div class="team-card">
+                <div class="team-avatar">👔</div>
+                <h4>Dirección General</h4>
+                <p class="role">Gerencia</p>
+                <p>Liderazgo estratégico y visión institucional. Más de 30 años al frente de la empresa.</p>
+            </div>
+            <div class="team-card">
+                <div class="team-avatar">🔧</div>
+                <h4>Jefatura de Planta</h4>
+                <p class="role">Producción</p>
+                <p>Coordinación del proceso productivo, control de calidad y planificación de la manufactura.</p>
+            </div>
+            <div class="team-card">
+                <div class="team-avatar">📐</div>
+                <h4>Ingeniería & Diseño</h4>
+                <p class="role">Técnico</p>
+                <p>Desarrollo de nuevos productos, adaptaciones a medida y soporte técnico especializado.</p>
+            </div>
+            <div class="team-card">
+                <div class="team-avatar">🤝</div>
+                <h4>Comercial</h4>
+                <p class="role">Ventas</p>
+                <p>Atención personalizada, cotizaciones y acompañamiento post-venta para cada proyecto.</p>
+            </div>
+            <div class="team-card">
+                <div class="team-avatar">🌿</div>
+                <h4>Sustentabilidad</h4>
+                <p class="role">Línea Verde</p>
+                <p>Gestión de la Línea Verde, procesos eco-responsables y certificaciones ambientales.</p>
+            </div>
+            <div class="team-card">
+                <div class="team-avatar">📊</div>
+                <h4>Administración</h4>
+                <p class="role">RRHH & Finanzas</p>
+                <p>Gestión del capital humano, procesos administrativos y control financiero.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Certificaciones -->
+    <section class="cert-section">
+        <div class="section-title">
+            <p class="subtitle">Calidad garantizada</p>
+            <h2>Nuestras Certificaciones</h2>
+            <div class="title-bar"></div>
+        </div>
+        <div class="cert-grid">
+            <div class="cert-card">
+                <div class="cert-badge-num">ISO<br>9001</div>
+                <div class="cert-info">
+                    <h5>Gestión de Calidad</h5>
+                    <p>Sistema de gestión de calidad para la mejora continua de procesos y satisfacción del cliente.</p>
+                </div>
+            </div>
+            <div class="cert-card">
+                <div class="cert-badge-num">ISO<br>14001</div>
+                <div class="cert-info">
+                    <h5>Gestión Ambiental</h5>
+                    <p>Compromiso con el medio ambiente y la reducción del impacto de nuestros procesos productivos.</p>
+                </div>
+            </div>
+            <div class="cert-card">
+                <div class="cert-badge-num">IRAM<br>✓</div>
+                <div class="cert-info">
+                    <h5>Certificación IRAM</h5>
+                    <p>Conformidad con las normas nacionales de calidad y seguridad del Instituto Argentino de Normalización.</p>
+                </div>
+            </div>
+            <div class="cert-card">
+                <div class="cert-badge-num" style="font-size:.7rem;">LÍNEA<br>VERDE</div>
+                <div class="cert-info">
+                    <h5>Línea Eco-Responsable</h5>
+                    <p>Productos fabricados con materiales reciclados y procesos de bajo impacto ambiental.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Valores -->
+    <section class="values-section">
+        <div class="section-title">
+            <p class="subtitle">Lo que nos define</p>
+            <h2>Nuestros Valores</h2>
+            <div class="title-bar"></div>
+        </div>
+        <div class="values-grid">
+            <div class="value-item">
+                <span class="v-icon">⭐</span>
+                <h4>Calidad</h4>
+                <p>Cada producto pasa por rigurosos controles antes de salir de planta.</p>
+            </div>
+            <div class="value-item">
+                <span class="v-icon">🌿</span>
+                <h4>Sustentabilidad</h4>
+                <p>Producción responsable con el medioambiente en cada etapa.</p>
+            </div>
+            <div class="value-item">
+                <span class="v-icon">🤝</span>
+                <h4>Compromiso</h4>
+                <p>Cumplimos lo que prometemos, en tiempo y forma.</p>
+            </div>
+            <div class="value-item">
+                <span class="v-icon">💡</span>
+                <h4>Innovación</h4>
+                <p>Incorporamos tecnología y mejoras continuas a nuestros procesos.</p>
+            </div>
+            <div class="value-item">
+                <span class="v-icon">🏆</span>
+                <h4>Excelencia</h4>
+                <p>Buscamos superar las expectativas en cada proyecto y cliente.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+        <h2>¿Querés trabajar con nosotros?</h2>
+        <p>Conocé nuestra historia, explorá el catálogo o ponete en contacto con el equipo.</p>
+        <a href="/historia" class="btn-primary-mc">📖 Nuestra Historia</a>
+        <a href="/contacto" class="btn-outline-mc">✉️ Contacto</a>
+        <a href="/cart" class="btn-outline-mc">📦 Ver Catálogo</a>
+    </section>
+
+    <%- include('partials/footer') %>
+</body>
+</html>

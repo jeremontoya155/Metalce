@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calidad | Metal-Ce</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="/css/navBar.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/index-modern.css">
+    <link rel="icon" type="image/x-icon" href="/imgs/favicon.ico">
+    <style>
+        body { margin: 0; padding: 0; }
+        .page-hero { background:linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%);color:#fff;padding:100px 24px 60px;text-align:center;position:relative;overflow:hidden; }
+        .page-hero::before { content:'⚙️';position:absolute;font-size:180px;opacity:.07;top:-10px;right:-20px;line-height:1;pointer-events:none; }
+        .breadcrumb { display:flex;align-items:center;justify-content:center;gap:8px;font-size:.85rem;opacity:.7;margin-bottom:20px; }
+        .breadcrumb a { color:#fff;text-decoration:none; }
+        .page-hero h1 { font-size:clamp(2rem,5vw,3.5rem);font-weight:800;letter-spacing:2px;margin:0 0 16px; }
+        .page-hero p { font-size:1.1rem;opacity:.85;max-width:620px;margin:0 auto; }
+
+        :root { --blue-dark:#0f3460;--blue-mid:#16213e; }
+        .section-title { text-align:center;margin-bottom:48px; }
+        .section-title h2 { font-size:clamp(1.6rem,3vw,2.4rem);font-weight:800;color:#2d2d2d;margin:0 0 10px; }
+        .section-title .subtitle { color:var(--blue-dark);font-size:1rem;letter-spacing:2px;text-transform:uppercase;font-weight:600; }
+        .title-bar { width:60px;height:4px;background:linear-gradient(90deg,#0f3460,#1a4e8a);border-radius:2px;margin:12px auto 0; }
+
+        /* INTRO */
+        .intro-section { padding:80px 24px;background:#fff; }
+        .intro-grid { display:grid;grid-template-columns:1fr 1fr;gap:60px;max-width:1000px;margin:0 auto;align-items:center; }
+        @media(max-width:700px){ .intro-grid{grid-template-columns:1fr;gap:32px;} }
+        .intro-text h2 { font-size:2rem;font-weight:800;color:#2d2d2d;margin:0 0 16px; }
+        .intro-text h2 span { color:var(--blue-dark); }
+        .intro-text p { color:#555;line-height:1.7;font-size:.97rem;margin-bottom:16px; }
+        .quality-kpis { display:grid;grid-template-columns:1fr 1fr;gap:16px; }
+        .kpi-box { background:#f0f4ff;border-radius:14px;padding:24px 20px;text-align:center;border:1px solid rgba(15,52,96,.12); }
+        .kpi-box h3 { font-size:2.2rem;font-weight:900;color:var(--blue-dark);margin:0 0 6px;line-height:1; }
+        .kpi-box p { font-size:.82rem;color:#555;text-transform:uppercase;letter-spacing:1px;margin:0; }
+
+        /* CONTROLS */
+        .controls-section { padding:80px 24px;background:#f7f9ff; }
+        .controls-grid { display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px;max-width:1100px;margin:0 auto; }
+        .control-card { background:#fff;border-radius:16px;padding:28px 22px;box-shadow:0 4px 20px rgba(0,0,0,.07);border-top:4px solid var(--blue-dark);transition:transform .3s ease; }
+        .control-card:hover { transform:translateY(-5px); }
+        .ctrl-icon { font-size:2.5rem;margin-bottom:14px;display:block; }
+        .control-card h4 { font-size:1.05rem;font-weight:700;color:#2d2d2d;margin:0 0 10px; }
+        .control-card p { font-size:.87rem;color:#666;line-height:1.6;margin:0; }
+
+        /* PROCESS FLOW */
+        .flow-section { padding:80px 24px;background:#fff; }
+        .flow-container { max-width:1000px;margin:0 auto;display:flex;flex-wrap:wrap;gap:0;justify-content:center; }
+        .flow-step { display:flex;flex-direction:column;align-items:center;text-align:center;width:160px;padding:10px; }
+        .flow-circle { width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#0f3460,#1a4e8a);color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.8rem;margin-bottom:12px;box-shadow:0 4px 16px rgba(15,52,96,.25); }
+        .flow-arrow { font-size:1.5rem;color:#ccc;align-self:center;margin:0 4px;padding-bottom:32px; }
+        .flow-step h5 { font-size:.85rem;font-weight:700;color:#2d2d2d;margin:0 0 6px; }
+        .flow-step p { font-size:.78rem;color:#888;line-height:1.4;margin:0; }
+        @media(max-width:700px){ .flow-arrow{display:none;} .flow-container{gap:12px;} }
+
+        /* EQUIPMENT */
+        .equipment-section { padding:80px 24px;background:linear-gradient(135deg,#0f3460,#16213e);color:#fff; }
+        .equipment-section .section-title h2 { color:#fff; }
+        .equipment-section .section-title .subtitle { color:rgba(255,255,255,.7); }
+        .equipment-section .title-bar { background:rgba(255,255,255,.4); }
+        .eq-grid { display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;max-width:1000px;margin:0 auto; }
+        .eq-item { background:rgba(255,255,255,.1);border-radius:14px;padding:24px 20px;border:1px solid rgba(255,255,255,.15);backdrop-filter:blur(4px);transition:background .3s; }
+        .eq-item:hover { background:rgba(255,255,255,.18); }
+        .eq-item .e-icon { font-size:2rem;margin-bottom:10px;display:block; }
+        .eq-item h4 { font-size:.97rem;font-weight:700;margin:0 0 8px; }
+        .eq-item p { font-size:.84rem;opacity:.85;line-height:1.5;margin:0; }
+
+        .cta-section { padding:70px 24px;background:#fff;text-align:center; }
+        .cta-section h2 { font-size:1.8rem;color:#2d2d2d;font-weight:800;margin:0 0 12px; }
+        .cta-section p { color:#666;margin:0 0 28px; }
+        .btn-blue { display:inline-block;background:linear-gradient(135deg,#0f3460,#1a4e8a);color:#fff;padding:14px 36px;border-radius:50px;text-decoration:none;font-weight:700;font-size:1rem;transition:transform .2s,box-shadow .2s;margin:6px; }
+        .btn-blue:hover { transform:translateY(-2px);box-shadow:0 8px 24px rgba(15,52,96,.35); }
+        .btn-outline-blue { display:inline-block;border:2px solid var(--blue-dark);color:var(--blue-dark);padding:12px 36px;border-radius:50px;text-decoration:none;font-weight:700;font-size:1rem;transition:all .2s;margin:6px; }
+        .btn-outline-blue:hover { background:var(--blue-dark);color:#fff; }
+    </style>
+</head>
+<body>
+    <%- include('partials/navbarUser', { isAdmin: isAdmin }) %>
+
+    <section class="page-hero">
+        <div class="breadcrumb"><a href="/">Inicio</a> › <span>Calidad</span></div>
+        <h1>Sistema de Calidad</h1>
+        <p>Cada pieza que fabricamos pasa por controles rigurosos. La calidad no es un departamento — es una cultura que atraviesa toda la organización.</p>
+    </section>
+
+    <section class="intro-section">
+        <div class="intro-grid">
+            <div class="intro-text">
+                <h2>Calidad que se <span>mide</span> y se prueba</h2>
+                <p>Nuestro sistema de gestión de calidad no es un documento de cajón: es un conjunto de procesos activos que guían cada decisión productiva, desde la selección de materiales hasta la entrega al cliente.</p>
+                <p>Con la certificación ISO 9001, nos comprometemos a la mejora continua y a demostrar con datos que cumplimos los estándares prometidos.</p>
+                <p>Menos del 0.5% de nuestros productos presentan observaciones post-entrega. Ese número nos exige que sigamos mejorando.</p>
+            </div>
+            <div class="quality-kpis">
+                <div class="kpi-box"><h3>&lt;0.5%</h3><p>Tasa de reclamos</p></div>
+                <div class="kpi-box"><h3>100%</h3><p>Lotes controlados</p></div>
+                <div class="kpi-box"><h3>ISO<br>9001</h3><p>Certificado vigente</p></div>
+                <div class="kpi-box"><h3>30+</h3><p>Años de experiencia</p></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="controls-section">
+        <div class="section-title">
+            <p class="subtitle">Qué controlamos</p>
+            <h2>Controles de Calidad</h2>
+            <div class="title-bar"></div>
+        </div>
+        <div class="controls-grid">
+            <div class="control-card"><span class="ctrl-icon">🧪</span><h4>Control de Materia Prima</h4><p>Cada bobina o plancha de acero ingresante es analizada: composición química, dureza, espesor. Solo materiales aprobados ingresan a producción.</p></div>
+            <div class="control-card"><span class="ctrl-icon">📏</span><h4>Control Dimensional</h4><p>Medición por instrumentos calibrados de todas las dimensiones críticas: diámetros, espesores, longitudes. Tolerancias definidas por norma.</p></div>
+            <div class="control-card"><span class="ctrl-icon">🔭</span><h4>Inspección Visual</h4><p>Revisión del acabado superficial: sin rebabas, rallones, soldaduras irregulares ni defectos estéticos. Personal entrenado en cada turno.</p></div>
+            <div class="control-card"><span class="ctrl-icon">💧</span><h4>Prueba de Hermeticidad</h4><p>Para productos que requieren estanqueidad (recipientes, grifería): ensayo de presión hidráulica o neumática según norma aplicable.</p></div>
+            <div class="control-card"><span class="ctrl-icon">📦</span><h4>Control de Packaging</h4><p>Verificación del embalaje, etiquetado, cantidad y conformidad antes del despacho. Sin producto no conforme sale a distribución.</p></div>
+            <div class="control-card"><span class="ctrl-icon">📊</span><h4>Trazabilidad y Registros</h4><p>Cada lote tiene un número de trazabilidad que permite identificar materiales, operarios, equipos y fechas de producción.</p></div>
+        </div>
+    </section>
+
+    <section class="flow-section">
+        <div class="section-title">
+            <p class="subtitle">De la bobina al cliente</p>
+            <h2>Flujo Productivo con Calidad</h2>
+            <div class="title-bar"></div>
+        </div>
+        <div class="flow-container">
+            <div class="flow-step"><div class="flow-circle">🏭</div><h5>Recepción MP</h5><p>Materia prima inspeccionada</p></div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step"><div class="flow-circle">✂️</div><h5>Corte</h5><p>Dimensiones controladas</p></div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step"><div class="flow-circle">🔧</div><h5>Conformado</h5><p>Tolerancias verificadas</p></div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step"><div class="flow-circle">⚡</div><h5>Soldadura</h5><p>Ensayo visual + ensayos</p></div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step"><div class="flow-circle">✨</div><h5>Acabado</h5><p>Inspección superficial</p></div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step"><div class="flow-circle">✅</div><h5>Liberación</h5><p>Aprobación final QC</p></div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step"><div class="flow-circle">📦</div><h5>Despacho</h5><p>Packaging + etiquetado</p></div>
+        </div>
+    </section>
+
+    <section class="equipment-section">
+        <div class="section-title">
+            <p class="subtitle">Herramientas y equipos</p>
+            <h2>Equipamiento de Control</h2>
+            <div class="title-bar"></div>
+        </div>
+        <div class="eq-grid">
+            <div class="eq-item"><span class="e-icon">📐</span><h4>Pie de rey digital</h4><p>Medición de dimensiones con precisión de centésima de milímetro. Calibración certificada.</p></div>
+            <div class="eq-item"><span class="e-icon">🔬</span><h4>Rugosímetro</h4><p>Medición del acabado superficial. Garantiza la estética y protección anticorrosiva del producto.</p></div>
+            <div class="eq-item"><span class="e-icon">💎</span><h4>Durómetro</h4><p>Verificación de la dureza del material para asegurar la resistencia mecánica según especificación.</p></div>
+            <div class="eq-item"><span class="e-icon">🧲</span><h4>Analizador de composición</h4><p>Verificación rápida del grado de acero inoxidable para evitar mezclas de material.</p></div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <h2>¿Requerís especificaciones técnicas del producto?</h2>
+        <p>Podemos enviarte fichas técnicas, certificados de calidad de lote y declaraciones de conformidad.</p>
+        <a href="/contacto" class="btn-blue">📋 Solicitar documentación</a>
+        <a href="/iso" class="btn-outline-blue">🏆 Ver Certificaciones ISO</a>
+    </section>
+
+    <%- include('partials/footer') %>
+</body>
+</html>

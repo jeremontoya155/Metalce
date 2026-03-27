@@ -6,6 +6,9 @@
      data-model="<%= product.name %>" 
      data-price="<%= product.price %>"
      data-category="<%= product.categoria_id || '' %>"
+     data-familia="<%= product.categoria_familia || '' %>"
+     data-linea="<%= product.categoria_linea || '' %>"
+     data-codigo="<%= product.codigo || '' %>"
      data-toggle="modal" 
      data-target="#productModal<%= product.id %>">
 
@@ -52,6 +55,10 @@
       </div>
     <% } else { %>
       <h3 class="product-name"><%= product.name %></h3>
+    <% } %>
+
+    <% if (product.codigo) { %>
+    <div style="font-size:.78rem;color:#999;font-family:monospace;margin-bottom:4px;letter-spacing:.5px;">Cód: <%= product.codigo %></div>
     <% } %>
 
     <% if (tieneOferta) { %>

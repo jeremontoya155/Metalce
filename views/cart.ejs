@@ -75,6 +75,50 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             width: 100%;
             height: auto;
         }
+        /* ===== Hierarchy Filter ===== */
+        .filter-btn-hierarchy {
+            background: #fff;
+            border: 1.5px solid rgba(139,21,56,.25);
+            color: #8B1538;
+            padding: 7px 16px;
+            border-radius: 50px;
+            font-size: .88rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background .2s, border-color .2s;
+            white-space: nowrap;
+        }
+        .filter-btn-hierarchy:hover, .filter-btn-hierarchy.active {
+            background: #8B1538;
+            color: #fff;
+            border-color: #8B1538;
+        }
+        .hie-btn {
+            background: #f7f7f7;
+            border: 1.5px solid #e0e0e0;
+            border-radius: 20px;
+            padding: 5px 13px;
+            font-size: .82rem;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all .15s;
+            white-space: nowrap;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .hie-familia-btn { background: #fdf0f3; border-color: rgba(139,21,56,.25); color: #8B1538; font-weight: 700; }
+        .hie-linea-btn { background: #e3f2fd; border-color: rgba(21,101,192,.25); color: #1565c0; }
+        .hie-cat-btn { background: #f3e5f5; border-color: rgba(123,31,162,.2); color: #7b1fa2; }
+        .hie-all-btn { background: #e8f5e9; border-color: rgba(46,125,50,.25); color: #2e7d32; font-weight: 700; }
+        .hie-btn:hover { filter: brightness(.93); transform: translateY(-1px); }
+        .hie-btn.active { filter: brightness(.82); box-shadow: 0 2px 8px rgba(0,0,0,.12); }
+        .hie-familia { display: inline-block; margin-bottom: 6px; }
+        .hie-lineas { padding: 6px 0 2px 12px; display:flex; flex-wrap:wrap; gap:6px; }
+        .hie-linea-group { display:flex; flex-direction:column; gap:4px; }
+        .hie-cats { padding: 4px 0 2px 12px; display:flex; flex-wrap:wrap; gap:4px; }
+        .hie-arrow { font-size:.7rem; margin-left:2px; transition: transform .2s; }
+        .hie-familia-btn.open .hie-arrow, .hie-linea-btn.open .hie-arrow { transform: rotate(180deg); }
     </style>
     <!-- Meta Pixel Code -->
     <script>
@@ -104,11 +148,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <!-- Header del catálogo con diseño único -->
             <div class="catalog-header">
                 <div class="catalog-header-content">
-                    <h2 class="catalogo-title">CATÁLOGO</h2>
-                    <p class="catalog-subtitle">Encuentra la tecnología perfecta para ti</p>
+                    <h2 class="catalogo-title" data-i18n="catalogo_title">CATÁLOGO</h2>
+                    <p class="catalog-subtitle" data-i18n="catalogo_sub">Encuentra la tecnología perfecta para ti</p>
                 </div>
-                <div class="catalogo-logo">
+                <div class="catalogo-logo" style="display:flex;flex-direction:column;align-items:center;gap:10px;">
                     <img style="width: 8em;" src="<%= imagenUrl2 %>" alt="Metal-Ce Logo">
+                    <a href="/catalogo/descargar" 
+                       style="display:inline-flex;align-items:center;gap:7px;background:linear-gradient(135deg,#8B1538,#A91D47);color:#fff;text-decoration:none;padding:9px 18px;border-radius:50px;font-size:.8rem;font-weight:700;letter-spacing:.3px;box-shadow:0 4px 14px rgba(139,21,56,.3);transition:transform .2s ease,box-shadow .2s ease;"
+                       onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 20px rgba(139,21,56,.45)'"
+                       onmouseout="this.style.transform='';this.style.boxShadow='0 4px 14px rgba(139,21,56,.3)'"
+                       title="Descargar catálogo completo en Excel">
+                        📥 Descargar catálogo (.xlsx)
+                    </a>
                 </div>
             </div>
 
@@ -116,34 +167,106 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <div class="filter-bar-fixed">
                 <div class="filter-bar-content">
                     <div class="filter-search-box">
-                        <input type="text" id="quick-search" class="filter-input" placeholder="🔍 Buscar productos...">
+                        <input type="text" id="quick-search" class="filter-input" placeholder="🔍 Buscar productos..." data-i18n-placeholder="search_placeholder">
                     </div>
                     <div class="filter-category-box">
-                        <select id="category-filter" class="filter-select">
-                            <option value="">📂 Todas las categorías</option>
-                            <% 
-                            const categorias = new Map();
-                            products.forEach(product => {
-                                if (product.categoria_id && product.categoria_nombre && !categorias.has(product.categoria_id)) {
-                                    categorias.set(product.categoria_id, {
-                                        nombre: product.categoria_nombre,
-                                        icono: product.categoria_icono || '📦'
-                                    });
-                                }
-                            });
-                            categorias.forEach((cat, id) => { %>
-                                <option value="<%= id %>"><%= cat.icono %> <%= cat.nombre %></option>
-                            <% }); %>
-                        </select>
+                        <button class="filter-btn-hierarchy" id="toggle-hierarchy" onclick="toggleHierarchy()" data-i18n="filter_catalog">
+                            🗂️ Filtrar catálogo ▾
+                        </button>
                     </div>
                     <div class="filter-sort-box">
                         <select id="price-sort" class="filter-select">
-                            <option value="">💰 Ordenar por precio</option>
-                            <option value="asc">Menor a mayor</option>
-                            <option value="desc">Mayor a menor</option>
+                            <option value="" data-i18n="sort_price">💰 Ordenar por precio</option>
+                            <option value="asc" data-i18n="sort_asc">Menor a mayor</option>
+                            <option value="desc" data-i18n="sort_desc">Mayor a menor</option>
                         </select>
                     </div>
-                    <button class="filter-reset-btn" id="reset-filters">✖ Limpiar</button>
+                    <button class="filter-reset-btn" id="reset-filters" data-i18n="btn_clear">✖ Limpiar</button>
+                </div>
+                <!-- Panel jerárquico 3 niveles -->
+                <div id="hierarchy-panel" style="display:none; padding: 12px 0 4px; border-top: 1px solid rgba(139,21,56,.1); margin-top:10px;">
+                    <div id="hierarchy-tree" style="display:flex; flex-wrap:wrap; gap:8px; align-items:flex-start;">
+                        <%
+                        // Construir estructura jerárquica
+                        const famMap = new Map(); // familia => { lineas: Map(linea => [{id, nombre, icono}]) }
+                        const sinFamilia = []; // categorías sin familia
+                        const catMap = new Map(); // id => {nombre, icono, familia, linea}
+
+                        products.forEach(p => {
+                            if (!p.categoria_id || !p.categoria_nombre) return;
+                            if (!catMap.has(p.categoria_id)) {
+                                catMap.set(p.categoria_id, {
+                                    id: p.categoria_id,
+                                    nombre: p.categoria_nombre,
+                                    icono: p.categoria_icono || '📦',
+                                    familia: p.categoria_familia || null,
+                                    linea: p.categoria_linea || null
+                                });
+                            }
+                        });
+
+                        catMap.forEach(cat => {
+                            if (!cat.familia) {
+                                sinFamilia.push(cat);
+                                return;
+                            }
+                            if (!famMap.has(cat.familia)) famMap.set(cat.familia, new Map());
+                            const linea = cat.linea || '—';
+                            if (!famMap.get(cat.familia).has(linea)) famMap.get(cat.familia).set(linea, []);
+                            famMap.get(cat.familia).get(linea).push(cat);
+                        });
+                        %>
+
+                        <% famMap.forEach((lineas, familia) => { %>
+                        <div class="hie-familia" data-familia="<%= familia %>">
+                            <button class="hie-btn hie-familia-btn" onclick="toggleFamilia(this)" data-familia="<%= familia %>">
+                                🏭 <%= familia %> <span class="hie-arrow">▾</span>
+                            </button>
+                            <div class="hie-lineas" style="display:none;">
+                                <% lineas.forEach((cats, linea) => { %>
+                                <div class="hie-linea-group">
+                                    <button class="hie-btn hie-linea-btn" onclick="toggleLinea(this)" data-linea="<%= linea %>">
+                                        📐 <%= linea %> <span class="hie-arrow">▾</span>
+                                    </button>
+                                    <div class="hie-cats" style="display:none;">
+                                        <% cats.forEach(cat => { %>
+                                        <button class="hie-btn hie-cat-btn" data-cat-id="<%= cat.id %>" onclick="selectHierarchyCat(this)">
+                                            <%= cat.icono %> <%= cat.nombre %>
+                                        </button>
+                                        <% }); %>
+                                    </div>
+                                </div>
+                                <% }); %>
+                            </div>
+                        </div>
+                        <% }); %>
+
+                        <% if (sinFamilia.length > 0) { %>
+                        <div class="hie-familia">
+                            <button class="hie-btn hie-familia-btn" onclick="toggleFamilia(this)" data-familia="">
+                                📦 Sin clasificar <span class="hie-arrow">▾</span>
+                            </button>
+                            <div class="hie-lineas" style="display:none;">
+                                <% sinFamilia.forEach(cat => { %>
+                                <button class="hie-btn hie-cat-btn" data-cat-id="<%= cat.id %>" onclick="selectHierarchyCat(this)">
+                                    <%= cat.icono %> <%= cat.nombre %>
+                                </button>
+                                <% }); %>
+                            </div>
+                        </div>
+                        <% } %>
+
+                        <% if (famMap.size === 0 && sinFamilia.length === 0) { %>
+                        <span style="color:#999;font-size:.85rem;padding:6px;">Sin categorías definidas</span>
+                        <% } %>
+                    </div>
+                    <% if (catMap.size > 0) { %>
+                    <div style="margin-top:8px;">
+                        <button class="hie-btn hie-all-btn active" id="btn-all-cats" onclick="showAllCats()" data-i18n="all_cats">
+                            ✅ Todas las categorías
+                        </button>
+                    </div>
+                    <% } %>
                 </div>
             </div>
 

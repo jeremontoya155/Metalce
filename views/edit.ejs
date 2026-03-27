@@ -21,6 +21,11 @@
                 <label for="name">Nombre</label>
                 <input type="text" class="form-control" id="name" name="name" value="<%= product.name %>" required>
             </div>
+            <div class="form-group">
+                <label for="codigo">Código de producto</label>
+                <input type="text" class="form-control" id="codigo" name="codigo" value="<%= product.codigo || '' %>" placeholder="Ej: MC-001">
+                <small class="form-text text-muted">Código interno o de fabricante (opcional)</small>
+            </div>
            
             <div class="form-group">
                 <label for="description">Descripción</label>
@@ -75,6 +80,15 @@
                 <label for="almacenamiento">Almacenamiento (GB)</label>
                 <input type="number" class="form-control" id="almacenamiento" name="almacenamiento" value="<%= product.almacenamiento || '' %>">
                 <small class="form-text text-muted">Opcional - Solo para dispositivos con almacenamiento</small>
+            </div>
+            <div class="form-group">
+                <label for="aclaracion">Aclaración</label>
+                <textarea class="form-control" id="aclaracion" name="aclaracion" rows="2" placeholder="Ej: Producto a pedido, no incluye accesorios, etc."><%= product.aclaracion || '' %></textarea>
+            </div>
+            <div class="form-group">
+                <label for="folleto_url">URL del folleto (PDF)</label>
+                <input type="url" class="form-control" id="folleto_url" name="folleto_url" value="<%= product.folleto_url || '' %>" placeholder="https://...">
+                <small class="form-text text-muted">Link directo a un PDF en Cloudinary o cualquier URL</small>
             </div>
             <button type="submit" class="btn btn-primary">Guardar cambios</button>
             <a href="/" class="btn btn-secondary">Cancelar</a>

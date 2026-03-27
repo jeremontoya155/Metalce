@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Línea Verde | Metal-Ce</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="/css/navBar.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/index-modern.css">
+    <link rel="icon" type="image/x-icon" href="/imgs/favicon.ico">
+    <style>
+        :root { --green: #2d7a3a; --green-light: #3a9e4a; --green-pale: #f0faf1; }
+        body { margin: 0; padding: 0; }
+        .page-hero {
+            background: linear-gradient(135deg, #1a4a22 0%, #2d7a3a 50%, #3a9e4a 100%);
+            color: #fff; padding: 100px 24px 60px; text-align: center; position: relative; overflow: hidden;
+        }
+        .page-hero::before {
+            content: '🌿'; position: absolute; font-size: 200px; opacity: .06;
+            top: -30px; right: -30px; line-height: 1; pointer-events: none;
+        }
+        .breadcrumb { display:flex;align-items:center;justify-content:center;gap:8px;font-size:.85rem;opacity:.7;margin-bottom:20px; }
+        .breadcrumb a { color:#fff;text-decoration:none; }
+        .page-hero h1 { font-size:clamp(2rem,5vw,3.5rem);font-weight:800;letter-spacing:2px;margin:0 0 16px; }
+        .page-hero p { font-size:1.1rem;opacity:.85;max-width:620px;margin:0 auto; }
+        .eco-badge { display:inline-block;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);border-radius:50px;padding:8px 24px;font-size:.9rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:20px;backdrop-filter:blur(4px); }
+
+        .section-title { text-align:center;margin-bottom:48px; }
+        .section-title h2 { font-size:clamp(1.6rem,3vw,2.4rem);font-weight:800;color:#2d2d2d;margin:0 0 10px; }
+        .section-title .subtitle { color:var(--green);font-size:1rem;letter-spacing:2px;text-transform:uppercase;font-weight:600; }
+        .title-bar { width:60px;height:4px;background:linear-gradient(90deg,var(--green),var(--green-light));border-radius:2px;margin:12px auto 0; }
+
+        .intro-section { padding:80px 24px;background:#fff; }
+        .intro-grid { display:grid;grid-template-columns:1fr 1fr;gap:60px;max-width:1000px;margin:0 auto;align-items:center; }
+        .intro-text h2 { font-size:2rem;font-weight:800;color:#2d2d2d;margin:0 0 16px; }
+        .intro-text h2 span { color:var(--green); }
+        .intro-text p { color:#555;line-height:1.7;font-size:1rem;margin-bottom:16px; }
+        .intro-visual { display:grid;grid-template-columns:1fr 1fr;gap:16px; }
+        .eco-stat { background:var(--green-pale);border-radius:14px;padding:28px 20px;text-align:center;border:1px solid rgba(45,122,58,.15); }
+        .eco-stat h3 { font-size:2.2rem;font-weight:900;color:var(--green);margin:0 0 6px;line-height:1; }
+        .eco-stat p { font-size:.82rem;color:#555;text-transform:uppercase;letter-spacing:1px;margin:0; }
+        @media(max-width:700px){ .intro-grid{grid-template-columns:1fr;gap:32px;} }
+
+        .products-section { padding:80px 24px;background:var(--green-pale); }
+        .products-grid { display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px;max-width:1100px;margin:0 auto; }
+        .product-card-eco { background:#fff;border-radius:16px;padding:28px 22px;box-shadow:0 4px 20px rgba(0,0,0,.07);border-top:4px solid var(--green);transition:transform .3s ease; }
+        .product-card-eco:hover { transform:translateY(-5px); }
+        .eco-icon { font-size:2.5rem;margin-bottom:14px;display:block; }
+        .product-card-eco h4 { font-size:1.05rem;font-weight:700;color:#2d2d2d;margin:0 0 10px; }
+        .product-card-eco p { font-size:.87rem;color:#666;line-height:1.6;margin:0 0 14px; }
+        .eco-tag { display:inline-block;background:var(--green-pale);color:var(--green);font-size:.75rem;font-weight:700;padding:4px 10px;border-radius:20px;border:1px solid rgba(45,122,58,.2);margin:2px; }
+
+        .process-section { padding:80px 24px;background:#fff; }
+        .process-steps { display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0;max-width:1000px;margin:0 auto;position:relative; }
+        .process-steps::before { content:'';position:absolute;top:36px;left:10%;right:10%;height:2px;background:linear-gradient(90deg,var(--green),var(--green-light));z-index:0; }
+        @media(max-width:700px){ .process-steps::before{display:none;} }
+        .step { text-align:center;padding:20px 16px;position:relative;z-index:1; }
+        .step-num { width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,var(--green),var(--green-light));color:#fff;font-size:1.5rem;font-weight:900;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;box-shadow:0 4px 16px rgba(45,122,58,.3); }
+        .step h4 { font-size:.95rem;font-weight:700;color:#2d2d2d;margin:0 0 8px; }
+        .step p { font-size:.82rem;color:#666;line-height:1.5;margin:0; }
+
+        .benefits-section { padding:80px 24px;background:linear-gradient(135deg,#1a4a22,#2d7a3a);color:#fff; }
+        .benefits-section .section-title h2 { color:#fff; }
+        .benefits-section .section-title .subtitle { color:rgba(255,255,255,.7); }
+        .benefits-section .title-bar { background:rgba(255,255,255,.4); }
+        .benefits-grid { display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;max-width:1000px;margin:0 auto; }
+        .benefit-item { background:rgba(255,255,255,.1);border-radius:14px;padding:28px 22px;border:1px solid rgba(255,255,255,.15);backdrop-filter:blur(4px);transition:background .3s; }
+        .benefit-item:hover { background:rgba(255,255,255,.18); }
+        .benefit-item .b-icon { font-size:2.2rem;margin-bottom:12px;display:block; }
+        .benefit-item h4 { font-size:1rem;font-weight:700;margin:0 0 8px; }
+        .benefit-item p { font-size:.85rem;opacity:.85;line-height:1.5;margin:0; }
+
+        .cta-section { padding:70px 24px;background:#fff;text-align:center; }
+        .cta-section h2 { font-size:1.8rem;color:#2d2d2d;font-weight:800;margin:0 0 12px; }
+        .cta-section p { color:#666;margin:0 0 28px; }
+        .btn-green { display:inline-block;background:linear-gradient(135deg,var(--green),var(--green-light));color:#fff;padding:14px 36px;border-radius:50px;text-decoration:none;font-weight:700;font-size:1rem;transition:transform .2s,box-shadow .2s;margin:6px; }
+        .btn-green:hover { transform:translateY(-2px);box-shadow:0 8px 24px rgba(45,122,58,.35); }
+        .btn-outline-green { display:inline-block;border:2px solid var(--green);color:var(--green);padding:12px 36px;border-radius:50px;text-decoration:none;font-weight:700;font-size:1rem;transition:all .2s;margin:6px; }
+        .btn-outline-green:hover { background:var(--green);color:#fff; }
+    </style>
+</head>
+<body>
+    <%- include('partials/navbarUser', { isAdmin: isAdmin }) %>
+
+    <section class="page-hero">
+        <div class="breadcrumb"><a href="/">Inicio</a> › <span>Línea Verde</span></div>
+        <div class="eco-badge">🌿 Eco-Responsable</div>
+        <h1>Línea Verde</h1>
+        <p>Fabricamos con conciencia. Productos de acero inoxidable elaborados con materiales reciclados y procesos de mínimo impacto ambiental.</p>
+    </section>
+
+    <section class="intro-section">
+        <div class="intro-grid">
+            <div class="intro-text">
+                <h2>Producción <span>sostenible</span> sin sacrificar calidad</h2>
+                <p>La Línea Verde de Metal-Ce nació en 2015 con una premisa clara: fabricar productos de la misma alta calidad que nos caracteriza, pero con un compromiso explícito con el medioambiente.</p>
+                <p>Utilizamos acero reciclado como materia prima principal, optimizamos el consumo energético en cada etapa productiva y aplicamos sistemas de tratamiento de efluentes que minimizan nuestro impacto en el entorno.</p>
+                <p>Todos los productos de esta línea llevan el sello <strong>Línea Verde Metal-Ce</strong>, que garantiza al cliente que eligió una opción responsable sin resignar durabilidad ni estética.</p>
+            </div>
+            <div class="intro-visual">
+                <div class="eco-stat"><h3>70%</h3><p>Acero reciclado</p></div>
+                <div class="eco-stat"><h3>40%</h3><p>Menos CO₂</p></div>
+                <div class="eco-stat"><h3>100%</h3><p>Efluentes tratados</p></div>
+                <div class="eco-stat"><h3>ISO<br>14001</h3><p>Certificación</p></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="products-section">
+        <div class="section-title">
+            <p class="subtitle">Fabricados con consciencia</p>
+            <h2>Productos de la Línea Verde</h2>
+            <div class="title-bar"></div>
+        </div>
+        <div class="products-grid">
+            <div class="product-card-eco">
+                <span class="eco-icon">🪣</span>
+                <h4>Recipientes Eco-Reciclados</h4>
+                <p>Baldes, palanganas y contenedores fabricados con un 70% de acero reciclado. Misma resistencia, menor impacto ambiental.</p>
+                <span class="eco-tag">🌱 70% reciclado</span>
+                <span class="eco-tag">♻️ Certificado</span>
+            </div>
+            <div class="product-card-eco">
+                <span class="eco-icon">🫙</span>
+                <h4>Utensilios de Cocina Green</h4>
+                <p>Cubiertos, ollas y utensilios de la línea doméstica con proceso productivo de bajo consumo energético y cero residuos líquidos.</p>
+                <span class="eco-tag">⚡ Bajo consumo</span>
+                <span class="eco-tag">💧 Cero efluentes</span>
+            </div>
+            <div class="product-card-eco">
+                <span class="eco-icon">🏗️</span>
+                <h4>Estructuras Industriales</h4>
+                <p>Perfiles, caños y estructuras para uso industrial fabricados con materiales de origen reciclado y tratamiento superficial ecológico.</p>
+                <span class="eco-tag">♻️ Reciclado</span>
+                <span class="eco-tag">🛡️ Durabilidad</span>
+            </div>
+            <div class="product-card-eco">
+                <span class="eco-icon">🚰</span>
+                <h4>Sanitarios y Griferías</h4>
+                <p>Línea de productos sanitarios con tecnología ahorradora de agua integrada, fabricados bajo los estándares de la ISO 14001.</p>
+                <span class="eco-tag">💧 Ahorro agua</span>
+                <span class="eco-tag">✅ ISO 14001</span>
+            </div>
+            <div class="product-card-eco">
+                <span class="eco-icon">🍽️</span>
+                <h4>Equipamiento Gastronómico</h4>
+                <p>Mesas, estantes y equipamiento para cocinas industriales con sistema de limpieza ecológica y acabados sin productos tóxicos.</p>
+                <span class="eco-tag">🧼 Sin tóxicos</span>
+                <span class="eco-tag">🌿 Eco-cleaning</span>
+            </div>
+            <div class="product-card-eco">
+                <span class="eco-icon">🎨</span>
+                <h4>Diseño Personalizado Eco</h4>
+                <p>Diseñamos productos a medida bajo los estándares de la Línea Verde. Consultanos por tu proyecto sustentable.</p>
+                <span class="eco-tag">📐 A medida</span>
+                <span class="eco-tag">🌍 Sostenible</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="process-section">
+        <div class="section-title">
+            <p class="subtitle">Paso a paso</p>
+            <h2>Nuestro Proceso Sostenible</h2>
+            <div class="title-bar"></div>
+        </div>
+        <div class="process-steps">
+            <div class="step"><div class="step-num">♻️</div><h4>Materia Prima</h4><p>Selección de acero reciclado certificado de proveedores auditados.</p></div>
+            <div class="step"><div class="step-num">⚡</div><h4>Energía</h4><p>Producción con maquinaria de bajo consumo y energías renovables.</p></div>
+            <div class="step"><div class="step-num">💧</div><h4>Efluentes</h4><p>Sistema de tratamiento de agua 100% eficiente antes del descarte.</p></div>
+            <div class="step"><div class="step-num">✅</div><h4>Control</h4><p>Auditoría ISO 14001 en cada lote producido.</p></div>
+            <div class="step"><div class="step-num">📦</div><h4>Embalaje</h4><p>Packaging biodegradable y materiales de embalaje reciclados.</p></div>
+        </div>
+    </section>
+
+    <section class="benefits-section">
+        <div class="section-title">
+            <p class="subtitle">¿Por qué elegirla?</p>
+            <h2>Beneficios de la Línea Verde</h2>
+            <div class="title-bar"></div>
+        </div>
+        <div class="benefits-grid">
+            <div class="benefit-item"><span class="b-icon">💰</span><h4>Sin sobrecosto significativo</h4><p>La producción eco-responsable no implica pagar más. Los precios de la Línea Verde son competitivos con el resto del catálogo.</p></div>
+            <div class="benefit-item"><span class="b-icon">🏅</span><h4>Diferenciación ante clientes</h4><p>Eligiendo la Línea Verde podés comunicar tu compromiso ambiental a tus propios clientes y proveedores.</p></div>
+            <div class="benefit-item"><span class="b-icon">📜</span><h4>Documentación certificada</h4><p>Cada producto incluye documentación de trazabilidad y origen de materiales para tus registros de sostenibilidad.</p></div>
+            <div class="benefit-item"><span class="b-icon">🌍</span><h4>Impacto real medible</h4><p>Nuestros reportes anuales detallan las toneladas de CO₂ ahorradas y el acero reciclado utilizado en cada ejercicio.</p></div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <h2>¿Querés productos eco-responsables para tu empresa?</h2>
+        <p>Contactanos y te asesoramos sobre la Línea Verde que mejor se adapta a tu negocio.</p>
+        <a href="/contacto" class="btn-green">✉️ Consultá ahora</a>
+        <a href="/cart" class="btn-outline-green">📦 Ver Catálogo</a>
+    </section>
+
+    <%- include('partials/footer') %>
+</body>
+</html>

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certificaciones ISO | Metal-Ce</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="/css/navBar.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/index-modern.css">
+    <link rel="icon" type="image/x-icon" href="/imgs/favicon.ico">
+    <style>
+        body { margin: 0; padding: 0; }
+        .page-hero { background:linear-gradient(135deg,#6B0F2A 0%,#8B1538 50%,#A91D47 100%);color:#fff;padding:100px 24px 60px;text-align:center;position:relative;overflow:hidden; }
+        .page-hero::before { content:'ISO';position:absolute;font-size:220px;font-weight:900;opacity:.05;top:-20px;right:-30px;line-height:1;pointer-events:none;letter-spacing:-10px; }
+        .breadcrumb { display:flex;align-items:center;justify-content:center;gap:8px;font-size:.85rem;opacity:.7;margin-bottom:20px; }
+        .breadcrumb a { color:#fff;text-decoration:none; }
+        .page-hero h1 { font-size:clamp(2rem,5vw,3.5rem);font-weight:800;letter-spacing:2px;margin:0 0 16px; }
+        .page-hero p { font-size:1.1rem;opacity:.85;max-width:620px;margin:0 auto; }
+
+        .section-title { text-align:center;margin-bottom:48px; }
+        .section-title h2 { font-size:clamp(1.6rem,3vw,2.4rem);font-weight:800;color:#2d2d2d;margin:0 0 10px; }
+        .section-title .subtitle { color:#8B1538;font-size:1rem;letter-spacing:2px;text-transform:uppercase;font-weight:600; }
+        .title-bar { width:60px;height:4px;background:linear-gradient(90deg,#8B1538,#A91D47);border-radius:2px;margin:12px auto 0; }
+
+        /* ISO CARDS */
+        .iso-cards-section { padding:90px 24px;background:#fff; }
+        .iso-main-grid { display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:32px;max-width:1050px;margin:0 auto; }
+        .iso-main-card { background:#fafafa;border-radius:20px;overflow:hidden;box-shadow:0 6px 30px rgba(0,0,0,0.09);transition:transform .3s ease,box-shadow .3s ease; }
+        .iso-main-card:hover { transform:translateY(-8px);box-shadow:0 16px 48px rgba(139,21,56,.18); }
+        .iso-card-header { background:linear-gradient(135deg,#8B1538,#A91D47);padding:32px;color:#fff;text-align:center;position:relative; }
+        .iso-number-big { font-size:3.5rem;font-weight:900;letter-spacing:-2px;line-height:1;margin-bottom:4px; }
+        .iso-subtitle { font-size:.85rem;opacity:.8;letter-spacing:2px;text-transform:uppercase; }
+        .iso-seal { position:absolute;top:16px;right:16px;width:40px;height:40px;background:rgba(255,255,255,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.2rem;border:1px solid rgba(255,255,255,.3); }
+        .iso-card-body { padding:28px 24px; }
+        .iso-card-body h3 { font-size:1.2rem;font-weight:700;color:#2d2d2d;margin:0 0 12px; }
+        .iso-card-body p { font-size:.9rem;color:#555;line-height:1.7;margin:0 0 20px; }
+        .iso-requirements { list-style:none;padding:0;margin:0; }
+        .iso-requirements li { display:flex;align-items:flex-start;gap:10px;font-size:.86rem;color:#555;padding:8px 0;border-bottom:1px solid #f0f0f0;line-height:1.4; }
+        .iso-requirements li:last-child { border-bottom:none; }
+        .iso-requirements li::before { content:'✓';color:#8B1538;font-weight:700;min-width:16px;margin-top:1px; }
+
+        /* WHAT IS ISO */
+        .what-iso-section { padding:80px 24px;background:#f7f3f4; }
+        .two-col { display:grid;grid-template-columns:1fr 1fr;gap:60px;max-width:960px;margin:0 auto;align-items:center; }
+        @media(max-width:700px){ .two-col{grid-template-columns:1fr;gap:32px;} }
+        .what-text h2 { font-size:1.8rem;font-weight:800;color:#2d2d2d;margin:0 0 16px; }
+        .what-text h2 span { color:#8B1538; }
+        .what-text p { color:#555;line-height:1.7;font-size:.97rem;margin-bottom:16px; }
+        .iso-visual { display:flex;flex-direction:column;gap:16px; }
+        .iso-pillar { display:flex;align-items:center;gap:16px;background:#fff;border-radius:12px;padding:18px 20px;box-shadow:0 2px 12px rgba(0,0,0,.06);border-left:4px solid #8B1538; }
+        .iso-pillar .p-icon { font-size:1.8rem;min-width:36px; }
+        .iso-pillar h5 { font-size:.95rem;font-weight:700;color:#2d2d2d;margin:0 0 4px; }
+        .iso-pillar p { font-size:.82rem;color:#777;margin:0;line-height:1.4; }
+
+        /* AUDIT PROCESS */
+        .audit-section { padding:80px 24px;background:#fff; }
+        .audit-timeline { max-width:700px;margin:0 auto;display:flex;flex-direction:column;gap:0; }
+        .audit-step { display:flex;gap:24px;padding-bottom:32px;position:relative; }
+        .audit-step::before { content:'';position:absolute;left:20px;top:44px;bottom:0;width:2px;background:linear-gradient(180deg,#8B1538,#A91D47);z-index:0; }
+        .audit-step:last-child::before { display:none; }
+        .audit-step:last-child { padding-bottom:0; }
+        .audit-dot { min-width:42px;height:42px;border-radius:50%;background:#8B1538;color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.2rem;z-index:1;flex-shrink:0; }
+        .audit-content h4 { font-size:.97rem;font-weight:700;color:#2d2d2d;margin:8px 0 6px; }
+        .audit-content p { font-size:.85rem;color:#666;line-height:1.5;margin:0; }
+
+        /* BENEFITS */
+        .benefits-section { padding:80px 24px;background:linear-gradient(135deg,#6B0F2A,#8B1538);color:#fff; }
+        .benefits-section .section-title h2 { color:#fff; }
+        .benefits-section .section-title .subtitle { color:rgba(255,255,255,.7); }
+        .benefits-section .title-bar { background:rgba(255,255,255,.4); }
+        .benefits-grid { display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;max-width:1000px;margin:0 auto; }
+        .ben-item { background:rgba(255,255,255,.1);border-radius:14px;padding:24px 20px;border:1px solid rgba(255,255,255,.15);backdrop-filter:blur(4px); }
+        .ben-item .b-icon { font-size:2rem;margin-bottom:10px;display:block; }
+        .ben-item h4 { font-size:.97rem;font-weight:700;margin:0 0 8px; }
+        .ben-item p { font-size:.84rem;opacity:.85;line-height:1.5;margin:0; }
+
+        .cta-section { padding:70px 24px;background:#fff;text-align:center; }
+        .cta-section h2 { font-size:1.8rem;color:#2d2d2d;font-weight:800;margin:0 0 12px; }
+        .cta-section p { color:#666;margin:0 0 28px; }
+        .btn-primary-mc { display:inline-block;background:linear-gradient(135deg,#8B1538,#A91D47);color:#fff;padding:14px 36px;border-radius:50px;text-decoration:none;font-weight:700;font-size:1rem;transition:transform .2s,box-shadow .2s;margin:6px; }
+        .btn-primary-mc:hover { transform:translateY(-2px);box-shadow:0 8px 24px rgba(139,21,56,.35); }
+        .btn-outline-mc { display:inline-block;border:2px solid #8B1538;color:#8B1538;padding:12px 36px;border-radius:50px;text-decoration:none;font-weight:700;font-size:1rem;transition:all .2s;margin:6px; }
+        .btn-outline-mc:hover { background:#8B1538;color:#fff; }
+    </style>
+</head>
+<body>
+    <%- include('partials/navbarUser', { isAdmin: isAdmin }) %>
+
+    <section class="page-hero">
+        <div class="breadcrumb"><a href="/">Inicio</a> › <span>Certificaciones ISO</span></div>
+        <h1>Certificaciones ISO</h1>
+        <p>Calidad, ambiente y seguridad certificados internacionalmente. Nuestro compromiso con los estándares más altos del sector.</p>
+    </section>
+
+    <section class="iso-cards-section">
+        <div class="section-title">
+            <p class="subtitle">Estándares internacionales</p>
+            <h2>Nuestras Certificaciones</h2>
+            <div class="title-bar"></div>
+        </div>
+        <div class="iso-main-grid">
+            <div class="iso-main-card">
+                <div class="iso-card-header">
+                    <div class="iso-seal">🏆</div>
+                    <div class="iso-number-big">ISO 9001</div>
+                    <div class="iso-subtitle">Gestión de Calidad</div>
+                </div>
+                <div class="iso-card-body">
+                    <h3>Sistema de Gestión de Calidad</h3>
+                    <p>La norma ISO 9001 garantiza que todos nuestros procesos productivos y de atención al cliente están orientados a la calidad constante y la mejora continua.</p>
+                    <ul class="iso-requirements">
+                        <li>Procesos documentados y auditados</li>
+                        <li>Control de calidad en cada etapa productiva</li>
+                        <li>Gestión de no conformidades y correcciones</li>
+                        <li>Satisfacción del cliente como objetivo central</li>
+                        <li>Revisión periódica por la dirección</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="iso-main-card">
+                <div class="iso-card-header">
+                    <div class="iso-seal">🌿</div>
+                    <div class="iso-number-big">ISO 14001</div>
+                    <div class="iso-subtitle">Gestión Ambiental</div>
+                </div>
+                <div class="iso-card-body">
+                    <h3>Sistema de Gestión Ambiental</h3>
+                    <p>Certificamos que nuestra actividad productiva se desarrolla con responsabilidad ambiental, minimizando impactos y cumpliendo con todas las regulaciones vigentes.</p>
+                    <ul class="iso-requirements">
+                        <li>Identificación y control de aspectos ambientales</li>
+                        <li>Gestión eficiente de residuos industriales</li>
+                        <li>Tratamiento de efluentes líquidos</li>
+                        <li>Reducción de emisiones y consumo energético</li>
+                        <li>Plan de emergencia ambiental documentado</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="iso-main-card">
+                <div class="iso-card-header">
+                    <div class="iso-seal">🇦🇷</div>
+                    <div class="iso-number-big">IRAM</div>
+                    <div class="iso-subtitle">Normas Nacionales</div>
+                </div>
+                <div class="iso-card-body">
+                    <h3>Instituto Argentino de Normalización</h3>
+                    <p>La certificación IRAM avala que nuestros productos cumplen con las normas técnicas nacionales de calidad, seguridad y desempeño del sector metalúrgico.</p>
+                    <ul class="iso-requirements">
+                        <li>Conformidad con normas IRAM del sector</li>
+                        <li>Ensayos de laboratorio certificados</li>
+                        <li>Trazabilidad de materias primas</li>
+                        <li>Marcado y etiquetado según normativa</li>
+                        <li>Auditorías de fábrica periódicas</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="what-iso-section">
+        <div class="two-col">
+            <div class="what-text">
+                <h2>¿Qué significa para <span>vos</span>?</h2>
+                <p>Cuando comprás un producto Metal-Ce, sabés que detrás hay un sistema de gestión auditado que garantiza lo que está escrito en la etiqueta. No son palabras — son compromisos medibles.</p>
+                <p>Las certificaciones ISO se renuevan anualmente y requieren auditorías externas independientes. No se pueden "comprar" ni mantener sin trabajar activamente en la calidad.</p>
+            </div>
+            <div class="iso-visual">
+                <div class="iso-pillar"><div class="p-icon">🎯</div><div><h5>Consistencia</h5><p>Cada producto fabricado cumple las mismas especificaciones, sin importar el lote o la fecha.</p></div></div>
+                <div class="iso-pillar"><div class="p-icon">🔍</div><div><h5>Trazabilidad</h5><p>Podemos rastrear el origen de cada material y cada proceso de fabricación.</p></div></div>
+                <div class="iso-pillar"><div class="p-icon">📈</div><div><h5>Mejora continua</h5><p>El sistema nos obliga a mejorar año a año, no solo a mantener lo logrado.</p></div></div>
+                <div class="iso-pillar"><div class="p-icon">🤝</div><div><h5>Confianza</h5><p>Terceros independientes verifican que cumplimos lo que decimos.</p></div></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="audit-section">
+        <div class="section-title">
+            <p class="subtitle">Cómo mantenemos las certificaciones</p>
+            <h2>Proceso de Auditoría</h2>
+            <div class="title-bar"></div>
+        </div>
+        <div class="audit-timeline">
+            <div class="audit-step"><div class="audit-dot">📋</div><div class="audit-content"><h4>Auditoría Interna (trimestral)</h4><p>Nuestro equipo de calidad audita los procesos internamente para detectar desvíos antes de las auditorías externas.</p></div></div>
+            <div class="audit-step"><div class="audit-dot">🔎</div><div class="audit-content"><h4>Pre-auditoría externa (semestral)</h4><p>Un consultor externo revisa el sistema antes de la auditoría oficial para garantizar la preparación.</p></div></div>
+            <div class="audit-step"><div class="audit-dot">🏛️</div><div class="audit-content"><h4>Auditoría certificadora (anual)</h4><p>El organismo certificador realiza la auditoría oficial de mantenimiento o renovación de la certificación.</p></div></div>
+            <div class="audit-step"><div class="audit-dot">📊</div><div class="audit-content"><h4>Revisión por la Dirección (anual)</h4><p>La dirección analiza indicadores, resultados y establece objetivos de mejora para el siguiente ciclo.</p></div></div>
+            <div class="audit-step"><div class="audit-dot">✅</div><div class="audit-content"><h4>Renovación del certificado</h4><p>Obtención del certificado renovado, publicado y disponible para clientes y partes interesadas.</p></div></div>
+        </div>
+    </section>
+
+    <section class="benefits-section">
+        <div class="section-title">
+            <p class="subtitle">Ventajas de trabajar con empresa certificada</p>
+            <h2>Beneficios para tu empresa</h2>
+            <div class="title-bar"></div>
+        </div>
+        <div class="benefits-grid">
+            <div class="ben-item"><span class="b-icon">📜</span><h4>Documentación disponible</h4><p>Podés solicitar copia de nuestros certificados para tus registros de proveedores homologados.</p></div>
+            <div class="ben-item"><span class="b-icon">⚖️</span><h4>Cumplimiento legal</h4><p>Nos aseguramos de cumplir todas las regulaciones ambientales y de calidad vigentes.</p></div>
+            <div class="ben-item"><span class="b-icon">🏷️</span><h4>Licitaciones públicas</h4><p>Las certificaciones ISO son requisito en muchas licitaciones. Al comprar Metal-Ce, tu proveedor ya cumple.</p></div>
+            <div class="ben-item"><span class="b-icon">🌟</span><h4>Reputación</h4><p>Asociarte a un proveedor certificado ISO refuerza la imagen de calidad de tu propia empresa.</p></div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <h2>¿Necesitás los certificados para tu expediente de proveedores?</h2>
+        <p>Contactanos y te enviamos la documentación vigente sin costo.</p>
+        <a href="/contacto" class="btn-primary-mc">📄 Solicitar certificados</a>
+        <a href="/calidad" class="btn-outline-mc">🔬 Ver Calidad</a>
+    </section>
+
+    <%- include('partials/footer') %>
+</body>
+</html>

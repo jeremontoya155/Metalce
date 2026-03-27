@@ -70,6 +70,12 @@
                                     <div>
                                         <h5 class="mb-0"><%= categoria.nombre %></h5>
                                         <small class="text-muted"><%= categoria.descripcion || 'Sin descripción' %></small>
+                                        <% if (categoria.familia || categoria.linea) { %>
+                                        <div class="mt-1">
+                                            <% if (categoria.familia) { %><span style="font-size:.72rem;background:#f3e5f5;color:#7b1fa2;padding:2px 8px;border-radius:10px;margin-right:4px;">🏭 <%= categoria.familia %></span><% } %>
+                                            <% if (categoria.linea) { %><span style="font-size:.72rem;background:#e3f2fd;color:#1565c0;padding:2px 8px;border-radius:10px;">📐 <%= categoria.linea %></span><% } %>
+                                        </div>
+                                        <% } %>
                                     </div>
                                 </div>
                                 <div class="d-flex justify-content-between align-items-center">
@@ -144,6 +150,23 @@
                         <div class="form-group">
                             <label>Orden</label>
                             <input type="number" class="form-control" name="orden" value="0" min="0">
+                        </div>
+                        <hr>
+                        <h6>🏭 Jerarquía (opcional)</h6>
+                        <small class="text-muted d-block mb-2">Definí a qué familia y línea pertenece esta categoría para el filtro de 3 niveles</small>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>Familia</label>
+                                    <input type="text" class="form-control" name="familia" placeholder="Ej: Cocina, Industrial">
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>Línea</label>
+                                    <input type="text" class="form-control" name="linea" placeholder="Ej: Línea Verde, Premium">
+                                </div>
+                            </div>
                         </div>
                         <hr>
                         <h6>💳 Planes de Cuotas</h6>

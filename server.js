@@ -9,6 +9,8 @@ const cors = require('cors');
 const cloudinary = require('cloudinary').v2;
 const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const compression = require('compression');
+const nodemailer = require('nodemailer');
+const ExcelJS = require('exceljs');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -106,6 +108,41 @@ const upload = multer({
     }
 });
 
+// Storage de Cloudinary para CVs (PDF/DOC — raw)
+const cvStorage = new CloudinaryStorage({
+    cloudinary: cloudinary,
+    params: {
+        folder: 'cvs',
+        resource_type: 'raw',
+        public_id: (req, file) => 'cv-' + Date.now() + '-' + file.originalname.replace(/\s/g, '_'),
+        allowed_formats: ['pdf', 'doc', 'docx'],
+    },
+});
+const uploadCV = multer({
+    storage: cvStorage,
+    limits: { fileSize: 5 * 1024 * 1024 },
+    fileFilter: (req, file, cb) => {
+        const allowed = ['application/pdf', 'application/msword',
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+        allowed.includes(file.mimetype) ? cb(null, true) : cb(new Error('Solo PDF o Word'), false);
+    }
+});
+
+// Configuración SMTP (nodemailer)
+const mailTransporter = nodemailer.createTransport({
+    host: 'smtp.gmail.com',
+    port: 587,
+    secure: false,
+    auth: {
+        user: 'visioncompanyone@gmail.com',
+        pass: 'ukhp hrzc qdhs kvfc'
+    },
+    tls: {
+        rejectUnauthorized: false,
+        minVersion: 'TLSv1.2'
+    }
+});
+
 // Middleware para manejar la carga de archivos en una ruta específica y almacenar el enlace en la base de datos
 app.post('/upload', upload.single('file'), async (req, res) => {
     try {
@@ -166,6 +203,26 @@ const pool = new Pool({
 // Hacer pool disponible para las rutas
 app.set('pool', pool);
 
+// ==================== MIGRACIONES DE BASE DE DATOS (STARTUP) ====================
+(async () => {
+    try {
+        // Columna codigo en products
+        await pool.query(`ALTER TABLE products ADD COLUMN IF NOT EXISTS codigo VARCHAR(100)`);
+        // Columna aclaracion y folleto_url en products
+        await pool.query(`ALTER TABLE products ADD COLUMN IF NOT EXISTS aclaracion TEXT`);
+        await pool.query(`ALTER TABLE products ADD COLUMN IF NOT EXISTS folleto_url VARCHAR(500)`);
+        // Columnas jerarquía en categorias
+        await pool.query(`ALTER TABLE categorias ADD COLUMN IF NOT EXISTS familia VARCHAR(100)`);
+        await pool.query(`ALTER TABLE categorias ADD COLUMN IF NOT EXISTS linea VARCHAR(100)`);
+        // Crear tabla configuracion si no existe y asegurar fila modo_mantenimiento
+        await pool.query(`CREATE TABLE IF NOT EXISTS configuracion (clave VARCHAR(100) PRIMARY KEY, valor TEXT)`);
+        await pool.query(`INSERT INTO configuracion (clave, valor) VALUES ('modo_mantenimiento', 'false') ON CONFLICT (clave) DO NOTHING`);
+        console.log('✅ Migraciones de startup aplicadas');
+    } catch (e) {
+        console.warn('⚠️ Advertencia en migraciones startup:', e.message);
+    }
+})();
+
 // Job para liberar stock expirado cada 5 minutos
 setInterval(() => {
     liberarStockExpirado(pool).catch(err => {
@@ -180,6 +237,39 @@ app.use(cartRoutes);
 if (mercadopagoRoutes) {
     // app.use(mercadopagoRoutes); // Descomentar para reactivar Mercado Pago
 }
+
+// ==================== MIDDLEWARE MODO MANTENIMIENTO ====================
+app.use(async (req, res, next) => {
+    // Excluir rutas admin, login y assets
+    const excluidas = ['/login', '/logout', '/admin', '/css', '/js', '/imgs', '/favicon'];
+    const esExcluida = excluidas.some(p => req.path.startsWith(p));
+    const esAdmin = req.session && req.session.isAdmin;
+    if (esExcluida || esAdmin) return next();
+    try {
+        const r = await pool.query("SELECT valor FROM configuracion WHERE clave = 'modo_mantenimiento'");
+        if (r.rows.length > 0 && r.rows[0].valor === 'true') {
+            return res.status(503).render('mantenimiento', { isAdmin: false });
+        }
+    } catch(e) { /* Si falla la consulta, no bloquear */ }
+    next();
+});
+
+// Ruta admin: toggle mantenimiento
+app.post('/admin/toggle-mantenimiento', requireAdmin, async (req, res) => {
+    try {
+        const r = await pool.query("SELECT valor FROM configuracion WHERE clave = 'modo_mantenimiento'");
+        const actual = r.rows.length > 0 ? r.rows[0].valor : 'false';
+        const nuevo = actual === 'true' ? 'false' : 'true';
+        await pool.query(
+            `INSERT INTO configuracion (clave, valor) VALUES ('modo_mantenimiento', $1)
+             ON CONFLICT (clave) DO UPDATE SET valor = EXCLUDED.valor`,
+            [nuevo]
+        );
+        res.json({ ok: true, modo_mantenimiento: nuevo === 'true' });
+    } catch (err) {
+        res.status(500).json({ ok: false, error: err.message });
+    }
+});
 
 // Middleware para verificar si el usuario es administrador
 function requireAdmin(req, res, next) {
@@ -465,7 +555,7 @@ app.get('/edit-images', requireAdmin, async (req, res) => {
 // Ruta para carrito de compras
 app.get('/cart', async (req, res) => {
     try {
-        const productsResult = await pool.query('SELECT p.*, c.nombre as categoria_nombre, c.icono as categoria_icono, c.color as categoria_color, c.cuotas_max, c.interes_cuotas, c.cuotas_planes FROM products p LEFT JOIN categorias c ON p.categoria_id = c.id');
+        const productsResult = await pool.query('SELECT p.*, c.nombre as categoria_nombre, c.icono as categoria_icono, c.color as categoria_color, c.cuotas_max, c.interes_cuotas, c.cuotas_planes, c.familia as categoria_familia, c.linea as categoria_linea FROM products p LEFT JOIN categorias c ON p.categoria_id = c.id');
         const aboutResult = await pool.query('SELECT * FROM about LIMIT 1');
         const imagesResult = await pool.query('SELECT imagen1, imagen2 FROM imagenes LIMIT 1');
         
@@ -638,7 +728,7 @@ app.get('/categorias', requireAdmin, async (req, res) => {
 
 // Agregar categoría
 app.post('/add-category', requireAdmin, async (req, res) => {
-    const { nombre, descripcion, icono, color, orden, cuotas_max, interes_cuotas } = req.body;
+    const { nombre, descripcion, icono, color, orden, cuotas_max, interes_cuotas, familia, linea } = req.body;
     let cuotasMaxFinal = parseInt(cuotas_max) || 0;
     let interesCuotasFinal = parseFloat(interes_cuotas) || 0;
     // Construir planes de cuotas desde los arrays del formulario
@@ -665,8 +755,8 @@ app.post('/add-category', requireAdmin, async (req, res) => {
     }
     try {
         await pool.query(
-            'INSERT INTO categorias (nombre, descripcion, icono, color, orden, cuotas_max, interes_cuotas, cuotas_planes) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)',
-            [nombre, descripcion || null, icono || '📦', color || '#0052A3', parseInt(orden) || 0, cuotasMaxFinal, interesCuotasFinal, cuotasPlanes]
+            'INSERT INTO categorias (nombre, descripcion, icono, color, orden, cuotas_max, interes_cuotas, cuotas_planes, familia, linea) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)',
+            [nombre, descripcion || null, icono || '📦', color || '#0052A3', parseInt(orden) || 0, cuotasMaxFinal, interesCuotasFinal, cuotasPlanes, familia || null, linea || null]
         );
         res.redirect('/categorias');
     } catch (err) {
@@ -816,7 +906,7 @@ app.post('/api/product/:id/convertir-precio', requireAdmin, async (req, res) => 
 // Editar categoría - POST
 app.post('/edit-category/:id', requireAdmin, async (req, res) => {
     const { id } = req.params;
-    const { nombre, descripcion, icono, color, orden, cuotas_max, interes_cuotas } = req.body;
+    const { nombre, descripcion, icono, color, orden, cuotas_max, interes_cuotas, familia, linea } = req.body;
     let cuotasMaxFinal = parseInt(cuotas_max) || 0;
     let interesCuotasFinal = parseFloat(interes_cuotas) || 0;
     // Construir planes de cuotas desde los arrays del formulario
@@ -843,8 +933,8 @@ app.post('/edit-category/:id', requireAdmin, async (req, res) => {
     }
     try {
         await pool.query(
-            'UPDATE categorias SET nombre = $1, descripcion = $2, icono = $3, color = $4, orden = $5, cuotas_max = $6, interes_cuotas = $7, cuotas_planes = $8 WHERE id = $9',
-            [nombre, descripcion || null, icono || '📦', color || '#0052A3', parseInt(orden) || 0, cuotasMaxFinal, interesCuotasFinal, cuotasPlanes, id]
+            'UPDATE categorias SET nombre = $1, descripcion = $2, icono = $3, color = $4, orden = $5, cuotas_max = $6, interes_cuotas = $7, cuotas_planes = $8, familia = $9, linea = $10 WHERE id = $11',
+            [nombre, descripcion || null, icono || '📦', color || '#0052A3', parseInt(orden) || 0, cuotasMaxFinal, interesCuotasFinal, cuotasPlanes, familia || null, linea || null, id]
         );
         res.redirect('/categorias');
     } catch (err) {
@@ -1408,11 +1498,11 @@ app.post('/new', requireAdmin, upload.single('image'), async (req, res) => {
     console.log('📦 Body recibido:', req.body);
     console.log('🖼️ Archivo recibido:', req.file ? 'SÍ' : 'NO');
     
-    const { name, description, price, stock, bateria, almacenamiento, categoria_id, moneda } = req.body;
+    const { name, description, price, stock, bateria, almacenamiento, categoria_id, moneda, codigo, aclaracion, folleto_url } = req.body;
     let imageUrl;
 
     if (req.file) {
-        imageUrl = req.file.path; // La URL de la imagen subida a Cloudinary
+        imageUrl = req.file.path;
         console.log('✅ Imagen subida a Cloudinary:', imageUrl);
     } else {
         console.log('⚠️ No se recibió archivo de imagen');
@@ -1421,8 +1511,8 @@ app.post('/new', requireAdmin, upload.single('image'), async (req, res) => {
     try {
         console.log('💾 Insertando producto en base de datos...');
         await pool.query(
-            'INSERT INTO products (name, description, img, price, stock, bateria, almacenamiento, categoria_id, moneda) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)', 
-            [name, description, imageUrl, price, stock, bateria || null, almacenamiento || null, categoria_id || null, moneda || 'ARS']
+            'INSERT INTO products (name, description, img, price, stock, bateria, almacenamiento, categoria_id, moneda, codigo, aclaracion, folleto_url) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)', 
+            [name, description, imageUrl, price, stock, bateria || null, almacenamiento || null, categoria_id || null, moneda || 'ARS', codigo || null, aclaracion || null, folleto_url || null]
         );
         console.log('✅ Producto agregado exitosamente');
         res.redirect('/');
@@ -1795,7 +1885,7 @@ app.post('/edit-about', requireAdmin, upload.single('imagen'), async (req, res) 
 // Ruta para procesar la edición de un producto (requiere autenticación de administrador)
 app.post('/edit/:id', requireAdmin, upload.single('image'), async (req, res) => {
     const id = req.params.id;
-    const { name, description, price, stock, bateria, almacenamiento, categoria_id, moneda } = req.body;
+    const { name, description, price, stock, bateria, almacenamiento, categoria_id, moneda, codigo, aclaracion, folleto_url } = req.body;
     let imageUrl = req.body.image; // Mantener la URL actual de la imagen
 
     if (req.file) {
@@ -1804,8 +1894,8 @@ app.post('/edit/:id', requireAdmin, upload.single('image'), async (req, res) => 
 
     try {
         await pool.query(
-            'UPDATE products SET name = $1, description = $2, img = $3, price = $4, stock = $5, bateria = $6, almacenamiento = $7, categoria_id = $8, moneda = $9 WHERE id = $10',
-            [name, description, imageUrl, price, stock, bateria || null, almacenamiento || null, categoria_id || null, moneda || 'ARS', id]
+            'UPDATE products SET name = $1, description = $2, img = $3, price = $4, stock = $5, bateria = $6, almacenamiento = $7, categoria_id = $8, moneda = $9, codigo = $10, aclaracion = $11, folleto_url = $12 WHERE id = $13',
+            [name, description, imageUrl, price, stock, bateria || null, almacenamiento || null, categoria_id || null, moneda || 'ARS', codigo || null, aclaracion || null, folleto_url || null, id]
         );
         res.redirect('/');
     } catch (err) {
@@ -2533,6 +2623,228 @@ app.post('/checkout/create-order', async (req, res) => {
 });
 
 // ==================== FIN RUTAS DE PEDIDOS ====================
+
+// ==================== PÁGINAS INSTITUCIONALES ====================
+app.get('/quienes-somos', (req, res) => {
+    res.render('quienes-somos', { isAdmin: req.session.isAdmin || false });
+});
+
+app.get('/historia', (req, res) => {
+    res.render('historia', { isAdmin: req.session.isAdmin || false });
+});
+
+app.get('/linea-verde', (req, res) => {
+    res.render('linea-verde', { isAdmin: req.session.isAdmin || false });
+});
+
+app.get('/iso', (req, res) => {
+    res.render('iso', { isAdmin: req.session.isAdmin || false });
+});
+
+app.get('/calidad', (req, res) => {
+    res.render('calidad', { isAdmin: req.session.isAdmin || false });
+});
+
+app.get('/novedades', (req, res) => {
+    res.render('novedades', { isAdmin: req.session.isAdmin || false });
+});
+// ==================== FIN PÁGINAS INSTITUCIONALES ====================
+
+// ==================== CATÁLOGO DESCARGABLE XLSX ====================
+app.get('/catalogo/descargar', async (req, res) => {
+    try {
+        const result = await pool.query(`
+            SELECT p.id, p.codigo, p.name, p.description, p.price, p.moneda, p.stock,
+                   p.bateria, p.almacenamiento, c.name AS categoria
+            FROM products p
+            LEFT JOIN categorias c ON p.categoria_id = c.id
+            ORDER BY c.name NULLS LAST, p.name
+        `);
+
+        const workbook = new ExcelJS.Workbook();
+        workbook.creator = 'Metal-Ce';
+        workbook.created = new Date();
+
+        const sheet = workbook.addWorksheet('Catálogo Metal-Ce', {
+            pageSetup: { paperSize: 9, orientation: 'landscape' }
+        });
+
+        // Header con logo/marca
+        sheet.mergeCells('A1:J1');
+        const titleCell = sheet.getCell('A1');
+        titleCell.value = 'METAL-CE — Catálogo de Productos';
+        titleCell.font = { size: 16, bold: true, color: { argb: 'FFFFFFFF' } };
+        titleCell.alignment = { horizontal: 'center', vertical: 'middle' };
+        titleCell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF8B1538' } };
+        sheet.getRow(1).height = 36;
+
+        // Fecha generación
+        sheet.mergeCells('A2:J2');
+        const dateCell = sheet.getCell('A2');
+        dateCell.value = `Generado el ${new Date().toLocaleDateString('es-AR', { day: '2-digit', month: 'long', year: 'numeric' })}`;
+        dateCell.font = { size: 10, italic: true, color: { argb: 'FF555555' } };
+        dateCell.alignment = { horizontal: 'center' };
+        sheet.getRow(2).height = 20;
+
+        // Fila vacía
+        sheet.addRow([]);
+
+        // Columnas
+        const headers = ['#', 'Código', 'Producto', 'Descripción', 'Categoría', 'Precio', 'Moneda', 'Stock', 'Batería', 'Almacenamiento'];
+        const headerRow = sheet.addRow(headers);
+        headerRow.eachCell((cell) => {
+            cell.font = { bold: true, color: { argb: 'FFFFFFFF' }, size: 11 };
+            cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFA91D47' } };
+            cell.alignment = { horizontal: 'center', vertical: 'middle', wrapText: true };
+            cell.border = { bottom: { style: 'medium', color: { argb: 'FF6B0F2A' } } };
+        });
+        sheet.getRow(4).height = 28;
+
+        // Anchos
+        sheet.columns = [
+            { key: 'id', width: 6 },
+            { key: 'codigo', width: 14 },
+            { key: 'name', width: 30 },
+            { key: 'description', width: 40 },
+            { key: 'categoria', width: 18 },
+            { key: 'price', width: 12 },
+            { key: 'moneda', width: 8 },
+            { key: 'stock', width: 8 },
+            { key: 'bateria', width: 12 },
+            { key: 'almacenamiento', width: 14 },
+        ];
+
+        // Datos
+        result.rows.forEach((p, i) => {
+            const row = sheet.addRow([
+                i + 1,
+                p.codigo || '',
+                p.name,
+                p.description || '',
+                p.categoria || 'Sin categoría',
+                p.price ? parseFloat(p.price) : '',
+                p.moneda || 'ARS',
+                p.stock || 0,
+                p.bateria || '',
+                p.almacenamiento || '',
+            ]);
+            row.eachCell((cell) => {
+                cell.alignment = { vertical: 'middle', wrapText: false };
+                cell.border = { bottom: { style: 'thin', color: { argb: 'FFE0D6D8' } } };
+            });
+            if (i % 2 === 0) {
+                row.eachCell((cell) => {
+                    cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFFDF0F3' } };
+                });
+            }
+            // Precio en formato número
+            const priceCell = row.getCell(6);
+            if (p.price) {
+                priceCell.numFmt = '#,##0.00';
+                priceCell.alignment = { horizontal: 'right', vertical: 'middle' };
+            }
+            row.height = 20;
+        });
+
+        // Total al pie
+        sheet.addRow([]);
+        const totalRow = sheet.addRow([`Total productos: ${result.rows.length}`, '', '', '', '', '', '', '', '', '']);
+        totalRow.getCell(1).font = { bold: true, italic: true, color: { argb: 'FF8B1538' } };
+
+        res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        res.setHeader('Content-Disposition', `attachment; filename="catalogo-metalce-${Date.now()}.xlsx"`);
+        await workbook.xlsx.write(res);
+        res.end();
+    } catch (err) {
+        console.error('Error generando XLSX:', err);
+        res.status(500).send('Error generando el catálogo. Intentá de nuevo.');
+    }
+});
+// ==================== FIN CATÁLOGO XLSX ====================
+
+// ==================== FORMULARIO CONTACTO ====================
+app.get('/contacto', (req, res) => {
+    res.render('contacto', { isAdmin: req.session.isAdmin || false, enviado: null, error: null });
+});
+
+app.post('/contacto', async (req, res) => {
+    const { nombre, empresa, telefono, email, tipo_consulta, mensaje } = req.body;
+    if (!nombre || !email || !tipo_consulta || !mensaje) {
+        return res.render('contacto', { isAdmin: req.session.isAdmin || false, enviado: false, error: 'Completá los campos obligatorios.' });
+    }
+    try {
+        await mailTransporter.sendMail({
+            from: '"Metal-Ce Contacto" <visioncompanyone@gmail.com>',
+            to: 'visioncompanyone@gmail.com',
+            subject: `[Metal-Ce] Nueva consulta: ${tipo_consulta} — ${nombre}`,
+            html: `
+                <h2 style="color:#8B1538;">Nueva consulta desde el sitio</h2>
+                <table style="border-collapse:collapse;width:100%">
+                    <tr><td style="padding:8px;border:1px solid #eee;font-weight:bold">Nombre</td><td style="padding:8px;border:1px solid #eee">${nombre}</td></tr>
+                    <tr><td style="padding:8px;border:1px solid #eee;font-weight:bold">Empresa</td><td style="padding:8px;border:1px solid #eee">${empresa || '—'}</td></tr>
+                    <tr><td style="padding:8px;border:1px solid #eee;font-weight:bold">Teléfono</td><td style="padding:8px;border:1px solid #eee">${telefono || '—'}</td></tr>
+                    <tr><td style="padding:8px;border:1px solid #eee;font-weight:bold">Email</td><td style="padding:8px;border:1px solid #eee">${email}</td></tr>
+                    <tr><td style="padding:8px;border:1px solid #eee;font-weight:bold">Tipo consulta</td><td style="padding:8px;border:1px solid #eee">${tipo_consulta}</td></tr>
+                    <tr><td style="padding:8px;border:1px solid #eee;font-weight:bold">Mensaje</td><td style="padding:8px;border:1px solid #eee">${mensaje}</td></tr>
+                </table>
+            `
+        });
+        // Auto-reply al cliente
+        await mailTransporter.sendMail({
+            from: '"Metal-Ce S.R.L." <visioncompanyone@gmail.com>',
+            to: email,
+            subject: 'Recibimos tu consulta — Metal-Ce',
+            html: `<p>Hola <strong>${nombre}</strong>,</p><p>Recibimos tu consulta y te contactaremos a la brevedad.</p><p style="color:#8B1538;font-weight:bold">Metal-Ce S.R.L.</p>`
+        });
+        res.render('contacto', { isAdmin: req.session.isAdmin || false, enviado: true, error: null });
+    } catch (err) {
+        console.error('Error enviando email contacto:', err.message);
+        res.render('contacto', { isAdmin: req.session.isAdmin || false, enviado: false, error: 'Error al enviar. Intentá de nuevo.' });
+    }
+});
+
+// ==================== FORMULARIO TRABAJA CON NOSOTROS ====================
+app.get('/trabaja-con-nosotros', (req, res) => {
+    res.render('trabaja-con-nosotros', { isAdmin: req.session.isAdmin || false, enviado: null, error: null });
+});
+
+app.post('/trabaja-con-nosotros', uploadCV.single('cv'), async (req, res) => {
+    const { nombre, email, telefono, area_interes, mensaje } = req.body;
+    if (!nombre || !email || !area_interes) {
+        return res.render('trabaja-con-nosotros', { isAdmin: req.session.isAdmin || false, enviado: false, error: 'Completá los campos obligatorios.' });
+    }
+    try {
+        const cvUrl = req.file ? req.file.path : null;
+        const mailOptions = {
+            from: '"Metal-Ce RRHH" <visioncompanyone@gmail.com>',
+            to: 'visioncompanyone@gmail.com',
+            subject: `[Metal-Ce RRHH] Nueva postulación: ${area_interes} — ${nombre}`,
+            html: `
+                <h2 style="color:#8B1538;">Nueva postulación laboral</h2>
+                <table style="border-collapse:collapse;width:100%">
+                    <tr><td style="padding:8px;border:1px solid #eee;font-weight:bold">Nombre</td><td style="padding:8px;border:1px solid #eee">${nombre}</td></tr>
+                    <tr><td style="padding:8px;border:1px solid #eee;font-weight:bold">Email</td><td style="padding:8px;border:1px solid #eee">${email}</td></tr>
+                    <tr><td style="padding:8px;border:1px solid #eee;font-weight:bold">Teléfono</td><td style="padding:8px;border:1px solid #eee">${telefono || '—'}</td></tr>
+                    <tr><td style="padding:8px;border:1px solid #eee;font-weight:bold">Área de interés</td><td style="padding:8px;border:1px solid #eee">${area_interes}</td></tr>
+                    <tr><td style="padding:8px;border:1px solid #eee;font-weight:bold">Mensaje</td><td style="padding:8px;border:1px solid #eee">${mensaje || '—'}</td></tr>
+                    ${cvUrl ? `<tr><td style="padding:8px;border:1px solid #eee;font-weight:bold">CV</td><td style="padding:8px;border:1px solid #eee"><a href="${cvUrl}">Descargar CV</a></td></tr>` : ''}
+                </table>
+            `
+        };
+        await mailTransporter.sendMail(mailOptions);
+        // Auto-reply al postulante
+        await mailTransporter.sendMail({
+            from: '"Metal-Ce S.R.L." <visioncompanyone@gmail.com>',
+            to: email,
+            subject: 'Recibimos tu postulación — Metal-Ce',
+            html: `<p>Hola <strong>${nombre}</strong>,</p><p>Recibimos tu postulación para el área de <strong>${area_interes}</strong>. La revisaremos y nos contactaremos si hay una oportunidad disponible. ¡Muchas gracias por tu interés en Metal-Ce!</p><p style="color:#8B1538;font-weight:bold">Metal-Ce S.R.L. — Recursos Humanos</p>`
+        });
+        res.render('trabaja-con-nosotros', { isAdmin: req.session.isAdmin || false, enviado: true, error: null });
+    } catch (err) {
+        console.error('Error enviando email RRHH:', err.message);
+        res.render('trabaja-con-nosotros', { isAdmin: req.session.isAdmin || false, enviado: false, error: 'Error al enviar. Intentá de nuevo.' });
+    }
+});
 
 // Manejador de errores para páginas no encontradas (404)
 app.use((req, res, next) => {
