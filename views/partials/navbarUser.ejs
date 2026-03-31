@@ -1,102 +1,150 @@
-<nav class="custom-navbar" id="custom-navbar">
+<nav class="custom-navbar" id="custom-navbar" style="background: linear-gradient(135deg, #8B1538 0%, #6B0F2A 100%) !important;">
     <a class="brand-logo" href="/">
-        <!-- <img src="/imgs/logo-metalce.png" alt="Metal-Ce Logo"> -->
-        <span class="brand-text">Metal-Ce</span>
+        <span class="brand-text" style="color: #ffffff !important;">Metal-Ce</span>
     </a>
-                <button class="menu-toggle" id="menu-toggle" aria-label="Toggle navigation">
-                    <span class="menu-icon"></span>
+    <button class="menu-toggle" id="menu-toggle" aria-label="Toggle navigation">
+        <span class="menu-icon"></span>
+    </button>
+    <div class="navbar-menu">
+        <ul>
+            <li><a href="/" data-i18n="nav_inicio">Inicio</a></li>
+            <li><a href="/cart" data-i18n="nav_catalogo">Catálogo</a></li>
+            <li class="mc-dropdown">
+                <a href="#" class="mc-dropdown-toggle" onclick="toggleDropdown(event, this)" data-i18n="nav_empresa">La Empresa ▾</a>
+                <ul class="mc-dropdown-menu">
+                    <li><a href="/quienes-somos" data-i18n="nav_quienes">Quiénes Somos</a></li>
+                    <li><a href="/historia" data-i18n="nav_historia">Nuestra Historia</a></li>
+                    <li><a href="/novedades" data-i18n="nav_novedades">Novedades</a></li>
+                    <li class="mc-dropdown-divider"></li>
+                    <li><a href="/linea-verde" data-i18n="nav_verde">Línea Verde</a></li>
+                    <li><a href="/iso" data-i18n="nav_iso">Certificaciones ISO</a></li>
+                    <li><a href="/calidad" data-i18n="nav_calidad">Sistema de Calidad</a></li>
+                </ul>
+            </li>
+            <li><a href="/contacto" data-i18n="nav_contacto">Contacto</a></li>
+            <li><a href="/trabaja-con-nosotros" data-i18n="nav_trabaja">Trabajá con nosotros</a></li>
+            <% if (isAdmin) { %>
+            <li class="mc-dropdown">
+                <a href="#" class="mc-dropdown-toggle" onclick="toggleDropdown(event, this)">Admin ▾</a>
+                <ul class="mc-dropdown-menu">
+                    <li><a href="/pedidos">Pedidos</a></li>
+                    <li><a href="/cajas">Cajas</a></li>
+                    <li><a href="/historico">Histórico</a></li>
+                    <li><a href="/categorias">Categorías</a></li>
+                    <li><a href="/admin/ofertas">Ofertas</a></li>
+                    <li><a href="/admin/cotizacion">Cotización</a></li>
+                    <li class="mc-dropdown-divider"></li>
+                    <li><a href="/edit-about">Editar About</a></li>
+                    <li><a href="/logout">Cerrar Sesión</a></li>
+                </ul>
+            </li>
+            <% } %>
+            <li>
+                <button class="mc-lang-btn" id="mc-lang-btn" onclick="mcToggleLang()" title="Cambiar idioma / Change language" aria-label="Toggle language">
+                    <span id="mc-lang-es" class="mc-lang-option active">ES</span>
+                    <span class="mc-lang-separator">/</span>
+                    <span id="mc-lang-en" class="mc-lang-option">EN</span>
                 </button>
-                <div class="navbar-menu">
-                    <ul>
-                        <li><a href="/" data-i18n="nav_inicio">Inicio</a></li>
-                        <li><a href="/cart" data-i18n="nav_catalogo">Catálogo</a></li>
-                        <li class="mc-dropdown">
-                            <a href="#" class="mc-dropdown-toggle" onclick="toggleDropdown(event, this)" data-i18n="nav_empresa">La Empresa ▾</a>
-                            <ul class="mc-dropdown-menu">
-                                <li><a href="/quienes-somos" data-i18n="nav_quienes">👥 Quiénes Somos</a></li>
-                                <li><a href="/historia" data-i18n="nav_historia">📖 Nuestra Historia</a></li>
-                                <li><a href="/novedades" data-i18n="nav_novedades">📰 Novedades</a></li>
-                                <li class="mc-dropdown-divider"></li>
-                                <li><a href="/linea-verde" data-i18n="nav_verde">🌿 Línea Verde</a></li>
-                                <li><a href="/iso" data-i18n="nav_iso">🏆 Certificaciones ISO</a></li>
-                                <li><a href="/calidad" data-i18n="nav_calidad">⚙️ Sistema de Calidad</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="/contacto" data-i18n="nav_contacto">Contacto</a></li>
-                        <li><a href="/trabaja-con-nosotros" data-i18n="nav_trabaja">Trabajá con nosotros</a></li>
-                        <% if (isAdmin) { %>
-                            <li class="mc-dropdown">
-                                <a href="#" class="mc-dropdown-toggle" onclick="toggleDropdown(event, this)">⚙️ Admin ▾</a>
-                                <ul class="mc-dropdown-menu">
-                                    <li><a href="/pedidos">📦 Pedidos</a></li>
-                                    <li><a href="/cajas">📦 Cajas</a></li>
-                                    <li><a href="/historico">📋 Histórico</a></li>
-                                    <li><a href="/categorias">📂 Categorías</a></li>
-                                    <li><a href="/admin/ofertas">🏷️ Ofertas</a></li>
-                                    <li><a href="/admin/cotizacion">💲 Cotización</a></li>
-                                    <li class="mc-dropdown-divider"></li>
-                                    <li><a href="/edit-about">✏️ Editar About</a></li>
-                                    <li><a href="/logout">🚪 Cerrar Sesión</a></li>
-                                </ul>
-                            </li>
-                        <% } %>
-                        <li>
-                            <button class="mc-lang-btn" id="mc-lang-btn" onclick="mcToggleLang()" title="Cambiar idioma / Change language" aria-label="Toggle language">
-                                🌐 <span id="mc-lang-label">ES</span>
-                            </button>
-                        </li>
-                    </ul>
-                </div>
+            </li>
+        </ul>
+    </div>
 </nav>
 <style>
-/* ===== DROPDOWN NAVBAR ===== */
+/* ===== NAVBAR OVERRIDES — white text, consistent everywhere ===== */
 .navbar-menu ul { list-style: none; margin: 0; padding: 0; display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
 .navbar-menu ul li { position: relative; }
-.navbar-menu ul li a { 
-    display: block; padding: 8px 14px; text-decoration: none; color: inherit;
-    font-size: .9rem; font-weight: 500; border-radius: 8px; transition: background .2s ease;
-    white-space: nowrap;
+.navbar-menu ul li > a,
+.navbar-menu ul li > a:visited {
+    display: block; padding: 8px 14px; text-decoration: none;
+    color: #fff !important;
+    font-size: .9rem; font-weight: 600; border-radius: 8px;
+    transition: background .2s ease; white-space: nowrap;
+    letter-spacing: .3px;
 }
-.navbar-menu ul li a:hover { background: rgba(139,21,56,.08); }
+.navbar-menu ul li > a:hover {
+    background: rgba(255,255,255,.18) !important;
+    color: #fff !important;
+}
 .mc-dropdown-toggle { cursor: pointer; user-select: none; }
+
+/* Dropdown panel (white bg) — HIDDEN BY DEFAULT */
 .mc-dropdown-menu {
     display: none !important;
-    position: absolute;
-    top: calc(100% + 8px);
-    left: 0;
-    background: #fff;
-    border-radius: 14px;
-    box-shadow: 0 12px 40px rgba(0,0,0,.14);
-    min-width: 220px;
-    z-index: 9999;
-    padding: 8px;
-    border: 1px solid rgba(0,0,0,.06);
-    list-style: none;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    position: absolute; top: calc(100% + 8px); left: 0;
+    background: #fff; border-radius: 14px; box-shadow: 0 12px 40px rgba(0,0,0,.14);
+    min-width: 220px; z-index: 9999; padding: 8px; border: 1px solid rgba(0,0,0,.06); list-style: none;
+    pointer-events: none;
 }
-.mc-dropdown-menu li a { border-radius: 8px; font-size: .88rem; color: #333 !important; padding: 10px 14px; display: block; text-decoration: none; }
-.mc-dropdown-menu li a:hover { background: #fdf0f3 !important; color: #8B1538 !important; }
+/* Force BLACK text in dropdown items — ALWAYS BLACK */
+.mc-dropdown-menu li a,
+.mc-dropdown-menu li a:visited,
+.mc-dropdown-menu li a:hover,
+.mc-dropdown-menu li a:active,
+.mc-dropdown-menu li a:focus,
+.navbar-menu .mc-dropdown-menu li a,
+.navbar-menu .mc-dropdown-menu li a:visited,
+.navbar-menu .mc-dropdown-menu li a:hover,
+.navbar-menu .mc-dropdown-menu li a:active,
+.navbar-menu .mc-dropdown-menu li a:focus {
+    border-radius: 8px; font-size: .88rem;
+    color: #000000 !important;
+    padding: 10px 14px; display: block; text-decoration: none; font-weight: 600;
+    background: transparent !important;
+}
+.mc-dropdown-menu li a:hover,
+.navbar-menu .mc-dropdown-menu li a:hover { 
+    background: #fdf0f3 !important; 
+    color: #000000 !important; 
+    font-weight: 600 !important;
+}
 .mc-dropdown-divider { height: 1px; background: #f0f0f0; margin: 6px 0; pointer-events: none; list-style: none; }
-.mc-dropdown.open .mc-dropdown-menu { display: block !important; animation: dropFadeIn .18s ease; }
-@keyframes dropFadeIn { from { opacity:0; transform:translateY(-6px); } to { opacity:1; transform:translateY(0); } }
-/* Mobile */
-@media(max-width: 768px) {
-    .mc-dropdown-menu { position: static !important; box-shadow: none; border: none; background: rgba(139,21,56,.05); border-radius: 8px; margin: 4px 0; padding: 4px 0 4px 12px; }
-    .mc-dropdown.open .mc-dropdown-menu { display: block !important; }
+.mc-dropdown.open .mc-dropdown-menu {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    animation: dropFadeIn .18s ease;
 }
+@keyframes dropFadeIn { from { opacity:0; transform:translateY(-6px); } to { opacity:1; transform:translateY(0); } }
+
+/* Botón de idioma */
+.mc-lang-btn {
+    background: none; border: 1.5px solid rgba(255,255,255,.5); color: #fff;
+    border-radius: 50px; padding: 5px 12px; font-size: .82rem; font-weight: 700;
+    cursor: pointer; transition: background .2s, border-color .2s; letter-spacing: .5px;
+    display: flex; align-items: center; gap: 4px;
+}
+.mc-lang-btn:hover { background: rgba(255,255,255,.15); border-color: rgba(255,255,255,.8); }
+.mc-lang-option { opacity: .5; transition: opacity .2s; color: #fff; }
+.mc-lang-option.active { opacity: 1; font-weight: 900; }
+.mc-lang-separator { opacity: .5; font-weight: 400; color: #fff; }
+
+/* Mobile dropdown */
+@media(max-width: 768px) {
+    .mc-dropdown-menu {
+        position: static !important; box-shadow: none; border: none;
+        background: rgba(255,255,255,.1); border-radius: 8px; margin: 4px 0; padding: 4px 0 4px 12px;
+    }
+    .mc-dropdown.open .mc-dropdown-menu {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        pointer-events: auto !important;
+    }
+    .mc-dropdown-menu li a,
+    .mc-dropdown-menu li a:visited { color: rgba(255,255,255,.9) !important; }
+    .mc-dropdown-menu li a:hover { background: rgba(255,255,255,.15) !important; color: #fff !important; }
+}
+
 /* Lang toggle */
 .mc-lang-btn {
-    background: none;
-    border: 1.5px solid rgba(139,21,56,.3);
-    color: #8B1538;
-    border-radius: 50px;
-    padding: 5px 12px;
-    font-size: .82rem;
-    font-weight: 700;
-    cursor: pointer;
-    transition: background .2s, color .2s;
-    letter-spacing: .5px;
+    background: rgba(255,255,255,.15); border: 1.5px solid rgba(255,255,255,.4); color: #fff;
+    border-radius: 50px; padding: 5px 14px; font-size: .82rem; font-weight: 700;
+    cursor: pointer; transition: background .2s, color .2s; letter-spacing: .5px;
 }
-.mc-lang-btn:hover { background: #8B1538; color: #fff; }
+.mc-lang-btn:hover { background: #fff; color: #8B1538; }
 </style>
 <script src="/js/translations.js"></script>
 <script>
@@ -106,12 +154,22 @@
     menuToggle.addEventListener('click', function () {
         this.classList.toggle('active');
         navbar.classList.toggle('active');
+        // Cerrar todos los dropdowns al abrir/cerrar el menú móvil
+        document.querySelectorAll('.mc-dropdown.open').forEach(d => d.classList.remove('open'));
     });
 
+    // Cerrar menú móvil y dropdowns al hacer click fuera
     document.addEventListener('click', function (event) {
-        if (!navbar.contains(event.target) && !menuToggle.contains(event.target)) {
+        const isClickInsideNavbar = navbar.contains(event.target);
+        const isClickOnToggle = menuToggle.contains(event.target);
+        const isClickOnDropdownToggle = event.target.closest('.mc-dropdown-toggle');
+        
+        if (!isClickInsideNavbar && !isClickOnToggle) {
             menuToggle.classList.remove('active');
             navbar.classList.remove('active');
+            document.querySelectorAll('.mc-dropdown.open').forEach(d => d.classList.remove('open'));
+        } else if (isClickInsideNavbar && !isClickOnDropdownToggle) {
+            // Si hacemos click dentro del navbar pero NO en un toggle, cerramos los dropdowns
             document.querySelectorAll('.mc-dropdown.open').forEach(d => d.classList.remove('open'));
         }
     });
@@ -142,8 +200,18 @@
             const key = el.getAttribute('data-i18n-html');
             if (t[key]) el.innerHTML = t[key];
         });
-        const label = document.getElementById('mc-lang-label');
-        if (label) label.textContent = lang.toUpperCase();
+        // Actualizar botones de idioma
+        const esBtn = document.getElementById('mc-lang-es');
+        const enBtn = document.getElementById('mc-lang-en');
+        if (esBtn && enBtn) {
+            if (lang === 'es') {
+                esBtn.classList.add('active');
+                enBtn.classList.remove('active');
+            } else {
+                esBtn.classList.remove('active');
+                enBtn.classList.add('active');
+            }
+        }
         document.documentElement.lang = lang;
     }
 
@@ -154,9 +222,14 @@
         mcApplyLang(next);
     }
 
-    // Aplicar idioma guardado al cargar
-    (function() {
+    // Aplicar idioma guardado al cargar - DESPUÉS del DOM completo
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function() {
+            const saved = localStorage.getItem('mc-lang') || 'es';
+            mcApplyLang(saved);
+        });
+    } else {
         const saved = localStorage.getItem('mc-lang') || 'es';
         mcApplyLang(saved);
-    })();
+    }
 </script>

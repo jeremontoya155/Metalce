@@ -120,6 +120,28 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         .hie-arrow { font-size:.7rem; margin-left:2px; transition: transform .2s; }
         .hie-familia-btn.open .hie-arrow, .hie-linea-btn.open .hie-arrow { transform: rotate(180deg); }
     </style>
+    <style>
+        /* Admin: Selección múltiple de productos */
+        .admin-select-overlay {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            z-index: 10;
+            background: rgba(255,255,255,0.95);
+            border-radius: 8px;
+            padding: 6px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+        .product-select-checkbox {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: #8B1538;
+        }
+        .product-card {
+            position: relative;
+        }
+    </style>
     <!-- Meta Pixel Code -->
     <script>
         !function (f, b, e, v, n, t, s) {
@@ -182,6 +204,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                         </select>
                     </div>
                     <button class="filter-reset-btn" id="reset-filters" data-i18n="btn_clear">✖ Limpiar</button>
+                    <% if (isAdmin) { %>
+                    <button class="filter-reset-btn" id="select-all-btn" onclick="toggleSelectAll()" style="background:#2196F3;">
+                        ☑ Seleccionar todos
+                    </button>
+                    <button class="filter-reset-btn" id="delete-selected-btn" onclick="deleteSelectedProducts()" 
+                            style="background:#f44336;display:none;">
+                        🗑️ Eliminar (<span id="selected-count">0</span>)
+                    </button>
+                    <% } %>
                 </div>
             </div>
 
@@ -343,6 +374,55 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
             <script src="/js/cart.js"></script>
             <script src="/js/carrito-manager.js"></script>
+            <% if (isAdmin) { %>
+            <script>
+                function updateDeleteButton() {
+                    const checkboxes = document.querySelectorAll('.product-select-checkbox:checked');
+                    const count = checkboxes.length;
+                    const deleteBtn = document.getElementById('delete-selected-btn');
+                    const countSpan = document.getElementById('selected-count');
+                    
+                    if (count > 0) {
+                        deleteBtn.style.display = 'block';
+                        countSpan.textContent = count;
+                    } else {
+                        deleteBtn.style.display = 'none';
+                    }
+                }
+
+                function toggleSelectAll() {
+                    const checkboxes = document.querySelectorAll('.product-select-checkbox');
+                    const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+                    checkboxes.forEach(cb => cb.checked = !allChecked);
+                    updateDeleteButton();
+                }
+
+                function deleteSelectedProducts() {
+                    const checkboxes = document.querySelectorAll('.product-select-checkbox:checked');
+                    const productIds = Array.from(checkboxes).map(cb => cb.dataset.productId);
+                    
+                    if (productIds.length === 0) return;
+                    
+                    if (!confirm(`¿Estás seguro de eliminar ${productIds.length} producto(s)?`)) return;
+                    
+                    fetch('/admin/delete-products', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ productIds })
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert(`✓ ${data.deleted} producto(s) eliminado(s)`);
+                            window.location.reload();
+                        } else {
+                            alert('Error: ' + data.error);
+                        }
+                    })
+                    .catch(err => alert('Error de conexión: ' + err));
+                }
+            </script>
+            <% } %>
             <!-- Google tag (gtag.js) -->
 </body>
 

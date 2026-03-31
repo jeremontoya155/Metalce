@@ -1,43 +1,43 @@
-/* Navbar Metal-Ce - Diseño moderno responsivo */
+/* Navbar Metal-Ce - Diseño moderno responsivo - FORZADO EN TODAS LAS PÁGINAS */
 
 .custom-navbar {
-    background: linear-gradient(135deg, #8B1538 0%, #6B0F2A 100%);
-    padding: 0.75rem 1.5rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 4px 12px rgba(139, 21, 56, 0.15);
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    flex-wrap: nowrap;
+    background: linear-gradient(135deg, #8B1538 0%, #6B0F2A 100%) !important;
+    padding: 0.75rem 1.5rem !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    box-shadow: 0 4px 12px rgba(139, 21, 56, 0.15) !important;
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 1000 !important;
+    flex-wrap: nowrap !important;
 }
 
 .brand-logo {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    text-decoration: none;
-    transition: transform 0.3s ease;
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.75rem !important;
+    text-decoration: none !important;
+    transition: transform 0.3s ease !important;
 }
 
 .brand-logo:hover {
-    transform: scale(1.05);
+    transform: scale(1.05) !important;
 }
 
 .brand-logo img {
-    height: 45px;
-    width: auto;
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+    height: 45px !important;
+    width: auto !important;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2)) !important;
 }
 
 .brand-text {
-    font-family: 'Montserrat', 'Arial', sans-serif;
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: #ffffff;
-    letter-spacing: 0.5px;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    font-family: 'Montserrat', 'Arial', sans-serif !important;
+    font-size: 1.5rem !important;
+    font-weight: 700 !important;
+    color: #ffffff !important;
+    letter-spacing: 0.5px !important;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
 }
 
 .menu-toggle {
@@ -95,9 +95,10 @@
 }
 
 .navbar-menu {
-    display: none;
+    display: none !important;
 }
 
+/* Mobile menu cuando está activo */
 .custom-navbar.active .navbar-menu {
     display: flex;
     flex-direction: column;
@@ -137,14 +138,14 @@
 }
 
 .navbar-menu ul li a {
-    text-decoration: none;
-    color: #ffffff;
-    font-weight: 600;
-    font-family: 'Montserrat', 'Arial', sans-serif;
-    display: block;
-    padding: 1rem 1.5rem;
-    transition: all 0.3s ease;
-    position: relative;
+    text-decoration: none !important;
+    color: #ffffff !important;
+    font-weight: 600 !important;
+    font-family: 'Montserrat', 'Arial', sans-serif !important;
+    display: block !important;
+    padding: 1rem 1.5rem !important;
+    transition: all 0.3s ease !important;
+    position: relative !important;
 }
 
 .navbar-menu ul li a::before {
@@ -168,47 +169,49 @@
     transform: scaleY(1);
 }
 
-/* Desktop */
+/* Desktop - FORZAR MENÚ VISIBLE */
 @media (min-width: 768px) {
     .menu-toggle {
-        display: none;
+        display: none !important;
     }
 
     .navbar-menu {
         display: flex !important;
-        position: static;
-        flex-direction: row;
-        background: transparent;
-        box-shadow: none;
-        width: auto;
+        position: static !important;
+        flex-direction: row !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        width: auto !important;
     }
 
     .navbar-menu ul {
-        display: flex;
-        gap: 0.25rem;
-        flex-wrap: wrap;
-        justify-content: flex-end;
+        display: flex !important;
+        gap: 0.25rem !important;
+        flex-wrap: wrap !important;
+        justify-content: flex-end !important;
     }
 
     .navbar-menu ul li {
-        border: none;
+        border: none !important;
     }
 
     .navbar-menu ul li a {
-        padding: 0.45rem 0.9rem;
-        border-radius: 20px;
-        font-size: 0.85rem;
-        white-space: nowrap;
+        padding: 0.45rem 0.9rem !important;
+        border-radius: 20px !important;
+        font-size: 0.85rem !important;
+        white-space: nowrap !important;
+        color: #ffffff !important;
     }
 
     .navbar-menu ul li a::before {
-        display: none;
+        display: none !important;
     }
 
     .navbar-menu ul li a:hover {
-        background: rgba(255, 255, 255, 0.2);
-        padding-left: 0.9rem;
-        transform: translateY(-2px);
+        background: rgba(255, 255, 255, 0.2) !important;
+        padding-left: 0.9rem !important;
+        transform: translateY(-2px) !important;
+        color: #ffffff !important;
     }
 }
 

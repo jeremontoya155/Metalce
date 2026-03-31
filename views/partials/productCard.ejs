@@ -10,7 +10,15 @@
      data-linea="<%= product.categoria_linea || '' %>"
      data-codigo="<%= product.codigo || '' %>"
      data-toggle="modal" 
-     data-target="#productModal<%= product.id %>">
+     data-target="#productModal<%= product.id %>"
+     data-product-id="<%= product.id %>">
+  
+  <% if (typeof isAdmin !== 'undefined' && isAdmin) { %>
+  <div class="admin-select-overlay" onclick="event.stopPropagation();">
+    <input type="checkbox" class="product-select-checkbox" data-product-id="<%= product.id %>" 
+           onchange="updateDeleteButton()">
+  </div>
+  <% } %>
 
   <% 
     // Verificar si el producto tiene oferta activa

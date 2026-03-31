@@ -6,9 +6,9 @@ window.mcTranslations = {
   es: {
     // ─── Navbar ───
     nav_inicio: 'Inicio', nav_catalogo: 'Catálogo', nav_empresa: 'La Empresa ▾',
-    nav_quienes: '👥 Quiénes Somos', nav_historia: '📖 Nuestra Historia',
-    nav_novedades: '📰 Novedades', nav_verde: '🌿 Línea Verde',
-    nav_iso: '🏆 Certificaciones ISO', nav_calidad: '⚙️ Sistema de Calidad',
+    nav_quienes: 'Quiénes Somos', nav_historia: 'Nuestra Historia',
+    nav_novedades: 'Novedades', nav_verde: 'Línea Verde',
+    nav_iso: 'Certificaciones ISO', nav_calidad: 'Sistema de Calidad',
     nav_contacto: 'Contacto', nav_trabaja: 'Trabajá con nosotros',
 
     // ─── Catálogo (cart.ejs) ───
@@ -296,9 +296,9 @@ window.mcTranslations = {
   en: {
     // ─── Navbar ───
     nav_inicio: 'Home', nav_catalogo: 'Catalogue', nav_empresa: 'The Company ▾',
-    nav_quienes: '👥 About Us', nav_historia: '📖 Our History',
-    nav_novedades: '📰 News', nav_verde: '🌿 Green Line',
-    nav_iso: '🏆 ISO Certifications', nav_calidad: '⚙️ Quality System',
+    nav_quienes: 'About Us', nav_historia: 'Our History',
+    nav_novedades: 'News', nav_verde: 'Green Line',
+    nav_iso: 'ISO Certifications', nav_calidad: 'Quality System',
     nav_contacto: 'Contact', nav_trabaja: 'Work with us',
 
     // ─── Catalogue ───

@@ -254,6 +254,28 @@ app.use(async (req, res, next) => {
     next();
 });
 
+// Ruta admin: eliminar múltiples productos
+app.post('/admin/delete-products', requireAdmin, async (req, res) => {
+    try {
+        const { productIds } = req.body;
+        if (!productIds || !Array.isArray(productIds) || productIds.length === 0) {
+            return res.status(400).json({ success: false, error: 'No se proporcionaron IDs de productos' });
+        }
+        
+        const placeholders = productIds.map((_, i) => `$${i + 1}`).join(',');
+        const result = await pool.query(
+            `DELETE FROM products WHERE id IN (${placeholders})`,
+            productIds
+        );
+        
+        console.log(`✓ ${result.rowCount} productos eliminados por admin`);
+        res.json({ success: true, deleted: result.rowCount });
+    } catch (err) {
+        console.error('Error eliminando productos:', err);
+        res.status(500).json({ success: false, error: err.message });
+    }
+});
+
 // Ruta admin: toggle mantenimiento
 app.post('/admin/toggle-mantenimiento', requireAdmin, async (req, res) => {
     try {
