@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -53,8 +53,8 @@
                 <small class="form-text text-muted">Moneda actual: <strong><%= product.moneda || 'ARS' %></strong> — Cambiala si necesitás</small>
             </div>
             <div class="form-group">
-                <label for="stock">Stock</label>
-                <input type="number" class="form-control" id="stock" name="stock" value="<%= product.stock %>" required>
+                <label for="stock">Stock / disponibilidad</label>
+                <input type="number" class="form-control" id="stock" name="stock" value="<%= product.stock %>" min="0" required>
             </div>
             <div class="form-group">
                 <label for="categoria_id">Categoría *</label>
@@ -72,14 +72,14 @@
             </div>
             
             <div class="form-group">
-                <label for="bateria">Batería (%)</label>
-                <input type="number" class="form-control" id="bateria" name="bateria" value="<%= product.bateria || '' %>" min="0" max="100">
-                <small class="form-text text-muted">Opcional - Solo para dispositivos con batería</small>
-            </div>
-            <div class="form-group">
-                <label for="almacenamiento">Almacenamiento (GB)</label>
-                <input type="number" class="form-control" id="almacenamiento" name="almacenamiento" value="<%= product.almacenamiento || '' %>">
-                <small class="form-text text-muted">Opcional - Solo para dispositivos con almacenamiento</small>
+                <label for="estado">Estado comercial</label>
+                <select class="form-control" id="estado" name="estado">
+                    <% const estadoActual = product.estado || 'Disponible'; %>
+                    <% ['Disponible', 'A pedido', 'Consultar', 'Sin stock'].forEach(estado => { %>
+                        <option value="<%= estado %>" <%= estadoActual === estado ? 'selected' : '' %>><%= estado %></option>
+                    <% }); %>
+                </select>
+                <small class="form-text text-muted">Se muestra como filtro y referencia rápida en el catálogo.</small>
             </div>
             <div class="form-group">
                 <label for="aclaracion">Aclaración</label>

@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Lista de Productos</title>
+    <title>Catálogo Metal-Ce</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/navBar.css">
     <link rel="stylesheet" href="/css/carts.css">
@@ -171,7 +171,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <div class="catalog-header">
                 <div class="catalog-header-content">
                     <h2 class="catalogo-title" data-i18n="catalogo_title">CATÁLOGO</h2>
-                    <p class="catalog-subtitle" data-i18n="catalogo_sub">Encuentra la tecnología perfecta para ti</p>
+                    <p class="catalog-subtitle" data-i18n="catalogo_sub">Materiales eléctricos, morsetería, terminales y accesorios con disponibilidad comercial.</p>
                 </div>
                 <div class="catalogo-logo" style="display:flex;flex-direction:column;align-items:center;gap:10px;">
                     <img style="width: 8em;" src="<%= imagenUrl2 %>" alt="Metal-Ce Logo">
@@ -293,9 +293,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     <div class="input-group mb-3">
                         <input id="search-input" type="text" class="form-control" placeholder="Buscar productos">
                     </div>
-                    <label for="model-filter" data-i18n="cart_model">Modelo</label>
+                    <label for="model-filter" data-i18n="cart_model">Producto</label>
                     <select id="model-filter" class="form-control mb-2">
-                        <option value="">Todos los modelos</option>
+                        <option value="">Todos los productos</option>
                         <% let uniqueModels=new Set(); products.forEach(product=> {
                             if (product.stock > 0 && !uniqueModels.has(product.name)) {
                             uniqueModels.add(product.name); %>
@@ -317,11 +317,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                             </option>
                             <% } } }); %>
                     </select>
-                    <label for="storage-filter" data-i18n="cart_storage_label">Almacenamiento (GB)</label>
-                    <input id="storage-filter" type="number" class="form-control mb-2"
-                        placeholder="Almacenamiento mínimo (GB)">
-                    <label for="battery-filter" data-i18n="cart_battery_label">Batería mínima (%)</label>
-                    <input id="battery-filter" type="number" class="form-control mb-2" placeholder="Batería mínima (%)">
                     <div class="buttons">
                         <button id="reset-button" class="btn btn-secondary" data-i18n="cart_reset">Resetear</button>
                         <button id="filter-button" class="btn btn-primary" data-i18n="cart_search_btn">Buscar</button>
@@ -342,7 +337,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     Array.from(estadosUnicos).forEach(estado => { 
                     %>
                         <button class="estado-chip" data-estado="<%= estado %>">
-                            <span class="chip-icon">📱</span>
+                            <span class="chip-icon">⚡</span>
                             <span class="chip-text"><%= estado %></span>
                             <span class="chip-check">✓</span>
                         </button>

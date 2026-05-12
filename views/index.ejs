@@ -4,21 +4,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    
+    <meta name="google-site-verification" content="<%= typeof googleSiteVerification !== 'undefined' && googleSiteVerification ? googleSiteVerification : 'HX1YgspkoCOboC38QQ3nYVFcq3aXEXDeX-jJbYWI7_s' %>" />
     <!-- Meta tags para SEO -->
-    <meta name="description" content="Metal-Ce S.R.L - Tu distribuidor de metales de calidad en Córdoba. Especializados en materiales metálicos, hierros, aceros y servicio de corte a medida. Calidad, como siempre.">
-    <meta name="keywords" content="Metal-Ce, metales Córdoba, hierros Córdoba, aceros Córdoba, distribuidor metales, corte a medida, materiales de construcción, hierros y aceros, metal-ce">
+    <meta name="description" content="Metal-Ce S.R.L - Soluciones para distribución eléctrica en Córdoba. Morsetería, terminales, conectores, ménsulas, flejes y accesorios eléctricos con atención técnico-comercial.">
+    <meta name="keywords" content="Metal-Ce, materiales eléctricos Córdoba, morsetería, terminales eléctricos, conectores, ménsulas, flejes, accesorios eléctricos, distribución eléctrica, Ferreyra">
     <meta name="author" content="Metal-Ce S.R.L">
     <meta name="robots" content="index, follow">
     <meta name="language" content="es">
     <meta name="geo.region" content="AR-X">
-    <meta name="geo.placename" content="Córdoba, Argentina">
-    <meta name="geo.position" content="-31.4201;-64.1888">
-    <meta name="ICBM" content="-31.4201, -64.1888">
+    <meta name="geo.placename" content="Ferreyra, Córdoba, Argentina">
     
     <!-- Open Graph Meta Tags para redes sociales -->
     <meta property="og:title" content="Metal-Ce S.R.L - Calidad, como siempre">
-    <meta property="og:description" content="Distribuidor líder de metales en Córdoba. Hierros, aceros y materiales metálicos de calidad con atención personalizada.">
+    <meta property="og:description" content="Soluciones para distribución eléctrica en Córdoba: morsetería, terminales, conectores, ménsulas y accesorios con atención personalizada.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://metalce.com.ar">
     <meta property="og:site_name" content="Metal-Ce S.R.L">
@@ -27,8 +25,8 @@
     
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Metal-Ce S.R.L - Calidad en metales">
-    <meta name="twitter:description" content="Tu distribuidor de metales de confianza en Córdoba. Hierros, aceros y corte a medida.">
+    <meta name="twitter:title" content="Metal-Ce S.R.L - Soluciones eléctricas">
+    <meta name="twitter:description" content="Soluciones para distribución eléctrica: morsetería, terminales, conectores, ménsulas y accesorios en Córdoba.">
     <meta name="twitter:image" content="https://metalce.com.ar/imgs/logo-metalce.png">
     
     <!-- Meta tags adicionales para SEO local -->
@@ -176,8 +174,13 @@
 
             <!-- Sección de bienvenida debajo del hero -->
             <section class="welcome-hero fade-in-section">
+                <span class="welcome-kicker">Metal-Ce S.R.L. | Cordoba</span>
                 <h1 class="welcome-title" data-i18n="index_hero_title">Materiales Electricos de Calidad</h1>
                 <p class="welcome-subtitle" data-i18n="index_hero_sub">Distribuidores especializados en conectores, terminales y accesorios eléctricos</p>
+                <div class="welcome-actions" aria-label="Acciones principales">
+                    <a href="/cart" class="welcome-btn welcome-btn-primary">Ver catalogo</a>
+                    <a href="/contacto" class="welcome-btn welcome-btn-ghost">Pedir asesoramiento</a>
+                </div>
                 <div class="welcome-arrow">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M7 13l5 5 5-5M7 6l5 5 5-5"/>
@@ -289,13 +292,13 @@
                             </div>
                         </div>
                         <div class="nosotros-cta">
-                            <a href="https://wa.me/5493512345678" class="btn-nosotros">
+                            <a href="/contacto" class="btn-nosotros">
                                 <i class="fab fa-whatsapp"></i> <span data-i18n="index_contact">Contactanos</span>
                             </a>
                         </div>
                     </div>
                     <div class="nosotros-image-container">
-                        <img src="https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=800&h=600&fit=crop" 
+                        <img src="/imgs/hero.jpeg"
                              alt="Metal-Ce Calidad" 
                              class="nosotros-image">
                         <div class="nosotros-badge-floating">
@@ -505,7 +508,7 @@
                                 <i class="fas fa-map-marker-alt"></i>
                                 <div>
                                     <strong data-i18n="index_address">Dirección</strong>
-                                    <p data-i18n="index_address_val">Av. Colón 4160, Córdoba, Argentina</p>
+                                    <p data-i18n="index_address_val">Av. Amadeo Sabattini 8425, Ferreyra, Córdoba</p>
                                 </div>
                             </div>
                             <div class="contact-info-card">
@@ -533,20 +536,20 @@
                                 <i class="fas fa-file-invoice"></i>
                                 <div>
                                     <strong data-i18n="index_fiscal">Datos fiscales</strong>
-                                    <p>CUIT: 30-XXXXXXXX-X<br>IVA Responsable Inscripto</p>
+                                    <p>IVA Responsable Inscripto<br>Datos fiscales disponibles bajo solicitud</p>
                                 </div>
                             </div>
                             <div class="contact-info-card">
                                 <i class="fab fa-whatsapp"></i>
                                 <div>
-                                    <strong>WhatsApp</strong>
-                                    <p><a href="https://wa.me/5493512345678" target="_blank">+54 9 351 234-5678</a></p>
+                                    <strong>Consultas</strong>
+                                    <p><a href="/contacto">Enviar consulta comercial</a></p>
                                 </div>
                             </div>
                         </div>
 
                         <div class="iframe-container">
-<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3402.0947488382726!2d-64.0753997243488!3d-31.494079374225983!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9432986f9eb90f67%3A0xdf312a2eb0e831f2!2sMetal%20-%20Ce%20SRL!5e0!3m2!1sen!2sar!4v1774013973504!5m2!1sen!2sar" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+<iframe src="https://www.google.com/maps?q=Av.%20Amadeo%20Sabattini%208425%2C%20Ferreyra%2C%20C%C3%B3rdoba%2C%20Argentina&output=embed" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                         </div>
                     </div>
                     <% } %>
@@ -580,11 +583,9 @@
 </script>
 
     <!-- FAB: Botón cotización flotante -->
-    <a href="https://wa.me/5493512345678?text=Hola%2C%20quisiera%20solicitar%20una%20cotizaci%C3%B3n" 
+    <a href="/contacto"
        class="fab-cotizacion" 
-       target="_blank" 
-       rel="noopener noreferrer"
-       title="Solicitar cotización por WhatsApp">
+       title="Solicitar cotización">
         <i class="fas fa-comment-dollar"></i>
         <span class="fab-label" data-i18n="index_quote">Cotizá</span>
     </a>

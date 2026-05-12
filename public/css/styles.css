@@ -1683,3 +1683,228 @@
       font-size: 1.2rem;
     }
   }
+
+  .product-status-pill {
+    display: inline-flex;
+    align-items: center;
+    width: fit-content;
+    padding: 5px 10px;
+    border-radius: 999px;
+    background: rgba(139, 21, 56, 0.08);
+    color: #8B1538;
+    font-size: 0.76rem;
+    font-weight: 800;
+    line-height: 1;
+  }
+
+  /* ==================== POLISH FRONTEND 2026 ==================== */
+  body {
+    background: linear-gradient(180deg, #fffaf7 0%, #f7f2f4 42%, #ffffff 100%);
+  }
+
+  .hero-banner-new {
+    border: 1px solid rgba(139, 21, 56, 0.1);
+    background:
+      radial-gradient(circle at 18% 10%, rgba(169, 29, 71, 0.14), transparent 32%),
+      linear-gradient(145deg, #fff 0%, #f7eef1 100%);
+    box-shadow: 0 24px 70px rgba(62, 18, 32, 0.11);
+  }
+
+  .hero-image-container::after {
+    content: '';
+    position: absolute;
+    inset: auto 8% 9% 8%;
+    height: 38px;
+    border-radius: 999px;
+    background: radial-gradient(ellipse, rgba(139, 21, 56, 0.22), transparent 68%);
+    filter: blur(10px);
+    pointer-events: none;
+  }
+
+  .welcome-hero {
+    width: min(980px, 100%);
+    margin-inline: auto;
+    padding: 46px 22px 38px;
+  }
+
+  .welcome-kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+    padding: 8px 14px;
+    border: 1px solid rgba(139, 21, 56, 0.16);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.82);
+    color: #8B1538;
+    font-size: 0.75rem;
+    font-weight: 900;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    box-shadow: 0 10px 28px rgba(139, 21, 56, 0.08);
+  }
+
+  .welcome-title {
+    line-height: 0.96;
+    letter-spacing: -0.065em;
+    text-wrap: balance;
+  }
+
+  .welcome-subtitle {
+    max-width: 680px;
+    margin-inline: auto;
+    line-height: 1.65;
+  }
+
+  .welcome-actions {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 26px 0 6px;
+  }
+
+  .welcome-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+    padding: 13px 22px;
+    border-radius: 999px;
+    font-weight: 850;
+    text-decoration: none !important;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  }
+
+  .welcome-btn-primary {
+    background: linear-gradient(135deg, #8B1538, #A91D47);
+    color: #fff !important;
+    box-shadow: 0 16px 34px rgba(139, 21, 56, 0.27);
+  }
+
+  .welcome-btn-ghost {
+    border: 1.5px solid rgba(139, 21, 56, 0.2);
+    background: #fff;
+    color: #8B1538 !important;
+  }
+
+  .welcome-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 18px 36px rgba(139, 21, 56, 0.18);
+  }
+
+  .feature-card-modern,
+  .featured-products,
+  .nosotros-container,
+  .contact-info-card {
+    border: 1px solid rgba(139, 21, 56, 0.09);
+  }
+
+  .feature-card-modern {
+    isolation: isolate;
+  }
+
+  .feature-card-modern::after {
+    content: '';
+    position: absolute;
+    inset: 18px;
+    border-radius: 16px;
+    border: 1px solid rgba(139, 21, 56, 0.06);
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .iframe-container {
+    border: 1px solid rgba(139, 21, 56, 0.12);
+    border-radius: 26px;
+    box-shadow: 0 20px 60px rgba(62, 18, 32, 0.12);
+  }
+
+  .footer {
+    background:
+      radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.12), transparent 34%),
+      linear-gradient(135deg, #2a1018 0%, #8B1538 54%, #6B0F2A 100%);
+  }
+
+  @media (max-width: 768px) {
+    .container {
+      padding-inline: 14px;
+    }
+
+    .hero-banner-new {
+      border-radius: 22px;
+      margin-top: 10px;
+    }
+
+    .welcome-hero {
+      padding: 32px 8px 26px;
+    }
+
+    .welcome-title {
+      font-size: clamp(2rem, 11vw, 3.2rem) !important;
+    }
+
+    .welcome-actions {
+      display: grid;
+      grid-template-columns: 1fr;
+      width: min(360px, 100%);
+      margin-inline: auto;
+    }
+
+    .features-modern {
+      margin: 34px 0;
+    }
+
+    .feature-card-modern,
+    .nosotros-container,
+    .featured-products {
+      border-radius: 24px;
+    }
+
+    .featured-products {
+      padding: 30px 14px;
+    }
+
+    .section-title-modern {
+      font-size: clamp(1.8rem, 9vw, 2.4rem) !important;
+      line-height: 1;
+      letter-spacing: -0.055em;
+    }
+
+    .section-subtitle-modern {
+      font-size: 0.98rem;
+      line-height: 1.55;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .featured-products .products-container {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    .featured-products .product-card {
+      max-width: 360px;
+      min-height: auto;
+    }
+
+    .contact-info-card {
+      border-radius: 18px;
+      padding: 18px;
+    }
+
+    .fab-cotizacion {
+      bottom: 16px !important;
+      right: 12px !important;
+      border-radius: 16px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      scroll-behavior: auto !important;
+      transition-duration: 0.01ms !important;
+    }
+  }

@@ -1,8 +1,6 @@
 <div class="product-card fade-in-section" 
      data-stock="<%= product.stock %>" 
      data-estado="<%= product.estado || '' %>" 
-     data-storage="<%= product.almacenamiento || 0 %>" 
-     data-battery="<%= product.bateria || 0 %>" 
      data-model="<%= product.name %>" 
      data-price="<%= product.price %>"
      data-category="<%= product.categoria_id || '' %>"
@@ -137,28 +135,8 @@
     <% } %>
 
     <div class="product-footer">
-      <% 
-        const productNameLower = (product.name || '').toLowerCase();
-        const isSmartphone = productNameLower.includes('iphone') || 
-                            productNameLower.includes('samsung') || 
-                            productNameLower.includes('galaxy') || 
-                            productNameLower.includes('xiaomi') || 
-                            productNameLower.includes('motorola') ||
-                            productNameLower.includes('huawei') ||
-                            productNameLower.includes('oppo') ||
-                            productNameLower.includes('realme') ||
-                            productNameLower.includes('oneplus') ||
-                            productNameLower.includes('phone');
-        
-        const showBattery = product.bateria && product.bateria > 0 && isSmartphone;
-      %>
-      <% if (showBattery) { %>
-      <div class="battery-status">
-        <img src="/imgs/bateria.png" alt="Battery Icon" class="battery-icon">
-        <p class="bateria">
-          <span class="bateria-num"><%= product.bateria %></span>% 
-        </p>
-      </div>
+      <% if (product.estado) { %>
+      <span class="product-status-pill"><%= product.estado %></span>
       <% } %>
       
       <form action="/product" method="POST" class="d-inline" onclick="event.stopPropagation()">

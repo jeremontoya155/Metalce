@@ -192,6 +192,11 @@ app.use(session({
     saveUninitialized: true,
 }));
 
+app.use((req, res, next) => {
+    res.locals.googleSiteVerification = process.env.GOOGLE_SITE_VERIFICATION || '';
+    next();
+});
+
 // Conectar a la base de datos PostgreSQL
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
@@ -208,6 +213,7 @@ app.set('pool', pool);
     try {
         // Columna codigo en products
         await pool.query(`ALTER TABLE products ADD COLUMN IF NOT EXISTS codigo VARCHAR(100)`);
+        await pool.query(`ALTER TABLE products ADD COLUMN IF NOT EXISTS estado VARCHAR(100)`);
         // Columna aclaracion y folleto_url en products
         await pool.query(`ALTER TABLE products ADD COLUMN IF NOT EXISTS aclaracion TEXT`);
         await pool.query(`ALTER TABLE products ADD COLUMN IF NOT EXISTS folleto_url VARCHAR(500)`);
@@ -1520,7 +1526,7 @@ app.post('/new', requireAdmin, upload.single('image'), async (req, res) => {
     console.log('📦 Body recibido:', req.body);
     console.log('🖼️ Archivo recibido:', req.file ? 'SÍ' : 'NO');
     
-    const { name, description, price, stock, bateria, almacenamiento, categoria_id, moneda, codigo, aclaracion, folleto_url } = req.body;
+    const { name, description, price, stock, estado, categoria_id, moneda, codigo, aclaracion, folleto_url } = req.body;
     let imageUrl;
 
     if (req.file) {
@@ -1533,8 +1539,8 @@ app.post('/new', requireAdmin, upload.single('image'), async (req, res) => {
     try {
         console.log('💾 Insertando producto en base de datos...');
         await pool.query(
-            'INSERT INTO products (name, description, img, price, stock, bateria, almacenamiento, categoria_id, moneda, codigo, aclaracion, folleto_url) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)', 
-            [name, description, imageUrl, price, stock, bateria || null, almacenamiento || null, categoria_id || null, moneda || 'ARS', codigo || null, aclaracion || null, folleto_url || null]
+            'INSERT INTO products (name, description, img, price, stock, estado, categoria_id, moneda, codigo, aclaracion, folleto_url) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)',
+            [name, description, imageUrl, price, stock, estado || 'Disponible', categoria_id || null, moneda || 'ARS', codigo || null, aclaracion || null, folleto_url || null]
         );
         console.log('✅ Producto agregado exitosamente');
         res.redirect('/');
@@ -1907,7 +1913,7 @@ app.post('/edit-about', requireAdmin, upload.single('imagen'), async (req, res) 
 // Ruta para procesar la edición de un producto (requiere autenticación de administrador)
 app.post('/edit/:id', requireAdmin, upload.single('image'), async (req, res) => {
     const id = req.params.id;
-    const { name, description, price, stock, bateria, almacenamiento, categoria_id, moneda, codigo, aclaracion, folleto_url } = req.body;
+    const { name, description, price, stock, estado, categoria_id, moneda, codigo, aclaracion, folleto_url } = req.body;
     let imageUrl = req.body.image; // Mantener la URL actual de la imagen
 
     if (req.file) {
@@ -1916,8 +1922,8 @@ app.post('/edit/:id', requireAdmin, upload.single('image'), async (req, res) => 
 
     try {
         await pool.query(
-            'UPDATE products SET name = $1, description = $2, img = $3, price = $4, stock = $5, bateria = $6, almacenamiento = $7, categoria_id = $8, moneda = $9, codigo = $10, aclaracion = $11, folleto_url = $12 WHERE id = $13',
-            [name, description, imageUrl, price, stock, bateria || null, almacenamiento || null, categoria_id || null, moneda || 'ARS', codigo || null, aclaracion || null, folleto_url || null, id]
+            'UPDATE products SET name = $1, description = $2, img = $3, price = $4, stock = $5, estado = $6, categoria_id = $7, moneda = $8, codigo = $9, aclaracion = $10, folleto_url = $11 WHERE id = $12',
+            [name, description, imageUrl, price, stock, estado || 'Disponible', categoria_id || null, moneda || 'ARS', codigo || null, aclaracion || null, folleto_url || null, id]
         );
         res.redirect('/');
     } catch (err) {
@@ -1937,8 +1943,7 @@ app.post('/buy/:id', (req, res) => {
         }
         const product = result.rows[0];
         if (product.stock > 0) {
-            // Generar el mensaje con solo el nombre del modelo, precio y porcentaje de batería
-            const message = `Solicitud de compra:\n\nModelo: ${product.name}\nPrecio: $${product.price}\nBatería: ${product.bateria}%`;
+            const message = `Solicitud de compra:\n\nProducto: ${product.name}\nCódigo: ${product.codigo || 'Sin código'}\nPrecio: $${product.price}\nStock: ${product.stock}`;
 
             // Crear la URL de WhatsApp con el mensaje generado
             const whatsappUrl = `https://wa.me/${process.env.MY_PHONE_NUMBER}?text=${encodeURIComponent(message)}`;
@@ -2315,9 +2320,9 @@ function generateInvoiceHTML(factura, logoUrl) {
 // Endpoint para sitemap.xml dinámico
 app.get('/sitemap.xml', async (req, res) => {
     try {
-        const result = await pool.query('SELECT id, name, updated_at FROM productos WHERE stock > 0 ORDER BY id');
+        const result = await pool.query('SELECT id, name FROM products WHERE stock > 0 ORDER BY id');
         const products = result.rows;
-        const baseUrl = process.env.BASE_URL || 'https://metalce.com.ar';
+        const baseUrl = process.env.BASE_URL || `${req.protocol}://${req.get('host')}`;
         const currentDate = new Date().toISOString().split('T')[0];
 
         let xml = `<?xml version="1.0" encoding="UTF-8"?>
@@ -2342,11 +2347,31 @@ app.get('/sitemap.xml', async (req, res) => {
     <priority>0.9</priority>
   </url>
 
+  <!-- Páginas institucionales -->
+  <url>
+    <loc>${baseUrl}/quienes-somos</loc>
+    <lastmod>${currentDate}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>${baseUrl}/contacto</loc>
+    <lastmod>${currentDate}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>${baseUrl}/novedades</loc>
+    <lastmod>${currentDate}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
   <!-- Productos disponibles -->
 `;
 
         products.forEach(product => {
-            const lastmod = product.updated_at ? new Date(product.updated_at).toISOString().split('T')[0] : currentDate;
+            const lastmod = currentDate;
             xml += `  <url>
     <loc>${baseUrl}/product/${product.id}</loc>
     <lastmod>${lastmod}</lastmod>
@@ -2368,13 +2393,16 @@ app.get('/sitemap.xml', async (req, res) => {
 
 // Endpoint para robots.txt dinámico
 app.get('/robots.txt', (req, res) => {
-    const baseUrl = process.env.BASE_URL || 'https://metalce.com.ar';
-    const robotsTxt = `# robots.txt para Metal-Ce - Distribuidor de metales en Córdoba, Argentina
+    const baseUrl = process.env.BASE_URL || `${req.protocol}://${req.get('host')}`;
+    const robotsTxt = `# robots.txt para Metal-Ce - Soluciones para distribución eléctrica en Córdoba, Argentina
 
 User-agent: *
 Allow: /
 Allow: /cart
 Allow: /product/*
+Allow: /contacto
+Allow: /quienes-somos
+Allow: /novedades
 
 # Bloquear rutas administrativas
 Disallow: /login
@@ -2677,7 +2705,7 @@ app.get('/catalogo/descargar', async (req, res) => {
     try {
         const result = await pool.query(`
             SELECT p.id, p.codigo, p.name, p.description, p.price, p.moneda, p.stock,
-                   p.bateria, p.almacenamiento, c.nombre AS categoria
+                   p.estado, p.aclaracion, p.folleto_url, c.nombre AS categoria
             FROM products p
             LEFT JOIN categorias c ON p.categoria_id = c.id
             ORDER BY c.nombre NULLS LAST, p.name
@@ -2692,7 +2720,7 @@ app.get('/catalogo/descargar', async (req, res) => {
         });
 
         // Header con logo/marca
-        sheet.mergeCells('A1:J1');
+        sheet.mergeCells('A1:K1');
         const titleCell = sheet.getCell('A1');
         titleCell.value = 'METAL-CE — Catálogo de Productos';
         titleCell.font = { size: 16, bold: true, color: { argb: 'FFFFFFFF' } };
@@ -2701,7 +2729,7 @@ app.get('/catalogo/descargar', async (req, res) => {
         sheet.getRow(1).height = 36;
 
         // Fecha generación
-        sheet.mergeCells('A2:J2');
+        sheet.mergeCells('A2:K2');
         const dateCell = sheet.getCell('A2');
         dateCell.value = `Generado el ${new Date().toLocaleDateString('es-AR', { day: '2-digit', month: 'long', year: 'numeric' })}`;
         dateCell.font = { size: 10, italic: true, color: { argb: 'FF555555' } };
@@ -2712,7 +2740,7 @@ app.get('/catalogo/descargar', async (req, res) => {
         sheet.addRow([]);
 
         // Columnas
-        const headers = ['#', 'Código', 'Producto', 'Descripción', 'Categoría', 'Precio', 'Moneda', 'Stock', 'Batería', 'Almacenamiento'];
+        const headers = ['#', 'Código', 'Producto', 'Descripción', 'Categoría', 'Precio', 'Moneda', 'Stock', 'Estado', 'Aclaración', 'Folleto'];
         const headerRow = sheet.addRow(headers);
         headerRow.eachCell((cell) => {
             cell.font = { bold: true, color: { argb: 'FFFFFFFF' }, size: 11 };
@@ -2732,8 +2760,9 @@ app.get('/catalogo/descargar', async (req, res) => {
             { key: 'price', width: 12 },
             { key: 'moneda', width: 8 },
             { key: 'stock', width: 8 },
-            { key: 'bateria', width: 12 },
-            { key: 'almacenamiento', width: 14 },
+            { key: 'estado', width: 14 },
+            { key: 'aclaracion', width: 26 },
+            { key: 'folleto_url', width: 28 },
         ];
 
         // Datos
@@ -2747,8 +2776,9 @@ app.get('/catalogo/descargar', async (req, res) => {
                 p.price ? parseFloat(p.price) : '',
                 p.moneda || 'ARS',
                 p.stock || 0,
-                p.bateria || '',
-                p.almacenamiento || '',
+                p.estado || '',
+                p.aclaracion || '',
+                p.folleto_url || '',
             ]);
             row.eachCell((cell) => {
                 cell.alignment = { vertical: 'middle', wrapText: false };

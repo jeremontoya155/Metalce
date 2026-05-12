@@ -226,8 +226,6 @@
     if (filterButton) {
         filterButton.addEventListener('click', function() {
             var estado = document.getElementById('estado-filter') ? document.getElementById('estado-filter').value.toUpperCase() : '';
-            var storage = document.getElementById('storage-filter') ? parseInt(document.getElementById('storage-filter').value) : NaN;
-            var battery = document.getElementById('battery-filter') ? parseInt(document.getElementById('battery-filter').value) : NaN;
             var modelVal = document.getElementById('model-filter') ? document.getElementById('model-filter').value.toLowerCase() : '';
             var searchQuery = document.getElementById('search-input') ? document.getElementById('search-input').value.toLowerCase() : '';
 
@@ -236,17 +234,13 @@
 
             products.forEach(function(product) {
                 var productEstado = (product.getAttribute('data-estado') || '').toUpperCase();
-                var productStorage = parseInt(product.getAttribute('data-storage'));
-                var productBattery = parseInt(product.getAttribute('data-battery'));
                 var productModel = (product.getAttribute('data-model') || '').toLowerCase();
 
                 var estadoMatch = !estado || productEstado === estado;
-                var storageMatch = isNaN(storage) || productStorage >= storage;
-                var batteryMatch = isNaN(battery) || productBattery >= battery;
                 var modelMatch = !modelVal || productModel === modelVal;
                 var searchMatch = !searchQuery || productModel.includes(searchQuery);
 
-                if (estadoMatch && storageMatch && batteryMatch && modelMatch && searchMatch) {
+                if (estadoMatch && modelMatch && searchMatch) {
                     product.style.display = '';
                     anyVisible = true;
                 } else {
@@ -262,7 +256,7 @@
 
     if (resetButton) {
         resetButton.addEventListener('click', function() {
-            ['estado-filter', 'storage-filter', 'battery-filter', 'model-filter', 'search-input'].forEach(function(id) {
+            ['estado-filter', 'model-filter', 'search-input'].forEach(function(id) {
                 var el = document.getElementById(id);
                 if (el) el.value = '';
             });

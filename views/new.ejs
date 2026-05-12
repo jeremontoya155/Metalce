@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -59,18 +59,19 @@
                 <small class="form-text text-muted">Seleccioná la moneda y cargá el precio correspondiente</small>
             </div>
             <div class="form-group">
-                <label for="stock">Stock</label>
-                <input type="number" class="form-control" id="stock" name="stock" required>
+                <label for="stock">Stock / disponibilidad</label>
+                <input type="number" class="form-control" id="stock" name="stock" min="0" required>
+                <small class="form-text text-muted">Usá 0 para productos a pedido o sin disponibilidad inmediata.</small>
             </div>
             <div class="form-group">
-                <label for="bateria">Batería (%)</label>
-                <input type="number" class="form-control" id="bateria" name="bateria" min="0" max="100" placeholder="Ej: 85">
-                <small class="form-text text-muted">Opcional - Solo para dispositivos con batería</small>
-            </div>
-            <div class="form-group">
-                <label for="almacenamiento">Almacenamiento (GB)</label>
-                <input type="number" class="form-control" id="almacenamiento" name="almacenamiento" placeholder="Ej: 64, 128, 256">
-                <small class="form-text text-muted">Opcional - Solo para dispositivos con almacenamiento</small>
+                <label for="estado">Estado comercial</label>
+                <select class="form-control" id="estado" name="estado">
+                    <option value="Disponible">Disponible</option>
+                    <option value="A pedido">A pedido</option>
+                    <option value="Consultar">Consultar</option>
+                    <option value="Sin stock">Sin stock</option>
+                </select>
+                <small class="form-text text-muted">Se muestra como filtro y referencia rápida en el catálogo.</small>
             </div>
             <div class="form-group">
                 <label for="aclaracion">Aclaración</label>

@@ -3,269 +3,643 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contacto — Metal-Ce S.R.L.</title>
+    <title>Contacto | Metal-Ce S.R.L.</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/navBar.css">
     <link rel="stylesheet" href="/css/styles.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
-        body { background: #f8f5f6; }
+        :root {
+            --contact-ink: #21171a;
+            --contact-muted: #74686d;
+            --contact-line: rgba(139, 21, 56, .14);
+            --contact-primary: #8B1538;
+            --contact-primary-2: #A91D47;
+            --contact-cream: #fff8f2;
+            --contact-paper: #ffffff;
+        }
 
-        .form-page-hero {
-            background: linear-gradient(135deg, #8B1538 0%, #A91D47 50%, #6B0F2A 100%);
-            color: white;
-            padding: 60px 20px 80px;
-            text-align: center;
+        body.contact-page {
+            background:
+                radial-gradient(circle at 8% 12%, rgba(169, 29, 71, .12), transparent 34%),
+                linear-gradient(180deg, #fff8f4 0%, #f7f1f3 46%, #ffffff 100%);
+            color: var(--contact-ink);
+        }
+
+        .contact-shell {
             position: relative;
             overflow: hidden;
         }
-        .form-page-hero::before {
-            content: '';
-            position: absolute; inset: 0;
-            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat;
+
+        .contact-hero {
+            position: relative;
+            min-height: 360px;
+            padding: 76px 20px 140px;
+            background:
+                linear-gradient(135deg, rgba(70, 10, 28, .96), rgba(139, 21, 56, .94) 52%, rgba(177, 38, 80, .92)),
+                url("data:image/svg+xml,%3Csvg width='72' height='72' viewBox='0 0 72 72' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23ffffff' stroke-opacity='.08' stroke-width='1'%3E%3Cpath d='M12 36h48M36 12v48'/%3E%3Ccircle cx='36' cy='36' r='3' fill='%23ffffff' fill-opacity='.1' stroke='none'/%3E%3C/g%3E%3C/svg%3E");
+            color: #fff;
         }
-        .form-page-hero h1 { font-size: 2.5rem; font-weight: 800; margin-bottom: 12px; position: relative; }
-        .form-page-hero p  { font-size: 1.1rem; opacity: .85; position: relative; }
+
+        .contact-hero::after {
+            content: '';
+            position: absolute;
+            right: clamp(-120px, -6vw, -30px);
+            bottom: -160px;
+            width: min(520px, 78vw);
+            aspect-ratio: 1;
+            border: 1px solid rgba(255, 255, 255, .22);
+            border-radius: 50%;
+            box-shadow: inset 0 0 0 42px rgba(255, 255, 255, .035), inset 0 0 0 86px rgba(255, 255, 255, .025);
+        }
+
+        .contact-hero-inner {
+            width: min(1120px, 100%);
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 330px;
+            gap: 42px;
+            align-items: end;
+        }
+
+        .contact-kicker {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 9px 14px;
+            border: 1px solid rgba(255, 255, 255, .22);
+            border-radius: 999px;
+            background: rgba(255, 255, 255, .1);
+            color: rgba(255, 255, 255, .92);
+            font-size: .78rem;
+            font-weight: 800;
+            letter-spacing: .14em;
+            text-transform: uppercase;
+            backdrop-filter: blur(10px);
+        }
+
+        .contact-hero h1 {
+            margin: 22px 0 14px;
+            color: #fff;
+            font-size: clamp(2.25rem, 5.5vw, 5rem);
+            font-weight: 900;
+            line-height: .92;
+            letter-spacing: -.07em;
+            text-wrap: balance;
+        }
+
+        .contact-hero p {
+            max-width: 660px;
+            margin: 0;
+            color: rgba(255, 255, 255, .86);
+            font-size: clamp(1rem, 1.6vw, 1.25rem);
+            line-height: 1.65;
+        }
+
+        .contact-hero-card {
+            padding: 24px;
+            border: 1px solid rgba(255, 255, 255, .2);
+            border-radius: 26px;
+            background: rgba(255, 255, 255, .11);
+            box-shadow: 0 24px 80px rgba(0, 0, 0, .22);
+            backdrop-filter: blur(18px);
+        }
+
+        .contact-hero-card strong {
+            display: block;
+            color: #fff;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .contact-hero-card span {
+            display: block;
+            color: rgba(255, 255, 255, .78);
+            line-height: 1.55;
+            font-size: .95rem;
+        }
+
+        .contact-layout {
+            width: min(1120px, calc(100% - 32px));
+            margin: -92px auto 70px;
+            position: relative;
+            z-index: 2;
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 360px;
+            gap: 24px;
+            align-items: start;
+        }
+
+        .form-card,
+        .contact-aside {
+            background: rgba(255, 255, 255, .92);
+            border: 1px solid rgba(139, 21, 56, .1);
+            border-radius: 30px;
+            box-shadow: 0 26px 80px rgba(62, 18, 32, .13);
+            backdrop-filter: blur(18px);
+        }
 
         .form-card {
-            background: white;
-            border-radius: 24px;
-            padding: 50px 50px;
-            box-shadow: 0 15px 50px rgba(139,21,56,0.1);
-            max-width: 720px;
-            margin: -50px auto 60px;
-            position: relative;
-            z-index: 10;
+            padding: clamp(26px, 4vw, 46px);
+        }
+
+        .contact-form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px 22px;
         }
 
         .form-section-title {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: #8B1538;
-            margin-bottom: 24px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
+            margin: 0 0 20px;
+            color: var(--contact-primary);
+            font-size: 1.08rem;
+            font-weight: 900;
+            letter-spacing: -.02em;
         }
+
         .form-section-title::after {
             content: '';
             flex: 1;
-            height: 2px;
-            background: linear-gradient(90deg, rgba(139,21,56,0.2), transparent);
+            height: 1px;
+            background: linear-gradient(90deg, rgba(139, 21, 56, .24), transparent);
+        }
+
+        .consult-section-title {
+            margin-top: 34px;
+        }
+
+        .contact-field-full {
+            grid-column: 1 / -1;
+        }
+
+        .form-group {
+            margin: 0;
         }
 
         .form-group label {
-            font-weight: 600;
-            color: #333;
+            display: block;
+            margin-bottom: 9px;
+            color: var(--contact-ink);
             font-size: .9rem;
-            margin-bottom: 6px;
+            font-weight: 800;
+            letter-spacing: .01em;
         }
-        .required-star { color: #8B1538; }
 
-        .form-control {
-            border: 2px solid #eee;
-            border-radius: 10px;
-            padding: 12px 16px;
-            font-size: .95rem;
-            transition: border-color .2s, box-shadow .2s;
+        .required-star {
+            color: var(--contact-primary-2);
         }
-        .form-control:focus {
-            border-color: #8B1538;
-            box-shadow: 0 0 0 3px rgba(139,21,56,0.1);
+
+        .form-card .form-control {
+            width: 100%;
+            height: auto;
+            min-height: 54px;
+            padding: 14px 16px;
+            border: 1.5px solid #eadfe3;
+            border-radius: 16px;
+            background: #fff;
+            color: var(--contact-ink);
+            font-size: .98rem;
+            font-weight: 500;
+            line-height: 1.35;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, .9), 0 8px 20px rgba(139, 21, 56, .035);
+            transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease;
+        }
+
+        .form-card select.form-control {
+            min-height: 56px;
+            padding-right: 42px;
+            appearance: auto;
+        }
+
+        .form-card textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .form-card .form-control::placeholder {
+            color: #8c8186;
+        }
+
+        .form-card .form-control:focus {
+            border-color: var(--contact-primary);
+            box-shadow: 0 0 0 4px rgba(139, 21, 56, .12), 0 12px 26px rgba(139, 21, 56, .08);
             outline: none;
+            transform: translateY(-1px);
+        }
+
+        .required-note {
+            margin: 18px 0 20px;
+            color: #8b8085;
+            font-size: .86rem;
         }
 
         .btn-submit {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
             width: 100%;
-            padding: 15px;
-            background: linear-gradient(135deg, #8B1538 0%, #A91D47 100%);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-size: 1.05rem;
-            font-weight: 700;
+            min-height: 58px;
+            padding: 16px 22px;
+            border: 0;
+            border-radius: 18px;
+            background: linear-gradient(135deg, var(--contact-primary), var(--contact-primary-2));
+            color: #fff;
             cursor: pointer;
-            transition: transform .2s, box-shadow .2s;
-            letter-spacing: .5px;
+            font-size: 1.04rem;
+            font-weight: 900;
+            letter-spacing: .01em;
+            box-shadow: 0 18px 36px rgba(139, 21, 56, .3);
+            transition: transform .2s ease, box-shadow .2s ease, filter .2s ease;
         }
-        .btn-submit:hover {
+
+        .btn-submit:hover,
+        .btn-submit:focus {
+            color: #fff;
+            text-decoration: none;
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(139,21,56,0.4);
+            filter: saturate(1.08);
+            box-shadow: 0 24px 42px rgba(139, 21, 56, .38);
+        }
+
+        .alert-custom-success,
+        .alert-custom-error {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            margin-bottom: 24px;
+            padding: 18px 20px;
+            border-radius: 18px;
+            line-height: 1.45;
         }
 
         .alert-custom-success {
-            background: #f0fdf4;
-            border: 2px solid #22c55e;
-            border-radius: 14px;
-            padding: 20px 24px;
-            color: #166534;
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            margin-bottom: 24px;
+            background: #effdf5;
+            border: 1px solid #a7f3c4;
+            color: #17643a;
         }
+
         .alert-custom-error {
-            background: #fef2f2;
-            border: 2px solid #f87171;
-            border-radius: 14px;
-            padding: 20px 24px;
-            color: #991b1b;
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            margin-bottom: 24px;
+            background: #fff1f2;
+            border: 1px solid #fecdd3;
+            color: #981b2f;
         }
-        .alert-custom-success i, .alert-custom-error i { font-size: 1.5rem; }
 
-        .contact-side-info {
-            max-width: 720px;
-            margin: 0 auto 60px;
-            padding: 0 20px;
+        .alert-custom-success i,
+        .alert-custom-error i {
+            margin-top: 3px;
+            font-size: 1.35rem;
         }
-        .contact-side-info .row > div {
-            margin-bottom: 16px;
+
+        .contact-aside {
+            position: sticky;
+            top: 96px;
+            overflow: hidden;
         }
+
+        .contact-aside-head {
+            padding: 28px 28px 24px;
+            background:
+                radial-gradient(circle at top right, rgba(255, 255, 255, .18), transparent 48%),
+                linear-gradient(145deg, #2a1018, #8B1538);
+            color: #fff;
+        }
+
+        .contact-aside-head span {
+            display: inline-block;
+            margin-bottom: 12px;
+            color: #ffdbe6;
+            font-size: .75rem;
+            font-weight: 900;
+            letter-spacing: .16em;
+            text-transform: uppercase;
+        }
+
+        .contact-aside-head h2 {
+            margin: 0 0 10px;
+            font-size: 1.55rem;
+            font-weight: 900;
+            line-height: 1.12;
+            letter-spacing: -.04em;
+        }
+
+        .contact-aside-head p {
+            margin: 0;
+            color: rgba(255, 255, 255, .78);
+            font-size: .92rem;
+            line-height: 1.55;
+        }
+
+        .contact-info-list {
+            display: grid;
+            gap: 0;
+            padding: 8px 22px 24px;
+        }
+
         .info-pill {
-            display: flex;
-            align-items: center;
+            display: grid;
+            grid-template-columns: 42px minmax(0, 1fr);
             gap: 14px;
-            background: white;
-            border-radius: 14px;
-            padding: 16px 20px;
-            box-shadow: 0 4px 15px rgba(139,21,56,0.07);
-            border-left: 4px solid #8B1538;
-            height: 100%;
+            align-items: center;
+            padding: 18px 4px;
+            border-bottom: 1px solid var(--contact-line);
         }
-        .info-pill i { color: #8B1538; font-size: 1.3rem; flex-shrink: 0; }
-        .info-pill strong { display: block; color: #222; font-size: .88rem; }
-        .info-pill span { color: #666; font-size: .84rem; }
 
-        @media (max-width: 576px) {
-            .form-card { padding: 30px 20px; margin: -30px 12px 40px; }
+        .info-pill:last-child {
+            border-bottom: 0;
+        }
+
+        .info-pill i {
+            display: grid;
+            place-items: center;
+            width: 42px;
+            height: 42px;
+            border-radius: 14px;
+            background: #fff2f6;
+            color: var(--contact-primary);
+            font-size: 1.08rem;
+        }
+
+        .info-pill strong {
+            display: block;
+            margin-bottom: 3px;
+            color: var(--contact-ink);
+            font-size: .92rem;
+            font-weight: 900;
+        }
+
+        .info-pill span,
+        .info-pill a {
+            color: var(--contact-muted);
+            font-size: .88rem;
+            line-height: 1.45;
+            overflow-wrap: anywhere;
+        }
+
+        .info-pill a {
+            color: var(--contact-primary);
+            font-weight: 800;
+            text-decoration: none;
+        }
+
+        .contact-proof {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            width: min(1120px, calc(100% - 32px));
+            margin: -38px auto 54px;
+            position: relative;
+            z-index: 3;
+        }
+
+        .contact-proof-item {
+            padding: 16px;
+            border: 1px solid rgba(139, 21, 56, .1);
+            border-radius: 20px;
+            background: rgba(255, 255, 255, .9);
+            box-shadow: 0 16px 40px rgba(62, 18, 32, .08);
+        }
+
+        .contact-proof-item strong {
+            display: block;
+            color: var(--contact-primary);
+            font-size: .96rem;
+            font-weight: 900;
+        }
+
+        .contact-proof-item span {
+            display: block;
+            margin-top: 4px;
+            color: var(--contact-muted);
+            font-size: .82rem;
+        }
+
+        .success-actions {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 991px) {
+            .contact-hero {
+                padding: 58px 18px 118px;
+            }
+
+            .contact-hero-inner,
+            .contact-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-hero-card {
+                max-width: 540px;
+            }
+
+            .contact-aside {
+                position: static;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .contact-hero {
+                min-height: auto;
+                padding: 42px 16px 94px;
+            }
+
+            .contact-kicker {
+                font-size: .68rem;
+                letter-spacing: .1em;
+            }
+
+            .contact-hero h1 {
+                margin-top: 18px;
+                font-size: clamp(2.25rem, 15vw, 3.6rem);
+                letter-spacing: -.08em;
+            }
+
+            .contact-hero p {
+                font-size: .98rem;
+            }
+
+            .contact-hero-card {
+                display: none;
+            }
+
+            .contact-layout {
+                width: min(100% - 20px, 1120px);
+                margin-top: -66px;
+                margin-bottom: 42px;
+                gap: 16px;
+            }
+
+            .form-card,
+            .contact-aside {
+                border-radius: 24px;
+            }
+
+            .contact-form-grid,
+            .contact-proof {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-proof {
+                width: min(100% - 20px, 1120px);
+                margin: -22px auto 36px;
+            }
+
+            .form-card .form-control {
+                min-height: 52px;
+                border-radius: 14px;
+                font-size: 16px;
+            }
+
+            .form-card textarea.form-control {
+                min-height: 142px;
+            }
+
+            .btn-submit {
+                min-height: 56px;
+                border-radius: 16px;
+            }
+
+            .contact-aside-head {
+                padding: 24px 22px 22px;
+            }
+
+            .contact-info-list {
+                padding: 6px 18px 20px;
+            }
         }
     </style>
 </head>
-<body>
+<body class="contact-page">
     <%- include('partials/navbarUser') %>
 
-    <div class="form-page-hero">
-        <h1><i class="fas fa-envelope" style="margin-right:12px;"></i><span data-i18n="contact_title">Contactanos</span></h1>
-        <p data-i18n="contact_subtitle">Consultá precios, pedí cotización o solicitá asesoramiento técnico</p>
-    </div>
-
-    <div class="container">
-        <div class="form-card">
-
-            <% if (enviado === true) { %>
-            <div class="alert-custom-success">
-                <i class="fas fa-check-circle"></i>
+    <main class="contact-shell">
+        <section class="contact-hero">
+            <div class="contact-hero-inner">
                 <div>
-                    <strong data-i18n="contact_success_title">¡Mensaje enviado correctamente!</strong>
-                    <span data-i18n="contact_success_msg">Te responderemos a la brevedad. Revisá tu bandeja de entrada.</span>
+                    <div class="contact-kicker"><i class="fas fa-bolt"></i> Respuesta comercial directa</div>
+                    <h1><span data-i18n="contact_title">Contactanos</span></h1>
+                    <p data-i18n="contact_subtitle">Consultá precios, pedí cotización o solicitá asesoramiento técnico. Te ayudamos a resolver la compra con stock, datos claros y seguimiento real.</p>
                 </div>
+                <aside class="contact-hero-card" aria-label="Respuesta Metal-Ce">
+                    <strong>Un equipo, no un bot.</strong>
+                    <span>Recibimos tu consulta y la responde una persona de Metal-Ce con la información técnica o comercial que necesitás.</span>
+                </aside>
             </div>
-            <% } %>
-            <% if (enviado === false && error) { %>
-            <div class="alert-custom-error">
-                <i class="fas fa-exclamation-circle"></i>
-                <div><strong>Error:</strong> <%= error %></div>
-            </div>
-            <% } %>
+        </section>
 
-            <% if (enviado !== true) { %>
-            <form action="/contacto" method="POST">
+        <section class="contact-layout" aria-label="Formulario de contacto">
+            <div class="form-card">
+                <% if (enviado === true) { %>
+                <div class="alert-custom-success">
+                    <i class="fas fa-check-circle"></i>
+                    <div>
+                        <strong data-i18n="contact_success_title">¡Mensaje enviado correctamente!</strong>
+                        <span data-i18n="contact_success_msg">Te responderemos a la brevedad. Revisá tu bandeja de entrada.</span>
+                    </div>
+                </div>
+                <% } %>
+                <% if (enviado === false && error) { %>
+                <div class="alert-custom-error">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <div><strong>Error:</strong> <%= error %></div>
+                </div>
+                <% } %>
 
-                <div class="form-section-title"><i class="fas fa-user"></i> <span data-i18n="contact_your_data">Tus datos</span></div>
+                <% if (enviado !== true) { %>
+                <form action="/contacto" method="POST">
+                    <div class="form-section-title"><i class="fas fa-user"></i> <span data-i18n="contact_your_data">Tus datos</span></div>
 
-                <div class="row">
-                    <div class="col-md-6">
+                    <div class="contact-form-grid">
                         <div class="form-group">
                             <label><span data-i18n="contact_fullname">Nombre completo</span> <span class="required-star">*</span></label>
-                            <input type="text" class="form-control" name="nombre" placeholder="Juan García" required>
+                            <input type="text" class="form-control" name="nombre" placeholder="Juan Garcia" autocomplete="name" required>
                         </div>
-                    </div>
-                    <div class="col-md-6">
                         <div class="form-group">
                             <label data-i18n="contact_company">Empresa / Razón social</label>
-                            <input type="text" class="form-control" name="empresa" placeholder="Mi Empresa S.A. (opcional)" data-i18n-placeholder="contact_company_ph">
+                            <input type="text" class="form-control" name="empresa" placeholder="Mi Empresa S.A. (opcional)" data-i18n-placeholder="contact_company_ph" autocomplete="organization">
                         </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-6">
                         <div class="form-group">
                             <label>Email <span class="required-star">*</span></label>
-                            <input type="email" class="form-control" name="email" placeholder="tu@email.com" required>
+                            <input type="email" class="form-control" name="email" placeholder="tu@email.com" autocomplete="email" required>
                         </div>
-                    </div>
-                    <div class="col-md-6">
                         <div class="form-group">
                             <label data-i18n="contact_phone">Teléfono</label>
-                            <input type="tel" class="form-control" name="telefono" placeholder="+54 9 351 ...">
+                            <input type="tel" class="form-control" name="telefono" placeholder="+54 9 351 ..." autocomplete="tel">
                         </div>
                     </div>
+
+                    <div class="form-section-title consult-section-title"><i class="fas fa-comment-dots"></i> <span data-i18n="contact_inquiry">Consulta</span></div>
+
+                    <div class="contact-form-grid">
+                        <div class="form-group contact-field-full">
+                            <label><span data-i18n="contact_inquiry_type">Tipo de consulta</span> <span class="required-star">*</span></label>
+                            <select class="form-control" name="tipo_consulta" required>
+                                <option value="" data-i18n="contact_select">Seleccioná una opción</option>
+                                <option value="Cotización de productos" data-i18n="contact_quote">Cotización de productos</option>
+                                <option value="Información técnica" data-i18n="contact_technical">Información técnica</option>
+                                <option value="Disponibilidad de stock" data-i18n="contact_stock">Disponibilidad de stock</option>
+                                <option value="Condiciones de pago" data-i18n="contact_payment">Condiciones de pago</option>
+                                <option value="Otro" data-i18n="contact_other">Otro</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group contact-field-full">
+                            <label><span data-i18n="contact_message">Mensaje</span> <span class="required-star">*</span></label>
+                            <textarea class="form-control" name="mensaje" rows="5" placeholder="Contanos producto, cantidad, uso, urgencia o cualquier dato técnico que ayude a cotizar mejor..." data-i18n-placeholder="contact_message_ph" required></textarea>
+                        </div>
+                    </div>
+
+                    <p class="required-note"><span data-i18n="contact_required">Los campos marcados con <span class="required-star">*</span> son obligatorios.</span></p>
+
+                    <button type="submit" class="btn-submit">
+                        <i class="fas fa-paper-plane"></i><span data-i18n="contact_submit">Enviar consulta</span>
+                    </button>
+                </form>
+                <% } else { %>
+                <div class="success-actions">
+                    <a href="/" class="btn-submit">
+                        <i class="fas fa-home"></i><span data-i18n="contact_back">Volver al inicio</span>
+                    </a>
                 </div>
-
-                <div class="form-section-title" style="margin-top:10px;"><i class="fas fa-comment-dots"></i> <span data-i18n="contact_inquiry">Consulta</span></div>
-
-                <div class="form-group">
-                    <label><span data-i18n="contact_inquiry_type">Tipo de consulta</span> <span class="required-star">*</span></label>
-                    <select class="form-control" name="tipo_consulta" required>
-                        <option value="" data-i18n="contact_select">— Seleccioná una opción —</option>
-                        <option value="Cotización de productos" data-i18n="contact_quote">💰 Cotización de productos</option>
-                        <option value="Información técnica" data-i18n="contact_technical">🔧 Información técnica</option>
-                        <option value="Disponibilidad de stock" data-i18n="contact_stock">📦 Disponibilidad de stock</option>
-                        <option value="Condiciones de pago" data-i18n="contact_payment">💳 Condiciones de pago</option>
-                        <option value="Otro" data-i18n="contact_other">📝 Otro</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label><span data-i18n="contact_message">Mensaje</span> <span class="required-star">*</span></label>
-                    <textarea class="form-control" name="mensaje" rows="5" placeholder="Describirme tu consulta con la mayor cantidad de detalle posible..." data-i18n-placeholder="contact_message_ph" required></textarea>
-                </div>
-
-                <p style="font-size:.8rem;color:#999;margin-bottom:18px;"><span data-i18n="contact_required">Los campos marcados con <span class="required-star">*</span> son obligatorios.</span></p>
-
-                <button type="submit" class="btn-submit">
-                    <i class="fas fa-paper-plane" style="margin-right:8px;"></i><span data-i18n="contact_submit">Enviar consulta</span>
-                </button>
-            </form>
-            <% } else { %>
-            <div style="text-align:center;margin-top:20px;">
-                <a href="/" class="btn-submit" style="display:inline-block;text-decoration:none;width:auto;padding:14px 32px;">
-                    <i class="fas fa-home" style="margin-right:8px;"></i><span data-i18n="contact_back">Volver al inicio</span>
-                </a>
+                <% } %>
             </div>
-            <% } %>
-        </div>
 
-        <!-- Info lateral debajo del form -->
-        <div class="contact-side-info">
-            <div class="row">
-                <div class="col-md-4">
+            <aside class="contact-aside" aria-label="Datos de contacto Metal-Ce">
+                <div class="contact-aside-head">
+                    <span>Metal-Ce Córdoba</span>
+                    <h2>Compra mejor acompañado.</h2>
+                    <p>Tené a mano dirección, horarios y el formulario directo para cerrar tu consulta sin vueltas.</p>
+                </div>
+                <div class="contact-info-list">
                     <div class="info-pill">
                         <i class="fas fa-map-marker-alt"></i>
-                        <div><strong data-i18n="contact_address">Dirección</strong><span>Av. Colón 4160, Córdoba</span></div>
+                        <div><strong data-i18n="contact_address">Dirección</strong><span>Av. Amadeo Sabattini 8425, Ferreyra, Córdoba</span></div>
                     </div>
-                </div>
-                <div class="col-md-4">
                     <div class="info-pill">
                         <i class="fas fa-clock"></i>
-                        <div><strong data-i18n="contact_hours">Horarios</strong><span data-i18n="contact_hours_val">Lun–Vie 8–18 · Sáb 8–13</span></div>
+                        <div><strong data-i18n="contact_hours">Horarios</strong><span data-i18n="contact_hours_val">Lun-Vie 8-18 | Sáb 8-13</span></div>
                     </div>
-                </div>
-                <div class="col-md-4">
                     <div class="info-pill">
-                        <i class="fab fa-whatsapp"></i>
-                        <div><strong data-i18n="contact_whatsapp">WhatsApp directo</strong><span><a href="https://wa.me/5493512345678" target="_blank" style="color:#8B1538;">+54 9 351 234-5678</a></span></div>
+                        <i class="fas fa-envelope-open-text"></i>
+                        <div><strong>Consulta comercial</strong><span><a href="#" onclick="document.querySelector('input[name=nombre]')?.focus(); return false;">Completar formulario</a></span></div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
+            </aside>
+        </section>
+
+        <section class="contact-proof" aria-label="Ventajas de atención">
+            <div class="contact-proof-item"><strong>Stock real</strong><span>Respondemos con disponibilidad clara.</span></div>
+            <div class="contact-proof-item"><strong>Asesoramiento técnico</strong><span>Te orientamos por producto y uso.</span></div>
+            <div class="contact-proof-item"><strong>Cotización simple</strong><span>Datos ordenados para decidir rápido.</span></div>
+        </section>
+    </main>
 
     <%- include('partials/footer') %>
 

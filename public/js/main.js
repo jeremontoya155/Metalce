@@ -1,5 +1,6 @@
-// Función para filtrar la tabla
-document.getElementById('search-input').addEventListener('keyup', function() {
+// Función para filtrar la tabla de administración
+const searchInput = document.getElementById('search-input');
+if (searchInput) searchInput.addEventListener('keyup', function() {
     const searchValue = this.value.toLowerCase();
     const rows = document.querySelectorAll('#products-table tr');
 
@@ -27,7 +28,8 @@ $(document).ready(function () {
     });
 });
 // Función para descargar los productos en un archivo Excel
-document.getElementById('download-btn').addEventListener('click', function() {
+const downloadBtn = document.getElementById('download-btn');
+if (downloadBtn) downloadBtn.addEventListener('click', function() {
     const rows = document.querySelectorAll('#products-table tr');
     const data = [];
 
@@ -53,31 +55,6 @@ document.getElementById('download-btn').addEventListener('click', function() {
 
     // Descargar el archivo Excel
     XLSX.writeFile(workbook, 'productos.xlsx');
-});
-
-document.getElementById('.menu-toggle').addEventListener('click', function () {
-    console.log("boton");
-    this.classList.toggle('active');
-    document.getElementById('.custom-navbar').classList.toggle('active');
-});
-
-
-// Filtro batería mínima en tiempo real
-document.getElementById('battery-filter').addEventListener('input', function () {
-    const batteryFilterValue = parseInt(this.value, 10); // Convertir el valor del filtro a número entero
-    const items = document.querySelectorAll('.product-card');
-
-    items.forEach(item => {
-        const productBattery = parseInt(item.querySelector('.bateria-num').textContent, 10); // Obtener el porcentaje de batería como número entero
-
-        if (isNaN(batteryFilterValue) || productBattery >= batteryFilterValue) {
-            // Mostrar productos con batería igual o mayor al valor del filtro, o si el filtro está vacío
-            item.style.display = '';
-        } else {
-            // Ocultar productos con batería menor al valor del filtro
-            item.style.display = 'none';
-        }
-    });
 });
 
 $(document).ready(function () {

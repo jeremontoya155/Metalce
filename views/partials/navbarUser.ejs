@@ -1,5 +1,6 @@
 <nav class="custom-navbar" id="custom-navbar" style="background: linear-gradient(135deg, #8B1538 0%, #6B0F2A 100%) !important;">
     <a class="brand-logo" href="/">
+        <span class="mc-brand-mark">MC</span>
         <span class="brand-text" style="color: #ffffff !important;">Metal-Ce</span>
     </a>
     <button class="menu-toggle" id="menu-toggle" aria-label="Toggle navigation">
@@ -21,7 +22,7 @@
                     <li><a href="/calidad" data-i18n="nav_calidad">Sistema de Calidad</a></li>
                 </ul>
             </li>
-            <li><a href="/contacto" data-i18n="nav_contacto">Contacto</a></li>
+            <li><a href="/contacto" class="mc-contact-link" data-i18n="nav_contacto">Contacto</a></li>
             <li><a href="/trabaja-con-nosotros" data-i18n="nav_trabaja">Trabajá con nosotros</a></li>
             <% if (isAdmin) { %>
             <li class="mc-dropdown">
@@ -51,19 +52,48 @@
 </nav>
 <style>
 /* ===== NAVBAR OVERRIDES — white text, consistent everywhere ===== */
-.navbar-menu ul { list-style: none; margin: 0; padding: 0; display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
+.custom-navbar {
+    border-bottom: 1px solid rgba(255,255,255,.12) !important;
+    backdrop-filter: blur(16px);
+}
+.brand-logo { min-width: max-content; }
+.mc-brand-mark {
+    display: inline-grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    border: 1px solid rgba(255,255,255,.28);
+    border-radius: 14px;
+    background: rgba(255,255,255,.12);
+    color: #fff;
+    font-size: .78rem;
+    font-weight: 900;
+    letter-spacing: -.04em;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.16), 0 10px 24px rgba(0,0,0,.16);
+}
+.navbar-menu ul { list-style: none; margin: 0; padding: 0; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
 .navbar-menu ul li { position: relative; }
 .navbar-menu ul li > a,
 .navbar-menu ul li > a:visited {
     display: block; padding: 8px 14px; text-decoration: none;
     color: #fff !important;
-    font-size: .9rem; font-weight: 600; border-radius: 8px;
-    transition: background .2s ease; white-space: nowrap;
+    font-size: .88rem; font-weight: 750; border-radius: 999px;
+    transition: background .2s ease, transform .2s ease, box-shadow .2s ease; white-space: nowrap;
     letter-spacing: .3px;
 }
 .navbar-menu ul li > a:hover {
     background: rgba(255,255,255,.18) !important;
     color: #fff !important;
+    transform: translateY(-1px);
+}
+.navbar-menu ul li > a.mc-contact-link {
+    background: #fff !important;
+    color: #8B1538 !important;
+    box-shadow: 0 10px 24px rgba(0,0,0,.16);
+}
+.navbar-menu ul li > a.mc-contact-link:hover {
+    background: #fff4f7 !important;
+    color: #6B0F2A !important;
 }
 .mc-dropdown-toggle { cursor: pointer; user-select: none; }
 
@@ -123,6 +153,20 @@
 
 /* Mobile dropdown */
 @media(max-width: 768px) {
+    .brand-text { font-size: 1.12rem !important; }
+    .mc-brand-mark { width: 34px; height: 34px; border-radius: 12px; }
+    .navbar-menu ul { align-items: stretch; gap: 0; flex-wrap: nowrap; }
+    .navbar-menu ul li > a,
+    .navbar-menu ul li > a:visited {
+        border-radius: 0;
+        padding: 14px 20px;
+        font-size: .96rem;
+    }
+    .navbar-menu ul li > a.mc-contact-link {
+        margin: 8px 14px;
+        border-radius: 16px;
+        text-align: center;
+    }
     .mc-dropdown-menu {
         position: static !important; box-shadow: none; border: none;
         background: rgba(255,255,255,.1); border-radius: 8px; margin: 4px 0; padding: 4px 0 4px 12px;
