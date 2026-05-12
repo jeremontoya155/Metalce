@@ -168,19 +168,19 @@
 
 /* ==================== SECCIÓN NOSOTROS ==================== */
 .nosotros-section {
-    margin: 80px 0;
+    margin: 44px 0;
     padding: 0;
 }
 
 .nosotros-container {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 60px;
+    grid-template-columns: minmax(0, 1fr) 230px;
+    gap: 28px;
     align-items: center;
     background: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
-    border-radius: 30px;
-    padding: 60px;
-    box-shadow: 0 15px 50px rgba(139, 21, 56, 0.08);
+    border-radius: 24px;
+    padding: 34px 38px;
+    box-shadow: 0 12px 38px rgba(139, 21, 56, 0.08);
     position: relative;
     overflow: hidden;
 }
@@ -204,32 +204,33 @@
     border-radius: 25px;
     font-weight: 700;
     font-size: 0.85rem;
-    margin-bottom: 20px;
+    margin-bottom: 14px;
     text-transform: uppercase;
     letter-spacing: 1px;
 }
 
 .nosotros-title {
-    font-size: 2.5rem;
+    font-size: clamp(1.8rem, 3vw, 2.35rem);
     font-weight: 800;
     color: #1d1d1f;
-    margin-bottom: 25px;
+    margin-bottom: 14px;
     line-height: 1.2;
     letter-spacing: -0.02em;
 }
 
 .nosotros-text {
-    font-size: 1.1rem;
+    font-size: 1rem;
     color: #555;
-    line-height: 1.8;
-    margin-bottom: 20px;
+    line-height: 1.65;
+    margin-bottom: 0;
+    max-width: 760px;
 }
 
 .nosotros-values {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
-    margin: 30px 0;
+    gap: 10px 18px;
+    margin: 22px 0 0;
 }
 
 .value-item {
@@ -246,7 +247,7 @@
 }
 
 .nosotros-cta {
-    margin-top: 30px;
+    margin-top: 22px;
 }
 
 .btn-nosotros {
@@ -255,9 +256,9 @@
     gap: 12px;
     background: linear-gradient(135deg, #25D366, #128C7E);
     color: white;
-    padding: 16px 35px;
+    padding: 13px 24px;
     border-radius: 50px;
-    font-size: 1.1rem;
+    font-size: .98rem;
     font-weight: 700;
     text-decoration: none;
     box-shadow: 0 6px 20px rgba(37, 211, 102, 0.3);
@@ -273,13 +274,19 @@
 
 .nosotros-image-container {
     position: relative;
+    display: grid;
+    place-items: center;
+    min-height: 190px;
+    border-radius: 22px;
+    background: radial-gradient(circle at 50% 20%, rgba(139, 21, 56, .12), transparent 62%), #fff;
+    border: 1px solid rgba(139, 21, 56, .1);
 }
 
 .nosotros-image {
-    width: 100%;
+    width: min(150px, 72%);
     height: auto;
-    border-radius: 25px;
-    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.15);
+    border-radius: 18px;
+    box-shadow: 0 12px 30px rgba(139, 21, 56, 0.12);
     transition: transform 0.5s ease;
 }
 
@@ -289,15 +296,39 @@
 
 .nosotros-badge-floating {
     position: absolute;
-    bottom: 30px;
-    right: 30px;
+    bottom: 12px;
+    right: 12px;
     background: linear-gradient(135deg, #8B1538, #A91D47);
     color: white;
-    padding: 25px;
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(139, 21, 56, 0.4);
+    padding: 10px 12px;
+    border-radius: 14px;
+    box-shadow: 0 8px 22px rgba(139, 21, 56, 0.25);
     text-align: center;
-    animation: float 3s ease-in-out infinite;
+    animation: none;
+}
+
+.nosotros-edit-btn {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    z-index: 3;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 14px;
+    border-radius: 999px;
+    background: #1d1d1f;
+    color: #fff;
+    font-size: .78rem;
+    font-weight: 800;
+    text-decoration: none;
+    box-shadow: 0 10px 24px rgba(0,0,0,.14);
+}
+
+.nosotros-edit-btn:hover {
+    color: #fff;
+    text-decoration: none;
+    transform: translateY(-1px);
 }
 
 @keyframes float {
@@ -306,14 +337,14 @@
 }
 
 .badge-number {
-    font-size: 2.5rem;
+    font-size: 1.25rem;
     font-weight: 800;
     line-height: 1;
     margin-bottom: 5px;
 }
 
 .badge-text {
-    font-size: 0.85rem;
+    font-size: 0.68rem;
     font-weight: 600;
     opacity: 0.95;
 }
@@ -525,6 +556,145 @@
 
 .contact-info-card p a:hover {
     text-decoration: underline;
+}
+
+/* ==================== ADMIN PRODUCTOS ==================== */
+.admin-product-toolbar {
+    display: grid;
+    grid-template-columns: minmax(260px, 1.5fr) repeat(3, minmax(160px, 1fr)) auto;
+    gap: 12px;
+    align-items: end;
+    padding: 18px;
+    background: linear-gradient(135deg, #ffffff 0%, #faf7f8 100%);
+    border: 1px solid rgba(139, 21, 56, 0.12);
+    border-radius: 18px;
+    box-shadow: 0 10px 28px rgba(139, 21, 56, 0.07);
+}
+
+.admin-filter-field label {
+    display: block;
+    margin-bottom: 6px;
+    color: #4d1829;
+    font-size: 0.74rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.admin-filter-field .form-control {
+    min-height: 42px;
+    border: 1px solid rgba(139, 21, 56, 0.16);
+    border-radius: 12px;
+    color: #252525;
+    font-size: 0.92rem;
+    box-shadow: none;
+}
+
+.admin-filter-field .form-control:focus {
+    border-color: #8B1538;
+    box-shadow: 0 0 0 0.18rem rgba(139, 21, 56, 0.12);
+}
+
+.admin-clear-filters {
+    min-height: 42px;
+    padding: 0 16px;
+    border: 0;
+    border-radius: 12px;
+    background: #1f1f23;
+    color: #fff;
+    font-size: 0.84rem;
+    font-weight: 800;
+    white-space: nowrap;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.admin-clear-filters:hover,
+.admin-clear-filters:focus {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 18px rgba(31, 31, 35, 0.18);
+}
+
+.admin-products-count {
+    display: inline-flex;
+    align-items: center;
+    min-height: 28px;
+    margin: 0 0 12px 4px;
+    padding: 5px 12px;
+    border-radius: 999px;
+    background: rgba(139, 21, 56, 0.08);
+    color: #8B1538;
+    font-size: 0.82rem;
+    font-weight: 800;
+}
+
+.admin-products-table {
+    background: #fff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.05);
+}
+
+.admin-products-table th {
+    font-size: 0.76rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.admin-products-table td {
+    vertical-align: middle;
+}
+
+.admin-category-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    max-width: 190px;
+    padding: 6px 10px;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--cat-color, #8B1538) 12%, white);
+    color: var(--cat-color, #8B1538);
+    font-size: 0.78rem;
+    font-weight: 800;
+    line-height: 1.25;
+}
+
+@supports not (background: color-mix(in srgb, #000 10%, white)) {
+    .admin-category-badge {
+        background: rgba(139, 21, 56, 0.09);
+    }
+}
+
+@media (max-width: 1199px) {
+    .admin-product-toolbar {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .admin-filter-search {
+        grid-column: 1 / -1;
+    }
+}
+
+@media (max-width: 576px) {
+    .admin-product-toolbar {
+        grid-template-columns: 1fr;
+        padding: 14px;
+        border-radius: 16px;
+    }
+
+    .admin-clear-filters {
+        width: 100%;
+    }
+
+    .admin-products-count {
+        margin-left: 0;
+        width: 100%;
+        justify-content: center;
+    }
+
+    .admin-category-badge {
+        max-width: 100%;
+        white-space: normal;
+    }
 }
 
 /* ==================== FAB COTIZACIÓN FLOTANTE ==================== */

@@ -6,99 +6,327 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/styles.css">
     <style>
+        :root {
+            --mc-bordeaux: #8B1538;
+            --mc-bordeaux-dark: #5f0f28;
+            --mc-bordeaux-soft: rgba(139, 21, 56, 0.1);
+            --mc-ink: #18181b;
+            --mc-muted: #6f6870;
+            --mc-paper: #fffaf6;
+            --mc-line: rgba(139, 21, 56, 0.14);
+            --mc-success: #16784f;
+            --mc-warning: #d99519;
+            --mc-danger: #b42338;
+        }
+
+        body {
+            min-height: 100vh;
+            background:
+                radial-gradient(circle at 18% 12%, rgba(139, 21, 56, 0.12), transparent 28%),
+                linear-gradient(135deg, #f7f2ee 0%, #ffffff 44%, #f3ece7 100%);
+            color: var(--mc-ink);
+        }
+
+        .ofertas-page {
+            max-width: 1240px;
+        }
+
+        .ofertas-hero {
+            position: relative;
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
+            gap: 28px;
+            align-items: end;
+            margin: 18px 0 24px;
+            padding: clamp(28px, 4vw, 46px);
+            border: 1px solid rgba(255, 255, 255, 0.42);
+            border-radius: 30px;
+            background:
+                linear-gradient(135deg, rgba(24, 24, 27, 0.94), rgba(95, 15, 40, 0.92)),
+                repeating-linear-gradient(45deg, rgba(255,255,255,0.06) 0 1px, transparent 1px 14px);
+            color: #fff;
+            box-shadow: 0 24px 70px rgba(95, 15, 40, 0.22);
+        }
+
+        .ofertas-hero::after {
+            content: '';
+            position: absolute;
+            right: -90px;
+            top: -110px;
+            width: 320px;
+            height: 320px;
+            border: 42px solid rgba(255, 255, 255, 0.07);
+            border-radius: 50%;
+        }
+
+        .ofertas-kicker {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 16px;
+            padding: 8px 13px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.08);
+            color: #ffe9ef;
+            font-size: 0.76rem;
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        .ofertas-hero h1 {
+            max-width: 760px;
+            margin: 0 0 14px;
+            font-size: clamp(2rem, 5vw, 4.15rem);
+            font-weight: 900;
+            letter-spacing: -0.055em;
+            line-height: 0.96;
+        }
+
+        .ofertas-hero p {
+            max-width: 680px;
+            margin: 0;
+            color: rgba(255, 255, 255, 0.76);
+            font-size: 1.04rem;
+            line-height: 1.65;
+        }
+
+        .ofertas-metrics {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        .ofertas-metric {
+            padding: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(8px);
+        }
+
+        .metric-number {
+            display: block;
+            font-size: 1.9rem;
+            font-weight: 900;
+            line-height: 1;
+        }
+
+        .metric-label {
+            display: block;
+            margin-top: 6px;
+            color: rgba(255, 255, 255, 0.68);
+            font-size: 0.74rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .ofertas-tabs {
+            gap: 10px;
+            border: 0;
+            margin-bottom: 22px !important;
+        }
+
+        .ofertas-tabs .nav-item {
+            margin-bottom: 0;
+        }
+
+        .ofertas-tabs .nav-link {
+            border: 1px solid var(--mc-line);
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.74);
+            color: var(--mc-bordeaux-dark);
+            font-size: 0.87rem;
+            font-weight: 800;
+            letter-spacing: 0.01em;
+            box-shadow: 0 8px 20px rgba(95, 15, 40, 0.06);
+        }
+
+        .ofertas-tabs .nav-link.active {
+            border-color: transparent !important;
+            background: linear-gradient(135deg, var(--mc-bordeaux), var(--mc-bordeaux-dark)) !important;
+            color: white !important;
+            box-shadow: 0 12px 26px rgba(139, 21, 56, 0.24);
+        }
+
         .ofertas-container {
-            background: white;
-            border-radius: 12px;
-            padding: 30px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow-x: auto;
             margin-bottom: 30px;
+            padding: clamp(20px, 3vw, 32px);
+            border: 1px solid var(--mc-line);
+            border-radius: 24px;
+            background: rgba(255, 255, 255, 0.92);
+            box-shadow: 0 18px 55px rgba(95, 15, 40, 0.09);
+        }
+
+        .ofertas-container h2,
+        .ofertas-container h3,
+        .ofertas-container h4 {
+            color: var(--mc-ink);
+            font-weight: 900;
+            letter-spacing: -0.03em;
+        }
+
+        .ofertas-container h2 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+
+        .ofertas-container h2::before {
+            content: '';
+            display: inline-block;
+            width: 9px;
+            height: 34px;
+            border-radius: 999px;
+            background: linear-gradient(180deg, var(--mc-bordeaux), var(--mc-warning));
+        }
+
+        .text-muted {
+            color: var(--mc-muted) !important;
         }
         
         .ofertas-table {
             width: 100%;
-            border-collapse: collapse;
+            min-width: 760px;
             margin-top: 20px;
+            border-collapse: separate;
+            border-spacing: 0;
+            overflow: hidden;
+            border: 1px solid rgba(139, 21, 56, 0.1);
+            border-radius: 18px;
+            background: white;
         }
         
         .ofertas-table th {
-            background: #007bff;
+            padding: 14px 16px;
+            background: linear-gradient(135deg, var(--mc-ink), var(--mc-bordeaux-dark));
             color: white;
-            padding: 15px;
             text-align: left;
-            font-weight: 600;
+            font-size: 0.73rem;
+            font-weight: 900;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
         }
         
         .ofertas-table td {
-            padding: 12px 15px;
-            border-bottom: 1px solid #e0e0e0;
+            padding: 14px 16px;
+            border-bottom: 1px solid rgba(139, 21, 56, 0.08);
+            color: #2b292b;
+            vertical-align: middle;
         }
         
-        .ofertas-table tr:hover {
-            background: #f8f9fa;
+        .ofertas-table tr:last-child td {
+            border-bottom: 0;
+        }
+
+        .ofertas-table tbody tr:hover {
+            background: #fff8f4;
         }
         
         .badge-oferta {
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            padding: 6px 11px;
+            border-radius: 999px;
+            font-size: 0.72rem;
+            font-weight: 900;
+            letter-spacing: 0.06em;
         }
         
         .badge-activa {
-            background: #28a745;
-            color: white;
+            background: rgba(22, 120, 79, 0.12);
+            color: var(--mc-success);
         }
         
         .badge-inactiva {
-            background: #dc3545;
-            color: white;
+            background: rgba(180, 35, 56, 0.11);
+            color: var(--mc-danger);
         }
         
         .badge-expirada {
-            background: #6c757d;
-            color: white;
+            background: rgba(24, 24, 27, 0.1);
+            color: var(--mc-ink);
         }
         
         .checkbox-producto {
             width: 20px;
             height: 20px;
+            accent-color: var(--mc-bordeaux);
             cursor: pointer;
         }
         
         .btn-oferta {
-            padding: 8px 20px;
-            border-radius: 6px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            min-height: 38px;
+            padding: 8px 18px;
             border: none;
+            border-radius: 999px;
+            background: var(--mc-ink);
+            color: white;
             cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s;
+            font-weight: 800;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+        }
+
+        .btn-oferta:hover,
+        .btn-oferta:focus {
+            color: white;
+            filter: brightness(1.04);
+            transform: translateY(-1px);
+            box-shadow: 0 10px 22px rgba(24, 24, 27, 0.15);
         }
         
         .btn-crear {
-            background: #28a745;
+            background: linear-gradient(135deg, var(--mc-bordeaux), var(--mc-bordeaux-dark));
             color: white;
-        }
-        
-        .btn-crear:hover {
-            background: #218838;
+            box-shadow: 0 12px 24px rgba(139, 21, 56, 0.22);
         }
         
         .btn-eliminar {
-            background: #dc3545;
+            background: var(--mc-danger);
             color: white;
-            padding: 5px 15px;
-            font-size: 0.85rem;
-        }
-        
-        .btn-eliminar:hover {
-            background: #c82333;
+            padding: 6px 14px;
+            font-size: 0.82rem;
         }
         
         .form-oferta {
-            background: #f8f9fa;
-            padding: 25px;
-            border-radius: 8px;
             margin-bottom: 30px;
+            padding: clamp(18px, 2vw, 26px);
+            border: 1px solid rgba(139, 21, 56, 0.1);
+            border-radius: 20px;
+            background:
+                linear-gradient(135deg, rgba(255, 250, 246, 0.96), rgba(255, 255, 255, 0.96)),
+                repeating-linear-gradient(45deg, rgba(139,21,56,0.045) 0 1px, transparent 1px 12px);
+        }
+
+        .form-oferta label,
+        .modal label {
+            color: #43202d;
+            font-size: 0.84rem;
+            letter-spacing: 0.01em;
+        }
+
+        .form-control {
+            min-height: 42px;
+            border-color: rgba(139, 21, 56, 0.16);
+            border-radius: 12px;
+            color: var(--mc-ink);
+            box-shadow: none !important;
+        }
+
+        .form-control:focus {
+            border-color: var(--mc-bordeaux);
+            box-shadow: 0 0 0 0.18rem rgba(139, 21, 56, 0.12) !important;
         }
         
         .precio-info {
@@ -108,80 +336,182 @@
         }
         
         .precio-original {
+            color: var(--mc-muted);
             font-size: 0.9rem;
-            color: #6c757d;
+            text-decoration: line-through;
         }
         
         .precio-oferta {
-            font-size: 1.1rem;
-            color: #28a745;
-            font-weight: 700;
+            color: var(--mc-success);
+            font-size: 1.16rem;
+            font-weight: 900;
         }
         
         .descuento-tag {
-            display: inline-block;
-            background: #ffc107;
-            color: #000;
-            padding: 3px 8px;
-            border-radius: 4px;
-            font-size: 0.8rem;
-            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            padding: 5px 9px;
+            border-radius: 999px;
+            background: rgba(217, 149, 25, 0.15);
+            color: #8a5300;
+            font-size: 0.76rem;
+            font-weight: 900;
         }
 
         .seleccionar-todos {
             margin-bottom: 15px;
-            padding: 10px 15px;
-            background: #17a2b8;
-            color: white;
-            border: none;
-            border-radius: 6px;
+            padding: 10px 16px;
+            border: 1px solid rgba(139, 21, 56, 0.14);
+            border-radius: 999px;
+            background: white;
+            color: var(--mc-bordeaux-dark);
             cursor: pointer;
-            font-weight: 600;
+            font-weight: 900;
+            box-shadow: 0 8px 18px rgba(95, 15, 40, 0.07);
         }
 
         .seleccionar-todos:hover {
-            background: #138496;
+            background: var(--mc-bordeaux-soft);
         }
 
         .contador-seleccionados {
-            background: #007bff;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 6px;
+            display: inline-flex;
             margin-bottom: 15px;
-            font-weight: 600;
-        }
-
-        .nav-tabs .nav-link.active {
-            background: #007bff !important;
-            color: white !important;
+            padding: 10px 16px;
+            border-radius: 999px;
+            background: var(--mc-ink);
+            color: white;
+            font-weight: 900;
         }
 
         .cat-excluir-label:hover {
-            border-color: #dc3545 !important;
+            border-color: var(--mc-danger) !important;
             background: #fff5f5 !important;
         }
         .cat-excluir-label:has(input:checked) {
-            border-color: #dc3545 !important;
-            background: #ffe0e0 !important;
+            border-color: var(--mc-danger) !important;
+            background: #ffe8e8 !important;
+        }
+
+        .modal-content {
+            overflow: hidden;
+            border: 0;
+            border-radius: 22px;
+            box-shadow: 0 24px 70px rgba(24, 24, 27, 0.22);
+        }
+
+        .modal-header {
+            border-bottom: 0;
+            background: linear-gradient(135deg, var(--mc-ink), var(--mc-bordeaux-dark)) !important;
+        }
+
+        .modal-footer {
+            border-top: 1px solid rgba(139, 21, 56, 0.1);
+            background: #fffaf6;
+        }
+
+        .btn-primary {
+            border-color: var(--mc-bordeaux) !important;
+            background: linear-gradient(135deg, var(--mc-bordeaux), var(--mc-bordeaux-dark)) !important;
+            box-shadow: 0 10px 22px rgba(139, 21, 56, 0.2);
+        }
+
+        .btn-secondary {
+            border-color: transparent !important;
+            background: #ece5df !important;
+            color: var(--mc-ink) !important;
+            font-weight: 800;
+        }
+
+        .ofertas-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 36px;
+            border: 0;
+            border-radius: 999px;
+            background: var(--mc-ink);
+            color: #fff !important;
+            font-weight: 800;
+            text-decoration: none !important;
+        }
+
+        @media (max-width: 991px) {
+            .ofertas-hero {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .ofertas-hero {
+                border-radius: 22px;
+                padding: 24px 18px;
+            }
+
+            .ofertas-metrics {
+                grid-template-columns: 1fr;
+            }
+
+            .ofertas-tabs {
+                display: grid;
+                grid-template-columns: 1fr;
+            }
+
+            .ofertas-tabs .nav-link {
+                text-align: center;
+            }
+
+            .ofertas-container {
+                border-radius: 18px;
+            }
         }
     </style>
     <title>Gestión de Ofertas</title>
 </head>
 <body>
-    <div class="container mt-5">
-        <h1 class="mb-4">🏷️ Gestión de Ofertas</h1>
+    <div class="container ofertas-page py-4">
+        <%
+            const totalProductosOferta = products ? products.length : 0;
+            const totalActivas = ofertasActivas ? ofertasActivas.length : 0;
+            const totalGenerales = ofertasGenerales ? ofertasGenerales.length : 0;
+            const totalHistorial = todasOfertas ? todasOfertas.length : 0;
+        %>
+        <section class="ofertas-hero" aria-labelledby="ofertas-title">
+            <div>
+                <span class="ofertas-kicker">Metal-Ce Admin Comercial</span>
+                <h1 id="ofertas-title">Campañas y descuentos con criterio comercial</h1>
+                <p>Armá ofertas generales o por producto sin perder control sobre categorías, vigencia y precios finales. La pantalla ahora acompaña la identidad industrial del sitio.</p>
+            </div>
+            <div class="ofertas-metrics" aria-label="Resumen de ofertas">
+                <div class="ofertas-metric">
+                    <span class="metric-number"><%= totalActivas %></span>
+                    <span class="metric-label">Ofertas activas</span>
+                </div>
+                <div class="ofertas-metric">
+                    <span class="metric-number"><%= totalGenerales %></span>
+                    <span class="metric-label">Generales</span>
+                </div>
+                <div class="ofertas-metric">
+                    <span class="metric-number"><%= totalProductosOferta %></span>
+                    <span class="metric-label">Productos</span>
+                </div>
+                <div class="ofertas-metric">
+                    <span class="metric-number"><%= totalHistorial %></span>
+                    <span class="metric-label">Historial</span>
+                </div>
+            </div>
+        </section>
 
         <!-- Tabs -->
-        <ul class="nav nav-tabs mb-4" id="ofertasTabs" role="tablist">
+        <ul class="nav nav-tabs ofertas-tabs mb-4" id="ofertasTabs" role="tablist">
             <li class="nav-item">
                 <a class="nav-link active" id="general-tab" data-toggle="tab" href="#general" role="tab">
-                    🌐 Oferta General
+                    Oferta general
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" id="crear-tab" data-toggle="tab" href="#crear" role="tab">
-                    Crear Ofertas Específicas
+                    Ofertas por producto
                 </a>
             </li>
             <li class="nav-item">
@@ -200,8 +530,8 @@
             <!-- TAB: Oferta General -->
             <div class="tab-pane fade show active" id="general" role="tabpanel">
                 <div class="ofertas-container">
-                    <h2>🌐 Oferta General para Todos los Productos</h2>
-                    <p class="text-muted">La oferta general se aplica a todos los productos. Si un producto tiene oferta específica, esa tiene prioridad.</p>
+                    <h2>Oferta general para el catálogo</h2>
+                    <p class="text-muted">Aplicá una campaña transversal y excluí categorías sensibles para sostener margen. Si un producto tiene oferta específica, esa prioridad se respeta.</p>
                     
                     <form action="/admin/ofertas/general/crear" method="POST" class="form-oferta">
                         <div class="row">
@@ -259,7 +589,7 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="form-group">
-                                    <label><strong>🚫 Excluir categorías de esta oferta</strong></label>
+                                    <label><strong>Excluir categorías de esta oferta</strong></label>
                                     <p class="text-muted" style="font-size: 0.85rem; margin-bottom: 8px;">Marcá las categorías que <strong>NO</strong> deben tener esta oferta.</p>
                                     <div style="display: flex; flex-wrap: wrap; gap: 10px;">
                                         <% if (categorias && categorias.length > 0) { %>
@@ -278,13 +608,13 @@
                         </div>
 
                         <button type="submit" class="btn-oferta btn-crear mt-3">
-                            ✅ Crear Oferta General
+                            Crear oferta general
                         </button>
                     </form>
 
                     <hr class="my-4">
 
-                    <h3>Ofertas Generales Existentes</h3>
+                    <h3>Campañas generales existentes</h3>
                     <table class="ofertas-table mt-3">
                         <thead>
                             <tr>
@@ -337,24 +667,24 @@
                                         </td>
                                         <td>
                                             <% if (oferta.activo) { %>
-                                                <span class="badge-oferta badge-activa">ACTIVA ✓</span>
+                                                <span class="badge-oferta badge-activa">ACTIVA</span>
                                             <% } else { %>
-                                                <span class="badge-oferta badge-inactiva">INACTIVA ✗</span>
+                                                <span class="badge-oferta badge-inactiva">INACTIVA</span>
                                             <% } %>
                                         </td>
                                         <td>
-                                            <button type="button" class="btn-oferta" style="background: #007bff; color: white; padding: 5px 15px; font-size: 0.85rem; margin-bottom: 4px;" onclick="editarOfertaGeneral(<%= oferta.id %>, '<%= oferta.nombre %>', '<%= oferta.descripcion || '' %>', '<%= oferta.tipo_descuento %>', <%= oferta.valor_descuento %>, '<%= new Date(oferta.fecha_inicio).toISOString().slice(0,16) %>', '<%= new Date(oferta.fecha_fin).toISOString().slice(0,16) %>', '<%= oferta.categorias_excluidas || '' %>')">
-                                                ✏️ Editar
+                                            <button type="button" class="btn-oferta" style="background: #18181b; color: white; padding: 5px 15px; font-size: 0.85rem; margin-bottom: 4px;" onclick="editarOfertaGeneral(<%= oferta.id %>, '<%= oferta.nombre %>', '<%= oferta.descripcion || '' %>', '<%= oferta.tipo_descuento %>', <%= oferta.valor_descuento %>, '<%= new Date(oferta.fecha_inicio).toISOString().slice(0,16) %>', '<%= new Date(oferta.fecha_fin).toISOString().slice(0,16) %>', '<%= oferta.categorias_excluidas || '' %>')">
+                                                 Editar
                                             </button>
                                             <form action="/admin/ofertas/general/toggle/<%= oferta.id %>" method="POST" style="display: inline; margin-right: 5px;">
                                                 <% if (oferta.activo) { %>
-                                                    <button type="submit" class="btn-oferta" style="background: #ffc107; color: #000; padding: 5px 15px; font-size: 0.85rem;">⏸️ Pausar</button>
+                                                     <button type="submit" class="btn-oferta" style="background: #d99519; color: #18181b; padding: 5px 15px; font-size: 0.85rem;">Pausar</button>
                                                 <% } else { %>
-                                                    <button type="submit" class="btn-oferta" style="background: #28a745; color: white; padding: 5px 15px; font-size: 0.85rem;">▶️ Activar</button>
+                                                     <button type="submit" class="btn-oferta" style="background: #16784f; color: white; padding: 5px 15px; font-size: 0.85rem;">Activar</button>
                                                 <% } %>
                                             </form>
                                             <form action="/admin/ofertas/general/eliminar/<%= oferta.id %>" method="POST" style="display: inline;" onsubmit="return confirm('¿Eliminar esta oferta general?')">
-                                                <button type="submit" class="btn-oferta btn-eliminar">🗑️</button>
+                                                 <button type="submit" class="btn-oferta btn-eliminar">Eliminar</button>
                                             </form>
                                         </td>
                                     </tr>
@@ -372,8 +702,8 @@
             <!-- TAB: Crear Ofertas -->
             <div class="tab-pane fade" id="crear" role="tabpanel">
                 <div class="ofertas-container">
-                    <h2>Crear Ofertas Específicas por Producto</h2>
-                    <p class="text-muted">Selecciona productos específicos para aplicarles una oferta. Estas tienen prioridad sobre la oferta general.</p>
+                    <h2>Oferta específica por producto</h2>
+                    <p class="text-muted">Elegí piezas puntuales del catálogo para activar descuentos quirúrgicos, ideales para stock, temporada o acuerdos comerciales.</p>
                     
                     <form action="/admin/ofertas/crear" method="POST" id="formOfertas" class="form-oferta">
                         <div class="row">
@@ -417,10 +747,10 @@
                         </div>
 
                         <button type="button" class="seleccionar-todos" onclick="toggleTodos()">
-                            Seleccionar/Deseleccionar Todos
+                            Seleccionar o deseleccionar todos
                         </button>
 
-                        <h4 class="mt-4 mb-3">Selecciona los productos para la oferta:</h4>
+                        <h4 class="mt-4 mb-3">Productos alcanzados por la oferta</h4>
                         
                         <table class="ofertas-table">
                             <thead>
@@ -460,7 +790,7 @@
                         </table>
 
                         <button type="submit" class="btn-oferta btn-crear mt-4">
-                            ✅ Crear Oferta para Productos Seleccionados
+                            Crear oferta para productos seleccionados
                         </button>
                     </form>
                 </div>
@@ -469,7 +799,7 @@
             <!-- TAB: Ofertas Activas -->
             <div class="tab-pane fade" id="activas" role="tabpanel">
                 <div class="ofertas-container">
-                    <h2>Ofertas Activas</h2>
+                    <h2>Ofertas activas en este momento</h2>
                     
                     <table class="ofertas-table">
                         <thead>
@@ -506,24 +836,24 @@
                                         </td>
                                         <td>
                                             <% if (oferta.activo) { %>
-                                                <span class="badge-oferta badge-activa">ACTIVA ✓</span>
+                                                <span class="badge-oferta badge-activa">ACTIVA</span>
                                             <% } else { %>
-                                                <span class="badge-oferta badge-inactiva">INACTIVA ✗</span>
+                                                <span class="badge-oferta badge-inactiva">INACTIVA</span>
                                             <% } %>
                                         </td>
                                         <td>
-                                            <button type="button" class="btn-oferta" style="background: #007bff; color: white; padding: 5px 15px; font-size: 0.85rem; margin-bottom: 4px;" onclick="editarOfertaEspecifica(<%= oferta.id %>, '<%= oferta.tipo_descuento %>', <%= oferta.valor_descuento %>, '<%= new Date(oferta.fecha_inicio).toISOString().slice(0,16) %>', '<%= new Date(oferta.fecha_fin).toISOString().slice(0,16) %>')">
-                                                ✏️ Editar
+                                            <button type="button" class="btn-oferta" style="background: #18181b; color: white; padding: 5px 15px; font-size: 0.85rem; margin-bottom: 4px;" onclick="editarOfertaEspecifica(<%= oferta.id %>, '<%= oferta.tipo_descuento %>', <%= oferta.valor_descuento %>, '<%= new Date(oferta.fecha_inicio).toISOString().slice(0,16) %>', '<%= new Date(oferta.fecha_fin).toISOString().slice(0,16) %>')">
+                                                 Editar
                                             </button>
                                             <form action="/admin/ofertas/toggle/<%= oferta.id %>" method="POST" style="display: inline; margin-right: 5px;">
                                                 <% if (oferta.activo) { %>
-                                                    <button type="submit" class="btn-oferta" style="background: #ffc107; color: #000; padding: 5px 15px; font-size: 0.85rem;">⏸️ Pausar</button>
+                                                     <button type="submit" class="btn-oferta" style="background: #d99519; color: #18181b; padding: 5px 15px; font-size: 0.85rem;">Pausar</button>
                                                 <% } else { %>
-                                                    <button type="submit" class="btn-oferta" style="background: #28a745; color: white; padding: 5px 15px; font-size: 0.85rem;">▶️ Activar</button>
+                                                     <button type="submit" class="btn-oferta" style="background: #16784f; color: white; padding: 5px 15px; font-size: 0.85rem;">Activar</button>
                                                 <% } %>
                                             </form>
                                             <form action="/admin/ofertas/eliminar/<%= oferta.id %>" method="POST" style="display: inline;" onsubmit="return confirm('¿Eliminar esta oferta?')">
-                                                <button type="submit" class="btn-oferta btn-eliminar">🗑️ Eliminar</button>
+                                                 <button type="submit" class="btn-oferta btn-eliminar">Eliminar</button>
                                             </form>
                                         </td>
                                     </tr>
@@ -541,7 +871,7 @@
             <!-- TAB: Historial -->
             <div class="tab-pane fade" id="historial" role="tabpanel">
                 <div class="ofertas-container">
-                    <h2>Historial de Ofertas</h2>
+                    <h2>Historial de campañas</h2>
                     
                     <table class="ofertas-table">
                         <thead>
@@ -573,24 +903,24 @@
                                         </td>
                                         <td>
                                             <% if (oferta.activo) { %>
-                                                <span class="badge-oferta badge-activa">ACTIVA ✓</span>
+                                                <span class="badge-oferta badge-activa">ACTIVA</span>
                                             <% } else { %>
-                                                <span class="badge-oferta badge-inactiva">INACTIVA ✗</span>
+                                                <span class="badge-oferta badge-inactiva">INACTIVA</span>
                                             <% } %>
                                         </td>
                                         <td>
-                                            <button type="button" class="btn-oferta" style="background: #007bff; color: white; padding: 5px 15px; font-size: 0.85rem; margin-bottom: 4px;" onclick="editarOfertaEspecifica(<%= oferta.id %>, '<%= oferta.tipo_descuento %>', <%= oferta.valor_descuento %>, '<%= new Date(oferta.fecha_inicio).toISOString().slice(0,16) %>', '<%= new Date(oferta.fecha_fin).toISOString().slice(0,16) %>')">
-                                                ✏️ Editar
+                                            <button type="button" class="btn-oferta" style="background: #18181b; color: white; padding: 5px 15px; font-size: 0.85rem; margin-bottom: 4px;" onclick="editarOfertaEspecifica(<%= oferta.id %>, '<%= oferta.tipo_descuento %>', <%= oferta.valor_descuento %>, '<%= new Date(oferta.fecha_inicio).toISOString().slice(0,16) %>', '<%= new Date(oferta.fecha_fin).toISOString().slice(0,16) %>')">
+                                                 Editar
                                             </button>
                                             <form action="/admin/ofertas/toggle/<%= oferta.id %>" method="POST" style="display: inline; margin-right: 5px;">
                                                 <% if (oferta.activo) { %>
-                                                    <button type="submit" class="btn-oferta" style="background: #ffc107; color: #000; padding: 5px 15px; font-size: 0.85rem;">⏸️ Pausar</button>
+                                                     <button type="submit" class="btn-oferta" style="background: #d99519; color: #18181b; padding: 5px 15px; font-size: 0.85rem;">Pausar</button>
                                                 <% } else { %>
-                                                    <button type="submit" class="btn-oferta" style="background: #28a745; color: white; padding: 5px 15px; font-size: 0.85rem;">▶️ Activar</button>
+                                                     <button type="submit" class="btn-oferta" style="background: #16784f; color: white; padding: 5px 15px; font-size: 0.85rem;">Activar</button>
                                                 <% } %>
                                             </form>
                                             <form action="/admin/ofertas/eliminar/<%= oferta.id %>" method="POST" style="display: inline;" onsubmit="return confirm('¿Eliminar esta oferta?')">
-                                                <button type="submit" class="btn-oferta btn-eliminar">🗑️</button>
+                                                 <button type="submit" class="btn-oferta btn-eliminar">Eliminar</button>
                                             </form>
                                         </td>
                                     </tr>
@@ -607,7 +937,7 @@
         </div>
 
         <div class="mt-4">
-            <a href="/" class="btn btn-secondary">← Volver al Admin</a>
+            <a href="/" class="btn ofertas-back">Volver al Admin</a>
         </div>
     </div>
 
@@ -619,8 +949,8 @@
     <div class="modal fade" id="editOfertaEspecificaModal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-header" style="background: #007bff; color: white;">
-                    <h5 class="modal-title">✏️ Editar Oferta Específica</h5>
+                <div class="modal-header" style="background: #18181b; color: white;">
+                    <h5 class="modal-title">Editar oferta específica</h5>
                     <button type="button" class="close" data-dismiss="modal" style="color: white;">
                         <span>&times;</span>
                     </button>
@@ -649,7 +979,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-primary">💾 Guardar Cambios</button>
+                        <button type="submit" class="btn btn-primary">Guardar cambios</button>
                     </div>
                 </form>
             </div>
@@ -660,8 +990,8 @@
     <div class="modal fade" id="editOfertaGeneralModal" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
-                <div class="modal-header" style="background: #007bff; color: white;">
-                    <h5 class="modal-title">✏️ Editar Oferta General</h5>
+                <div class="modal-header" style="background: #18181b; color: white;">
+                    <h5 class="modal-title">Editar oferta general</h5>
                     <button type="button" class="close" data-dismiss="modal" style="color: white;">
                         <span>&times;</span>
                     </button>
@@ -714,7 +1044,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label><strong>🚫 Excluir categorías</strong></label>
+                            <label><strong>Excluir categorías</strong></label>
                             <div style="display: flex; flex-wrap: wrap; gap: 10px;" id="edit_gen_categorias_container">
                                 <% if (categorias && categorias.length > 0) { %>
                                     <% categorias.forEach(cat => { %>
@@ -729,7 +1059,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-primary">💾 Guardar Cambios</button>
+                        <button type="submit" class="btn btn-primary">Guardar cambios</button>
                     </div>
                 </form>
             </div>
@@ -767,7 +1097,7 @@
                     const descuento = tipoDescuento === 'porcentaje' ? `${valorDescuento}%` : `$${valorDescuento}`;
                     spanPreview.innerHTML = `
                         <span style="text-decoration: line-through; color: #999;">$${precioOriginal}</span>
-                        <span style="color: #28a745; font-weight: bold; margin-left: 10px;">$${precioOferta}</span>
+                        <span style="color: #16784f; font-weight: bold; margin-left: 10px;">$${precioOferta}</span>
                         <span class="descuento-tag" style="margin-left: 5px;">${descuento} OFF</span>
                     `;
                 } else {

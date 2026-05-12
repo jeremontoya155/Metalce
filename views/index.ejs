@@ -196,16 +196,14 @@
             <!-- NUEVA SECCIÓN NOSOTROS -->
             <section class="nosotros-section fade-in-section" id="nosotros">
                 <div class="nosotros-container">
+                    <% if (isAdmin) { %>
+                    <a href="/edit-about" class="nosotros-edit-btn">Editar sección</a>
+                    <% } %>
                     <div class="nosotros-content">
                         <span class="nosotros-badge" data-i18n="index_about_title">Sobre Metal-Ce</span>
                         <h2 class="nosotros-title" data-i18n="index_about_sub">Más de 30 años distribuyendo calidad</h2>
                         <p class="nosotros-text" data-i18n="index_about_p1">
-                            En <strong>Metal-Ce S.R.L</strong> somos distribuidores líderes de materiales metálicos y eléctricos en Córdoba. 
-                            Nuestra trayectoria de más de tres décadas nos posiciona como referentes en la región.
-                        </p>
-                        <p class="nosotros-text" data-i18n="index_about_p2">
-                            Especializados en conectores, terminales, morsas, flejes y todo tipo de accesorios eléctricos, 
-                            ofrecemos productos certificados con garantía de calidad respaldada por las principales normas del sector.
+                            En <strong>Metal-Ce S.R.L</strong> acompañamos a distribuidores, instaladores y empresas con materiales eléctricos confiables, atención personalizada y respuesta técnico-comercial desde Córdoba.
                         </p>
                         <div class="nosotros-values">
                             <div class="value-item">
@@ -232,10 +230,10 @@
                         </div>
                     </div>
                     <div class="nosotros-image-container">
-                        <img src="/imgs/hero.jpeg"
-                             alt="Metal-Ce Calidad" 
+                        <img src="/imgs/logonnuevo.png"
+                             alt="Metal-Ce"
                              class="nosotros-image">
-                        <div class="nosotros-badge-floating">
+                        <div class="nosotros-badge-floating" aria-label="Trayectoria Metal-Ce">
                             <div class="badge-number">30+</div>
                             <div class="badge-text" data-i18n="index_experience">Años de Experiencia</div>
                         </div>
@@ -297,18 +295,67 @@
                         🛠️ Mantenimiento
                     </button>
                 </div>
-                <!-- Campo de búsqueda -->
-                <div class="input-group mb-3">
-                    <input id="search-input" type="text" class="form-control" placeholder="Buscar productos...">
+                <%
+                    const adminCategorias = new Map();
+                    const adminEstados = new Set();
+                    (products || []).forEach(product => {
+                        if (product.categoria_id && product.categoria_nombre) {
+                            adminCategorias.set(String(product.categoria_id), {
+                                id: product.categoria_id,
+                                nombre: product.categoria_nombre,
+                                icono: product.categoria_icono || '📦'
+                            });
+                        }
+                        if (product.estado) adminEstados.add(product.estado);
+                    });
+                %>
+                <div class="admin-product-toolbar mb-3">
+                    <div class="admin-filter-field admin-filter-search">
+                        <label for="search-input">Buscar</label>
+                        <input id="search-input" type="text" class="form-control" placeholder="Buscar por nombre, código o descripción...">
+                    </div>
+                    <div class="admin-filter-field">
+                        <label for="admin-category-filter">Categoría</label>
+                        <select id="admin-category-filter" class="form-control">
+                            <option value="">Todas las categorías</option>
+                            <% Array.from(adminCategorias.values()).sort((a, b) => a.nombre.localeCompare(b.nombre)).forEach(cat => { %>
+                            <option value="<%= cat.id %>"><%= cat.icono %> <%= cat.nombre %></option>
+                            <% }); %>
+                        </select>
+                    </div>
+                    <div class="admin-filter-field">
+                        <label for="admin-status-filter">Estado</label>
+                        <select id="admin-status-filter" class="form-control">
+                            <option value="">Todos los estados</option>
+                            <% Array.from(adminEstados).sort().forEach(estado => { %>
+                            <option value="<%= estado %>"><%= estado %></option>
+                            <% }); %>
+                        </select>
+                    </div>
+                    <div class="admin-filter-field">
+                        <label for="admin-sort-filter">Ordenar</label>
+                        <select id="admin-sort-filter" class="form-control">
+                            <option value="">Orden original</option>
+                            <option value="name-asc">Nombre A-Z</option>
+                            <option value="name-desc">Nombre Z-A</option>
+                            <option value="price-asc">Precio menor a mayor</option>
+                            <option value="price-desc">Precio mayor a menor</option>
+                            <option value="stock-asc">Stock menor a mayor</option>
+                            <option value="stock-desc">Stock mayor a menor</option>
+                        </select>
+                    </div>
+                    <button type="button" id="admin-clear-filters" class="admin-clear-filters">Limpiar filtros</button>
                 </div>
+                <div id="admin-products-count" class="admin-products-count"></div>
                 <div class="table-responsive">
-                    <table class="table table-striped table-bordered">
+                    <table class="table table-striped table-bordered admin-products-table">
                         <thead class="thead-dark">
                             <tr>
                                 <th>Imagen</th>
                                 <th>Código</th>
                                 <th>Nombre</th>
                                 <th>Descripción</th>
+                                <th>Categoría</th>
                                 <th>Estado</th>
                                 <th>Precio</th>
                                 <th>Stock</th>
@@ -317,7 +364,7 @@
                         </thead>
                         <tbody id="products-table">
                             <% products.forEach(product=> { %>
-                                <tr>
+                                <tr data-name="<%= product.name || '' %>" data-code="<%= product.codigo || '' %>" data-description="<%= product.description || '' %>" data-category-id="<%= product.categoria_id || '' %>" data-category-name="<%= product.categoria_nombre || '' %>" data-status="<%= product.estado || '' %>" data-price="<%= product.price || 0 %>" data-stock="<%= product.stock || 0 %>">
                                     <td data-label="Imagen"><img src="<%= product.img %>" alt="<%= product.name %>">
                                     </td>
                                     <td data-label="Código">
@@ -413,6 +460,13 @@
                                         }
                                         %>
                                         <%= cleanTextAdmin(product.description) %>
+                                    </td>
+                                    <td data-label="Categoría">
+                                        <% if (product.categoria_nombre) { %>
+                                        <span class="admin-category-badge" style="--cat-color:<%= product.categoria_color || '#8B1538' %>;"><%= product.categoria_icono || '📦' %> <%= product.categoria_nombre %></span>
+                                        <% } else { %>
+                                        <span style="color:#aaa;">Sin categoría</span>
+                                        <% } %>
                                     </td>
                                     <td data-label="Estado">
                                         <%= product.estado %>
