@@ -14,6 +14,7 @@ const ExcelJS = require('exceljs');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+app.set('trust proxy', 1);
 app.use(compression())
 
 // Importar rutas del carrito
@@ -171,6 +172,33 @@ const SwalMixin = Swal.mixin({
 
 // Configurar middleware
 app.set('view engine', 'ejs');
+app.use((req, res, next) => {
+    const csp = [
+        "default-src 'self'",
+        "base-uri 'self'",
+        "object-src 'none'",
+        "frame-ancestors 'none'",
+        "form-action 'self'",
+        "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://code.jquery.com https://cdn.jsdelivr.net https://stackpath.bootstrapcdn.com https://cdnjs.cloudflare.com https://maxcdn.bootstrapcdn.com https://www.googletagmanager.com https://connect.facebook.net",
+        "style-src 'self' 'unsafe-inline' https://stackpath.bootstrapcdn.com https://maxcdn.bootstrapcdn.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://fonts.googleapis.com",
+        "font-src 'self' data: https://cdnjs.cloudflare.com https://fonts.gstatic.com",
+        "img-src 'self' data: blob: https:",
+        "connect-src 'self' https://www.google-analytics.com https://www.googletagmanager.com https://connect.facebook.net",
+        "frame-src https://www.google.com https://www.googletagmanager.com",
+        "media-src 'self'",
+        "worker-src 'self' blob:",
+        "manifest-src 'self'",
+        "upgrade-insecure-requests"
+    ].join('; ');
+
+    res.setHeader('Content-Security-Policy', csp);
+    res.setHeader('X-Content-Type-Options', 'nosniff');
+    res.setHeader('X-Frame-Options', 'DENY');
+    res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+    res.setHeader('Cross-Origin-Resource-Policy', 'same-origin');
+    res.setHeader('Strict-Transport-Security', 'max-age=63072000; includeSubDomains; preload');
+    next();
+});
 app.use(express.static('public', {
     maxAge: '7d',
     setHeaders: (res, filePath) => {
@@ -190,6 +218,11 @@ app.use(session({
     secret: sessionSecret,
     resave: false,
     saveUninitialized: true,
+    cookie: {
+        httpOnly: true,
+        secure: 'auto',
+        sameSite: 'lax'
+    }
 }));
 
 app.use((req, res, next) => {
