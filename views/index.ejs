@@ -92,11 +92,19 @@
 
         <div class="container mt-4">
             
-            <!-- Hero Banner - Estilo iLoop: Imagen grande + texto abajo -->
+            <!-- META UX: Hero principal con atmosfera visual y senales de confianza -->
             <section class="hero-banner-new fade-in-section">
                 <div class="hero-image-container">
                     <img src="<%= imagen2Url %>" alt="Metal-Ce" class="hero-main-image" />
-                  
+                    <div class="hero-industrial-glow" aria-hidden="true"></div>
+                    <div class="hero-floating-badge hero-floating-badge--left">
+                        <span>IRAM</span>
+                        <strong>Certificado</strong>
+                    </div>
+                    <div class="hero-floating-badge hero-floating-badge--right">
+                        <span>+30</span>
+                        <strong>Años</strong>
+                    </div>
                 </div>
             </section>
             
@@ -106,7 +114,7 @@
                 </div>
             <% }; %>
 
-            <!-- Sección de bienvenida debajo del hero -->
+            <!-- META UX: Mensaje principal con acciones de decision rapida -->
             <section class="welcome-hero fade-in-section">
                 <span class="welcome-kicker">Metal-Ce S.R.L. | Cordoba</span>
                 <h1 class="welcome-title" data-i18n="index_hero_title">Materiales Electricos de Calidad</h1>
@@ -120,6 +128,43 @@
                         <path d="M7 13l5 5 5-5M7 6l5 5 5-5"/>
                     </svg>
                 </div>
+                <div class="welcome-proof-strip" aria-label="Datos destacados de Metal-Ce">
+                    <div class="welcome-proof-item">
+                        <span class="proof-number">30+</span>
+                        <span class="proof-label">años de trayectoria</span>
+                    </div>
+                    <div class="welcome-proof-item">
+                        <span class="proof-number">IRAM</span>
+                        <span class="proof-label">productos certificados</span>
+                    </div>
+                    <div class="welcome-proof-item">
+                        <span class="proof-number">Stock</span>
+                        <span class="proof-label">respuesta comercial</span>
+                    </div>
+                    <div class="welcome-proof-item">
+                        <span class="proof-number">CBA</span>
+                        <span class="proof-label">envíos nacionales</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- META UX: Atajos para reducir friccion y guiar al usuario segun su necesidad -->
+            <section class="home-decision-panel fade-in-section" aria-label="Accesos rápidos">
+                <a href="/cart" class="decision-card decision-card--primary">
+                    <span class="decision-eyebrow">Comprar</span>
+                    <strong>Explorar catálogo técnico</strong>
+                    <small>Buscar por producto, categoría, precio o disponibilidad.</small>
+                </a>
+                <a href="/contacto" class="decision-card">
+                    <span class="decision-eyebrow">Asesoramiento</span>
+                    <strong>Resolver una consulta</strong>
+                    <small>Pedí ayuda comercial para elegir el material correcto.</small>
+                </a>
+                <a href="/iso" class="decision-card">
+                    <span class="decision-eyebrow">Calidad</span>
+                    <strong>Ver certificaciones</strong>
+                    <small>Conocé los estándares que respaldan cada línea.</small>
+                </a>
             </section>
 
             <!-- Stats Section MEJORADA - Características destacadas -->

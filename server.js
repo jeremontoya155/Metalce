@@ -2708,8 +2708,23 @@ app.post('/checkout/create-order', async (req, res) => {
 // ==================== FIN RUTAS DE PEDIDOS ====================
 
 // ==================== PÁGINAS INSTITUCIONALES ====================
-app.get('/quienes-somos', (req, res) => {
-    res.render('quienes-somos', { isAdmin: req.session.isAdmin || false });
+app.get('/quienes-somos', async (req, res) => {
+    try {
+        // Obtener información del about
+        const aboutResult = await pool.query('SELECT * FROM about WHERE id = $1', [1]);
+        const about = aboutResult.rows.length > 0 ? aboutResult.rows[0] : { titulo: '', texto: '', imagen: '' };
+        
+        res.render('quienes-somos', { 
+            about,
+            isAdmin: req.session.isAdmin || false 
+        });
+    } catch (error) {
+        console.error('Error al cargar la página quienes-somos:', error);
+        res.render('quienes-somos', { 
+            about: { titulo: '', texto: '', imagen: '' },
+            isAdmin: req.session.isAdmin || false 
+        });
+    }
 });
 
 app.get('/historia', (req, res) => {

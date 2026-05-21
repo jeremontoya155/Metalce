@@ -748,3 +748,269 @@
     .contact-info-grid  { grid-template-columns: 1fr; }
     .fab-cotizacion     { bottom: 20px; right: 16px; padding: 12px 14px; }
 }
+
+/* ==================== META UX: HOME PREMIUM EXPERIENCE ==================== */
+.hero-image-container {
+    isolation: isolate;
+}
+
+.hero-industrial-glow {
+    position: absolute;
+    inset: auto 10% 9% 10%;
+    height: 72px;
+    border-radius: 999px;
+    background: radial-gradient(ellipse, rgba(139, 21, 56, .24), rgba(197, 138, 71, .16) 35%, transparent 72%);
+    filter: blur(18px);
+    opacity: .85;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.hero-floating-badge {
+    position: absolute;
+    z-index: 3;
+    display: grid;
+    gap: 1px;
+    min-width: 118px;
+    padding: 13px 16px;
+    border: 1px solid rgba(139, 21, 56, .14);
+    border-radius: 18px;
+    background: rgba(255, 255, 255, .84);
+    box-shadow: 0 18px 44px rgba(62, 18, 32, .14);
+    backdrop-filter: blur(16px);
+    animation: heroBadgeFloat 5.8s ease-in-out infinite;
+}
+
+.hero-floating-badge span {
+    color: #8B1538;
+    font-size: 1.12rem;
+    font-weight: 950;
+    letter-spacing: -.04em;
+    line-height: 1;
+}
+
+.hero-floating-badge strong {
+    color: #4a3039;
+    font-size: .72rem;
+    font-weight: 900;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+}
+
+.hero-floating-badge--left {
+    left: clamp(12px, 5vw, 64px);
+    bottom: clamp(18px, 10vw, 82px);
+}
+
+.hero-floating-badge--right {
+    right: clamp(12px, 5vw, 70px);
+    top: clamp(16px, 8vw, 56px);
+    animation-delay: -2.4s;
+}
+
+@keyframes heroBadgeFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+
+.welcome-proof-strip {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+    width: min(900px, 100%);
+    margin: 28px auto 0;
+    padding: 10px;
+    border: 1px solid rgba(139, 21, 56, .12);
+    border-radius: 24px;
+    background: rgba(255, 255, 255, .72);
+    box-shadow: 0 18px 48px rgba(62, 18, 32, .08);
+    backdrop-filter: blur(16px);
+}
+
+.welcome-proof-item {
+    display: grid;
+    place-items: center;
+    min-height: 78px;
+    padding: 12px 10px;
+    border-radius: 18px;
+    background: linear-gradient(145deg, rgba(255,255,255,.92), rgba(247, 238, 241, .76));
+    border: 1px solid rgba(139, 21, 56, .075);
+}
+
+.proof-number {
+    color: #8B1538;
+    font-size: clamp(1.05rem, 2vw, 1.45rem);
+    font-weight: 950;
+    line-height: 1;
+    letter-spacing: -.045em;
+}
+
+.proof-label {
+    margin-top: 5px;
+    color: #6b6268;
+    font-size: .72rem;
+    font-weight: 800;
+    letter-spacing: .05em;
+    line-height: 1.25;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.home-decision-panel {
+    display: grid;
+    grid-template-columns: 1.12fr repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    margin: 8px 0 46px;
+}
+
+.decision-card {
+    position: relative;
+    min-height: 176px;
+    padding: 24px;
+    overflow: hidden;
+    border: 1px solid rgba(139, 21, 56, .12);
+    border-radius: 28px;
+    background:
+        radial-gradient(circle at 94% 0%, rgba(197, 138, 71, .16), transparent 34%),
+        linear-gradient(145deg, rgba(255,255,255,.98), rgba(250, 245, 247, .94));
+    box-shadow: 0 14px 42px rgba(62, 18, 32, .08);
+    color: #1f1f23;
+    text-decoration: none;
+    transition: transform .24s ease, box-shadow .24s ease, border-color .24s ease;
+}
+
+.decision-card::before {
+    content: '';
+    position: absolute;
+    inset: auto 22px 18px 22px;
+    height: 3px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #8B1538, #c58a47, transparent);
+    transform: scaleX(.28);
+    transform-origin: left;
+    transition: transform .28s ease;
+}
+
+.decision-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(139, 21, 56, .22);
+    box-shadow: 0 24px 60px rgba(62, 18, 32, .14);
+    color: #1f1f23;
+    text-decoration: none;
+}
+
+.decision-card:hover::before {
+    transform: scaleX(1);
+}
+
+.decision-card--primary {
+    background:
+        radial-gradient(circle at 88% 16%, rgba(255, 255, 255, .18), transparent 30%),
+        linear-gradient(135deg, #2a1018 0%, #8B1538 58%, #6B0F2A 100%);
+    color: #fff;
+}
+
+.decision-card--primary:hover {
+    color: #fff;
+}
+
+.decision-card--primary::before {
+    background: linear-gradient(90deg, #fff, #c58a47, transparent);
+}
+
+.decision-eyebrow {
+    display: inline-flex;
+    margin-bottom: 16px;
+    padding: 6px 10px;
+    border-radius: 999px;
+    background: rgba(139, 21, 56, .09);
+    color: #8B1538;
+    font-size: .72rem;
+    font-weight: 950;
+    letter-spacing: .11em;
+    text-transform: uppercase;
+}
+
+.decision-card--primary .decision-eyebrow {
+    background: rgba(255,255,255,.14);
+    color: #fff;
+}
+
+.decision-card strong {
+    display: block;
+    max-width: 360px;
+    font-size: clamp(1.18rem, 2.3vw, 1.65rem);
+    font-weight: 950;
+    line-height: 1.05;
+    letter-spacing: -.045em;
+}
+
+.decision-card small {
+    display: block;
+    max-width: 340px;
+    margin-top: 12px;
+    color: #6b6268;
+    font-size: .9rem;
+    line-height: 1.55;
+}
+
+.decision-card--primary small {
+    color: rgba(255,255,255,.78);
+}
+
+@media (max-width: 992px) {
+    .home-decision-panel {
+        grid-template-columns: 1fr;
+    }
+
+    .decision-card {
+        min-height: 150px;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-floating-badge {
+        min-width: 92px;
+        padding: 10px 12px;
+        border-radius: 15px;
+    }
+
+    .hero-floating-badge span {
+        font-size: .96rem;
+    }
+
+    .hero-floating-badge strong {
+        font-size: .62rem;
+    }
+
+    .welcome-proof-strip {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        border-radius: 20px;
+    }
+
+    .home-decision-panel {
+        margin-bottom: 32px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-floating-badge--left {
+        left: 8px;
+        bottom: 12px;
+    }
+
+    .hero-floating-badge--right {
+        right: 8px;
+        top: 12px;
+    }
+
+    .welcome-proof-strip {
+        grid-template-columns: 1fr;
+    }
+
+    .decision-card {
+        min-height: auto;
+        padding: 21px;
+        border-radius: 22px;
+    }
+}

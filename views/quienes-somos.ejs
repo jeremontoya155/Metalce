@@ -258,6 +258,26 @@
             line-height: 1.4;
         }
 
+        /* ===== ABOUT IMAGE SECTION ===== */
+        .about-image-section {
+            padding: 70px 24px;
+            background: #fff;
+        }
+        .about-image-container-full {
+            max-width: 1200px;
+            margin: 0 auto;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 8px 40px rgba(0,0,0,0.12);
+        }
+        .about-image-container-full img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
+            max-height: 600px;
+        }
+
         /* ===== VALUES LIST ===== */
         .values-section {
             padding: 70px 24px;
@@ -482,6 +502,13 @@
                     <p data-i18n="about_eco_d">Productos fabricados con materiales reciclados y procesos de bajo impacto ambiental.</p>
                 </div>
             </div>
+        </div>
+    </section>
+
+    <!-- Imagen del About -->
+    <section class="about-image-section">
+        <div class="about-image-container-full">
+            <img src="<%= about.imagen %>" alt="Metal-Ce - Nuestra Empresa">
         </div>
     </section>
 
